@@ -1,0 +1,88 @@
+2024-07-21T12:12:00.224606400;system;Proyectos cargados correctamente
+2024-07-21T12:12:00.232795200;system;Admins cargados correctamente
+2024-07-21T12:12:00.239231;system;Gestores cargados correctamente
+2024-07-21T12:12:00.246367300;system;Inversores cargados correctamente
+2024-07-21T12:12:00.255646500;system;Proyectos cargados correctamente
+2024-07-21T12:12:02.747171;system;Proyectos cargados correctamente
+2024-07-21T12:12:02.753057200;system;Admins cargados correctamente
+2024-07-21T12:12:02.761169200;system;Gestores cargados correctamente
+2024-07-21T12:12:02.768179700;system;Inversores cargados correctamente
+2024-07-21T12:12:37.820888800;system;Proyectos cargados correctamente
+2024-07-21T12:12:37.828251100;system;Admins cargados correctamente
+2024-07-21T12:12:37.835961700;system;Gestores cargados correctamente
+2024-07-21T12:12:37.843044400;system;Inversores cargados correctamente
+2024-07-21T12:12:37.904414600;system;Proyectos cargados correctamente
+2024-07-21T12:12:37.915003400;system;Admins cargados correctamente
+2024-07-21T12:12:37.922801600;system;Gestores cargados correctamente
+2024-07-21T12:12:37.930261;system;Inversores cargados correctamente
+2024-07-21T12:12:37.938405600;system;Proyectos cargados correctamente
+2024-07-21T15:10:55.471430;AlexGB;Proyecto Prueba creado correctamente
+2024-07-21T21:16:42.517667900;AlexGB;Proyecto Prueba 2 creado correctamente
+2024-07-21T22:23:51.154041;AlexGB;Proyecto Prueba 2 modificada creado correctamente
+2024-07-22T00:01:20.379308100;AlexGB;Proyecto 8 eliminado
+2024-07-22T00:11:22.400342400;AlexGB;Proyecto Prueba 2 creado correctamente
+2024-07-22T00:11:43.960912;AlexGB;Proyecto Prueba 2 creado correctamente
+2024-07-22T16:08:55.311736700;AlexGB;Proyecto 10 actualizado
+2024-07-22T16:10:56.426331200;AlexGB;Proyecto 10 actualizado
+2024-07-22T16:11:11.912307900;AlexGB;Proyecto 10 actualizado
+2024-07-22T16:24:20.835105700;AlexGB;Proyecto 7 eliminado
+2024-07-22T16:27:23.867343900;AlexGB;Proyecto 10 eliminado
+2024-07-22T16:33:06.356066200;AlexGB;Proyecto Prueba para modificar y borrar creado correctamente
+2024-07-22T16:35:01.626131800;AlexGB;Proyecto Prueba para modificar y borrar creado correctamente
+2024-07-22T16:35:19.596754800;AlexGB;Proyecto Prueba 3 creado correctamente
+2024-07-22T16:38:05.898891500;AlexGB;Proyecto Prueba 4 creado correctamente
+2024-07-22T16:46:08.765261800;AlexGB;Proyecto Prueba 5 creado correctamente
+2024-07-22T16:59:25.005135600;AlexGB;Proyecto 12 actualizado
+2024-07-22T16:59:25.013068400;AlexGB;Proyecto 12 actualizado
+2024-07-22T17:05:46.133694;AlexGB;Proyecto 12 eliminado
+2024-07-22T17:12:36.352940;AlexGB;Proyecto 16 actualizado
+2024-07-22T17:12:36.363095100;AlexGB;Proyecto 16 actualizado
+2024-07-22T17:17:13.097962500;AlexGB;Proyecto 16 actualizado
+2024-07-22T17:17:13.106581500;AlexGB;Proyecto 16 actualizado
+2024-07-22T17:27:37.331781100;AlexGB;Proyecto 16 actualizado
+2024-07-22T17:27:37.340305800;AlexGB;Proyecto 16 actualizado
+2024-07-27T17:44:09.046044500;GabsOP;Usuario modificado - password
+2024-07-27T17:53:41.911101200;GabsOP;Usuario modificado - email
+2024-07-27T18:01:03.058130800;GabsOP;Usuario modificado - email
+2024-07-27T18:59:38.944061900;GabsOP;Usuario inversor modificado - saldo
+2024-07-27T19:01:37.610984700;GabsOP;Usuario inversor modificado - saldo
+2024-07-27T19:01:42.778303400;GabsOP;Usuario inversor modificado - saldo
+2024-07-27T19:01:53.572513600;GabsOP;Usuario inversor modificado - saldo
+2024-07-27T19:02:07.145252200;GabsOP;Usuario inversor modificado - saldo
+2024-07-27T19:04:04.525671900;AlexGB;Usuario gestor modificado - bloqueado
+2024-07-27T19:04:25.129037200;GabsOP;Usuario inversor modificado - bloqueado
+2024-07-27T19:10:30.444074800;Yerson;Usuario gestor modificado - bloqueado
+2024-07-27T19:10:33.896631600;GabsOP;Usuario inversor modificado - bloqueado
+2024-07-27T19:10:40.510294800;AlexGB;Usuario gestor modificado - bloqueado
+2024-07-27T19:24:12.302233900;AlexGB;Usuario gestor modificado - bloqueado
+2024-07-27T20:05:37.902953500;GabsOP;Usuario inversor modificado - saldo
+2024-07-27T20:09:48.701239500;GabsOP;Usuario inversor modificado - saldo
+2024-07-27T20:10:48.501346500;GabsOP;Usuario inversor modificado - saldo
+2024-07-27T20:14:39.511656;GabsOP;Usuario inversor modificado - saldo
+2024-07-27T20:15:36.083792300;GabsOP;Usuario inversor modificado - saldo
+2024-07-27T20:16:55.019608400;GabsOP;Usuario inversor modificado - saldo
+2024-07-27T20:29:38.262252600;GabsOP;Usuario inversor modificado - saldo
+2024-07-27T20:30:11.948959500;GabsOP;Usuario inversor modificado - saldo
+2024-07-27T20:45:10.611251300;GabsOP;Usuario inversor modificado - saldo
+2024-07-27T20:45:10.641137500;GabsOP;Proyecto 1 actualizado - cantidadFinanciada
+2024-07-27T21:01:23.506940200;GabsOP;Usuario inversor modificado - saldo
+2024-07-27T21:01:40.351981300;GabsOP;Usuario inversor modificado - saldo
+2024-07-27T21:01:40.371563200;GabsOP;Proyecto 2 actualizado - cantidadFinanciada
+2024-08-02T10:43:05.359808500;GabsOP;Usuario inversor modificado - saldo
+2024-08-02T10:43:33.740851800;GabsOP;Usuario inversor modificado - saldo
+2024-08-02T10:43:33.787100100;GabsOP;Proyecto 3 actualizado - cantidadFinanciada
+2024-08-02T10:44:25.031239;GabsOP;Usuario modificado - name
+2024-08-02T10:44:29.281806900;GabsOP;Usuario modificado - name
+2024-08-02T10:48:06.075776300;Yerson;Usuario gestor modificado - bloqueado
+2024-08-02T10:48:11.581411400;AlexGB;Usuario gestor modificado - bloqueado
+2024-08-02T10:48:42.445039;GabsOP;Usuario inversor modificado - bloqueado
+2024-08-02T10:48:45.627530;AlexGB;Usuario gestor modificado - bloqueado
+2024-08-02T10:48:48.395315300;Yerson;Usuario gestor modificado - bloqueado
+2024-08-02T10:48:51.025755200;GabsOP;Usuario inversor modificado - bloqueado
+2024-08-02T14:28:17.494953;GabsOP;Usuario modificado - name
+2024-08-02T14:28:41.697249400;GabsOP;Usuario modificado - name
+2024-08-02T14:32:02.653014600;GabsOP;Usuario modificado - name
+2024-08-02T14:32:09.736178300;GabsOP;Usuario modificado - name
+2024-08-02T14:32:29.947699900;GabsOP;Usuario modificado - name
+2024-08-02T14:32:35.347036400;GabsOP;Usuario modificado - name
+2024-08-02T14:35:10.070025700;GabsOP;Usuario modificado - email
