@@ -43,6 +43,7 @@
 </section>
 <section class="lg:ml-36 lg:pl-28 md:mx-0 flex lg:justify-end md:justify-center
     sm:justify-center sm:mx-0 w-full flex-col justify-center">
+    <% if (gestionInversionesAux.getInversiones().isEmpty()){%><p class="text-center text-3xl text-slate-600 font-medium">No tienes inversiones para mostrar</p> <%}%>
     <div class="flex flex-row items-center sm:justify-center md:space-y-0 lg:pt-6 sm:pt-8 lg:pb-4 px-4 lg:justify-end items-center flex-wrap dark:bg-slate-200">
         <ul class="mx-10 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
         <%

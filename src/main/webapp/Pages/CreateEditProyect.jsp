@@ -31,17 +31,20 @@
     <h1 class="text-3xl font-bold mb-8 text-center"><%
         out.print(isModifying ? "Modificar proyecto" : "Crear nuevo proyecto");%></h1>
     <form action="${pageContext.request.contextPath}/<%out.print(isModifying?"modify":"create");%>-proyect-servlet"
-          method="post" class="max-w-3xl mx-auto">
+          method="post" enctype="multipart/form-data" class="max-w-3xl mx-auto">
         <%if (isModifying) { %><input type="hidden" name="codigo_proyecto"
                                       value="<%out.print(proyectoParaModificar.getCodigo());%>"><%}%>
         <input type="hidden" name="username" value="<%out.print(session.getAttribute("username"));%>">
-        <%--<div class="image-preview w-100 h-36 border border-gray-300 flex items-center justify-center bg-cover bg-center mx-auto mb-4">
-            <img src="#" alt="Vista previa de la imagen">
-        </div>--%>
+        <%// TODO LUEGO CARGAR LA IMAGEN QUE TIENE EL PROYECTO EN CASO DE MODIFICACION%>
+       <% if (isModifying) {%>
+        <div class="image-preview w-100 h-36 border border-gray-300 flex items-center justify-center bg-cover bg-center mx-auto mb-4">
+            <img src="<%out.print(proyectoParaModificar.getImagen());%>" alt="Vista previa de la imagen">
+        </div>
+        <%}%>
         <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white" name="user_avatar">Sube una
             imagen</label>
         <label for="imagen" class="block my-3">
-            <input type="file" id="imagen" name="imagen" accept="image/*" <%--required--%> class="hidden">
+            <input type="file" id="imagen" name="imagen" accept="image/*" required class="hidden">
             <span class="bg-sky-950 hover:bg-sky-900 text-white py-2 px-4 rounded-lg text-lg cursor-pointer">Seleccionar imagen</span>
         </label>
         <div class="mt-1 text-md text-slate-900 dark:text-slate-900" id="user_avatar_help">Sube una imagen para que tus

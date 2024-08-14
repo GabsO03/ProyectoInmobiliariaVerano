@@ -13,7 +13,7 @@ import jakarta.servlet.http.HttpSession;
 import java.io.IOException;
 
 @WebServlet(name = "create-modify-proyect-servlet", value = "/create-modify-proyect-servlet")
-public class CreateModifyProyect extends HttpServlet {
+public class CreateModifyProyectServlet extends HttpServlet {
     DAOManager daoManager;
     public void init() throws ServletException {
     }

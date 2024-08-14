@@ -108,8 +108,8 @@
                             inversorAux = (Inversor) u;
                             bloqueado = inversorAux.isBloqueado();
                         }
-                        ultimaFecha = extraeFecha(gestionUsuarios.recuperarUltimoInicioSesionUsuario(u.getUsername()));
-                        ultimaHora = extraeHora(gestionUsuarios.recuperarUltimoInicioSesionUsuario(u.getUsername()));
+                        ultimaFecha = extraeFecha(gestionUsuarios.recuperarUltimoInicioSesionUsuario(u.getId()));
+                        ultimaHora = extraeHora(gestionUsuarios.recuperarUltimoInicioSesionUsuario(u.getId()));
             %>
 
             <tr class="bg-white border-b dark:bg-sky-900 dark:border-sky-700 hover:bg-sky-900 dark:hover:bg-cyan-800">

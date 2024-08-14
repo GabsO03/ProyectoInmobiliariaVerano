@@ -26,9 +26,11 @@ public class ProyectoSQL {
      */
     public void escribirLog(String tipoTarea, String usuario) {
         try {
-            String rutaFicheroCompleta = this.getClass().getClassLoader().getResource(rutaFicheroLog).toString();
+            //File log = new File(String.valueOf(this.getClass().getClassLoader().getResourceAsStream(rutaFicheroLog)));
+            //TODO ARREGLAR RUTA
+            String log = "C:\\Users\\pollo\\Programación T1DA_ejs\\Intellij\\ProyectoInmobiliaria\\src\\main\\resources\\FicherosDatosSistema\\log.txt";
             BufferedWriter bw;
-            bw = new BufferedWriter(new FileWriter(rutaFicheroCompleta, true));
+            bw = new BufferedWriter(new FileWriter(log, true));
             bw.write(LocalDateTime.now()+ ";" + usuario + ";" + tipoTarea + "\n");
             bw.close();
         } catch (FileNotFoundException e) {
@@ -37,6 +39,7 @@ public class ProyectoSQL {
             System.out.println("No se puede leer el archivo");
         }
     }
+
     /**
      * Funcion para cargar en nuestro sistema los proyectos que se encuentran en la base de datos
      * @param daoManager como una instancia de la clase DAOManager
@@ -51,13 +54,15 @@ public class ProyectoSQL {
                 while (resultSet.next()) {
                     int codigo = resultSet.getInt("codigo");
                     String nombre = resultSet.getString("nombre");
+                    String imagen = resultSet.getString("imagen");
                     String descripcion = resultSet.getString("descripcion");
                     String tipo = resultSet.getString("tipo");
                     String fechaInicio = resultSet.getString("fechaInicio");
                     String fechaFin = resultSet.getString("fechaFin");
                     double cantidadNecesaria = resultSet.getDouble("cantidadNecesaria");
                     double cantidadFinanciada = resultSet.getDouble("cantidadFinanciada");
-                    Proyecto aux = new Proyecto(codigo, nombre, descripcion, tipo, fechaInicio, fechaFin, cantidadNecesaria, cantidadFinanciada, true);
+                    boolean habilitado = resultSet.getBoolean("habilitado");
+                    Proyecto aux = new Proyecto(codigo, nombre, imagen, descripcion, tipo, fechaInicio, fechaFin, cantidadNecesaria, cantidadFinanciada, habilitado);
                     proyectos.add(aux);
                 }
             }
@@ -82,13 +87,15 @@ public class ProyectoSQL {
                 while (resultSet.next()) {
                     int codigo = resultSet.getInt("codigo");
                     String nombre = resultSet.getString("nombre");
+                    String imagen = resultSet.getString("imagen");
                     String descripcion = resultSet.getString("descripcion");
                     String tipo = resultSet.getString("tipo");
                     String fechaInicio = resultSet.getString("fechaInicio");
                     String fechaFin = resultSet.getString("fechaFin");
                     double cantidadNecesaria = resultSet.getDouble("cantidadNecesaria");
                     double cantidadFinanciada = resultSet.getDouble("cantidadFinanciada");
-                    Proyecto aux = new Proyecto(codigo, nombre, descripcion, tipo, fechaInicio, fechaFin, cantidadNecesaria, cantidadFinanciada, true);
+                    boolean habilitado = resultSet.getBoolean("habilitado");
+                    Proyecto aux = new Proyecto(codigo, nombre, imagen, descripcion, tipo, fechaInicio, fechaFin, cantidadNecesaria, cantidadFinanciada, habilitado);
                     proyectos.add(aux);
                 }
             }
@@ -113,13 +120,15 @@ public class ProyectoSQL {
                 while (resultSet.next()) {
                     int codigo = resultSet.getInt("codigo");
                     String nombre = resultSet.getString("nombre");
+                    String imagen = resultSet.getString("imagen");
                     String descripcion = resultSet.getString("descripcion");
                     String tipo = resultSet.getString("tipo");
                     String fechaInicio = resultSet.getString("fechaInicio");
                     String fechaFin = resultSet.getString("fechaFin");
                     double cantidadNecesaria = resultSet.getDouble("cantidadNecesaria");
                     double cantidadFinanciada = resultSet.getDouble("cantidadFinanciada");
-                    Proyecto aux = new Proyecto(codigo, nombre, descripcion, tipo, fechaInicio, fechaFin, cantidadNecesaria, cantidadFinanciada, true);
+                    boolean habilitado = resultSet.getBoolean("habilitado");
+                    Proyecto aux = new Proyecto(codigo, nombre, imagen, descripcion, tipo, fechaInicio, fechaFin, cantidadNecesaria, cantidadFinanciada, habilitado);
                     proyectos.add(aux);
                 }
             }
@@ -146,13 +155,15 @@ public class ProyectoSQL {
                 while (resultSet.next()) {
                     int codigo = resultSet.getInt("codigo");
                     String nombre = resultSet.getString("nombre");
+                    String imagen = resultSet.getString("imagen");
                     String descripcion = resultSet.getString("descripcion");
                     String tipo = resultSet.getString("tipo");
                     String fechaInicio = resultSet.getString("fechaInicio");
                     String fechaFin = resultSet.getString("fechaFin");
                     double cantidadNecesaria = resultSet.getDouble("cantidadNecesaria");
                     double cantidadFinanciada = resultSet.getDouble("cantidadFinanciada");
-                    Proyecto aux = new Proyecto(codigo, nombre, descripcion, tipo, fechaInicio, fechaFin, cantidadNecesaria, cantidadFinanciada, true);
+                    boolean habilitado = resultSet.getBoolean("habilitado");
+                    Proyecto aux = new Proyecto(codigo, nombre, imagen, descripcion, tipo, fechaInicio, fechaFin, cantidadNecesaria, cantidadFinanciada, habilitado);
                     proyectos.add(aux);
                 }
             }
@@ -186,18 +197,20 @@ public class ProyectoSQL {
      * @throws SQLException
      */
     public boolean insertar(Proyecto proyecto, String username, int id_gestor, DAOManager daoManager) {
-        String insertSentencia = "INSERT INTO `proyectos` (`nombre`, `descripcion`, `tipo`, `fechaInicio`, `fechaFin`, `cantidadNecesaria`, `cantidadFinanciada`, `habilitado`, `id_gestor`) VALUES ( ? , ? , ? , ? , ? , ? , ? , ? , ?)";
+        String insertSentencia = "INSERT INTO `proyectos` (`nombre`, `imagen`, `descripcion`, `tipo`, `fechaInicio`, `fechaFin`, `cantidadNecesaria`, `cantidadFinanciada`, `habilitado`, `id_gestor`) VALUES ( ? , ? , ? , ? , ? , ? , ? , ? , ? , ?)";
         try {
+            String imagen = "data:image/jpeg;base64," + proyecto.getImagen();
             ps = daoManager.getConn().prepareStatement(insertSentencia);
             ps.setString(1, proyecto.getNombre());
-            ps.setString(2, proyecto.getDescripcion());
-            ps.setString(3, proyecto.getTipo());
-            ps.setString(4, proyecto.getFechaInicio());
-            ps.setString(5, proyecto.getFechaFin());
-            ps.setDouble(6, proyecto.getCantidadNecesaria());
-            ps.setDouble(7, proyecto.getCantidadFinanciada());
-            ps.setBoolean(8, proyecto.isHabilitado());
-            ps.setInt(9, id_gestor);
+            ps.setString(2, imagen);
+            ps.setString(3, proyecto.getDescripcion());
+            ps.setString(4, proyecto.getTipo());
+            ps.setString(5, proyecto.getFechaInicio());
+            ps.setString(6, proyecto.getFechaFin());
+            ps.setDouble(7, proyecto.getCantidadNecesaria());
+            ps.setDouble(8, proyecto.getCantidadFinanciada());
+            ps.setBoolean(9, proyecto.isHabilitado());
+            ps.setInt(10, id_gestor);
             if (ps.executeUpdate()>0) {
                 escribirLog("Proyecto " + proyecto.getNombre() + " creado correctamente", username);
                 return true;

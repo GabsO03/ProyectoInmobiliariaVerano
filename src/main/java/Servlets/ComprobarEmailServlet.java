@@ -52,11 +52,12 @@ public class ComprobarEmailServlet extends HttpServlet {
                 if (correcto) {
                     if (tipo_usuario.equals("Inversor")) {
                         gestionApp.getGestionesInversiones().add(new GestionInversiones((Inversor) gestionUsuariosAux.devuelveUsuario(username), gestionApp.recuperaUbicacion("LogUbicacion")));
+                        session.setAttribute("MisInversiones", gestionApp.cargarGestionInversion(daoManager, username));
                         session.setAttribute("class", "Inversor");
                     } else session.setAttribute("class", "Gestor");
 
-                    gestionUsuariosAux.actualizarUltimoInicioSesionUsuario(username);
-                    gestionUsuariosAux.guardarIniciosSesionUsuarios(gestionApp.recuperaUbicacion("LastLogins.properties"));
+                    gestionUsuariosAux.actualizarUltimoInicioSesionUsuario(gestionUsuariosAux.devuelveUsuario(username).getId());
+                    gestionUsuariosAux.guardarIniciosSesionUsuarios(gestionApp.recuperaUbicacion("UltimosIniciosSesionUbicacion"));
                     session.setAttribute("ultimoLogin", LocalDateTime.now());
                     session.removeAttribute("password");
                     session.removeAttribute("tipo-usuario");

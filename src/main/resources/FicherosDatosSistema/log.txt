@@ -86,3 +86,7 @@
 2024-08-02T14:32:29.947699900;GabsOP;Usuario modificado - name
 2024-08-02T14:32:35.347036400;GabsOP;Usuario modificado - name
 2024-08-02T14:35:10.070025700;GabsOP;Usuario modificado - email
+2024-08-13T19:02:22.599548200;Gabs_OP;Usuario inversor modificado - saldo
+2024-08-13T19:04:48.797646900;Gabs_OP;Proyecto 1 actualizado - cantidadFinanciada
+2024-08-13T19:06:59.932418;Gabs_OP;Proyecto 1 actualizado - habilitado
+2024-08-13T19:10:51.730697800;Gabs_OP;Nueva inversión realizada

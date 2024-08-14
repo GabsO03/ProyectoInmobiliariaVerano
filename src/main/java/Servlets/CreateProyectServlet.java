@@ -4,19 +4,20 @@ import DAO.DAOManager;
 import Model.Managers.GestionApp;
 import Model.Managers.GestionProyectos;
 import jakarta.servlet.ServletException;
+import jakarta.servlet.annotation.MultipartConfig;
 import jakarta.servlet.annotation.WebServlet;
-import jakarta.servlet.http.HttpServlet;
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
-import jakarta.servlet.http.HttpSession;
+import jakarta.servlet.http.*;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.time.LocalDate;
+import java.util.Base64;
 
 import static Model.Biblioteca.Fechas.*;
 
 @WebServlet(name = "create-proyect-servlet", value = "/create-proyect-servlet")
-public class CreateProyect extends HttpServlet {
+@MultipartConfig(maxFileSize = 16177215)
+public class CreateProyectServlet extends HttpServlet {
     DAOManager daoManager;
     public void init() throws ServletException {
     }
@@ -26,8 +27,10 @@ public class CreateProyect extends HttpServlet {
         GestionApp gestionApp = new GestionApp(daoManager);
         GestionProyectos gestionProyectos = gestionApp.getGestionProyectos();
         HttpSession session = request.getSession();
+        InputStream inputStream = null;
 
         String username = request.getParameter("username");
+        Part filePart = request.getPart("imagen");
         String nombre = request.getParameter("nombre-proyecto");
         String tipo = request.getParameter("tipo-proyecto");
         String descripcion = request.getParameter("descripcion");
@@ -37,10 +40,17 @@ public class CreateProyect extends HttpServlet {
 
         boolean fechaInicioValida = esPosterior(fechaIni, LocalDate.now().minusDays(1));
         boolean fechaFinValida = esPosterior(fechaFin, fechaIni);
+
+        if (filePart != null) {
+            inputStream = filePart.getInputStream();
+        }
+        byte[] imageBytes = inputStream.readAllBytes();
+        String base64Image = Base64.getEncoder().encodeToString(imageBytes);
         //TODO Verificar esto
         if (fechaInicioValida && fechaFinValida) {
             int id_gestor = gestionApp.getGestionUsuarios().devuelveUsuario(username).getId();
-            boolean correcto = gestionProyectos.insertarProyecto(nombre, descripcion, tipo, fechaACadena(fechaIni), String.valueOf(fechaFin), cantidadNecesaria, username, id_gestor, daoManager);
+            boolean correcto = gestionProyectos.insertarProyecto(nombre, base64Image, descripcion, tipo, fechaACadena(fechaIni),
+                    String.valueOf(fechaFin), cantidadNecesaria, username, id_gestor, daoManager);
             if (correcto){
                 session.setAttribute("proyecto", gestionProyectos.getArrayProyectos().getLast());
                 redirect("/Pages/Proyect.jsp", request, response);

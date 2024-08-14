@@ -3,10 +3,7 @@ package DAO;
 import Model.BusinessClases.Inversion;
 import Model.Managers.GestionProyectos;
 
-import java.io.BufferedWriter;
-import java.io.FileNotFoundException;
-import java.io.FileWriter;
-import java.io.IOException;
+import java.io.*;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -28,13 +25,15 @@ public class InversionSQL {
      */
     public void escribirLog(String tipoTarea, String usuario) {
         try {
-            String rutaFicheroCompleta = this.getClass().getClassLoader().getResource(rutaFicheroLog).toString();
+            //File log = new File(String.valueOf(this.getClass().getClassLoader().getResourceAsStream(rutaFicheroLog)));
+            //TODO ARREGLAR RUTA
+            String log = "C:\\Users\\pollo\\Programación T1DA_ejs\\Intellij\\ProyectoInmobiliaria\\src\\main\\resources\\FicherosDatosSistema\\log.txt";
             BufferedWriter bw;
-            bw = new BufferedWriter(new FileWriter(rutaFicheroCompleta, true));
+            bw = new BufferedWriter(new FileWriter(log, true));
             bw.write(LocalDateTime.now()+ ";" + usuario + ";" + tipoTarea + "\n");
             bw.close();
         } catch (FileNotFoundException e) {
-            System.out.println("No se ha encontrado el fichero");
+            System.out.println("No se ha encontrado el fichero Log");
         } catch (IOException e) {
             System.out.println("No se puede leer el archivo");
         }

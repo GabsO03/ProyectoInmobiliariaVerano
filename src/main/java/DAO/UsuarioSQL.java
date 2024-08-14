@@ -5,10 +5,7 @@ import Model.BusinessClases.Gestor;
 import Model.BusinessClases.Inversor;
 import Model.BusinessClases.Usuario;
 
-import java.io.BufferedWriter;
-import java.io.FileNotFoundException;
-import java.io.FileWriter;
-import java.io.IOException;
+import java.io.*;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -31,9 +28,11 @@ public class UsuarioSQL {
      */
     public void escribirLog(String tipoTarea, String usuario) {
         try {
-            String rutaFicheroCompleta = this.getClass().getClassLoader().getResource(rutaFicheroLog).toString();
+            //File log = new File(String.valueOf(this.getClass().getClassLoader().getResourceAsStream(rutaFicheroLog)));
+            //TODO ARREGLAR RUTA
+            String log = "C:\\Users\\pollo\\Programación T1DA_ejs\\Intellij\\ProyectoInmobiliaria\\src\\main\\resources\\FicherosDatosSistema\\log.txt";
             BufferedWriter bw;
-            bw = new BufferedWriter(new FileWriter(rutaFicheroCompleta, true));
+            bw = new BufferedWriter(new FileWriter(log, true));
             bw.write(LocalDateTime.now()+ ";" + usuario + ";" + tipoTarea + "\n");
             bw.close();
         } catch (FileNotFoundException e) {
@@ -283,7 +282,7 @@ public class UsuarioSQL {
      * @return true si se ha podido modificar el usuario gestor correctamente o false si no
      */
     public boolean updateGestores(String atributoCambiar, String nuevoValor, String userName, int id, DAOManager daoManager) throws SQLException {
-        String updateUsuario = "UPDATE `gestores` SET `" + atributoCambiar + "` = ? WHERE `gestores`.`id` = ?;";
+        String updateUsuario = "UPDATE `gestores` SET `" + atributoCambiar + "` = ? WHERE `gestores`.`id_usuario` = ?;";
         try {
             ps = daoManager.getConn().prepareStatement(updateUsuario);
             ps.setString(1, nuevoValor);

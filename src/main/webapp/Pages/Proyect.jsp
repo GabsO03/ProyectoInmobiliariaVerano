@@ -1,7 +1,4 @@
-<%@ page import="java.util.Properties" %>
 <%@ page import="Model.BusinessClases.Proyecto" %>
-<%@ page import="java.io.InputStream" %>
-<%@ page import="Model.Managers.GestionInversiones" %>
 <%@ page import="Model.BusinessClases.Inversion" %><%--
   Created by IntelliJ IDEA.
   User: pollo
@@ -35,15 +32,16 @@
 %>
 
 <section class="flex items-start justify-center min-h-screen mt-20 mb-5 <%
-if (logged) { %> lg:ml-40 lg:pl-24 <%}%>  lg:mr-0 sm:p-5">
+if (logged) { %> lg:ml-40 lg:pl-28 lg:p-4 <%}%>  lg:mr-0 sm:p-5">
     <div class="max-w-7xl mx-auto bg-gradient-to-b from-cyan-900 to-green-950 rounded-xl shadow-md md:flex w-full">
-        <div class="md:w-2/3 p-6">
+        <div class="md:w-2/3 p-6 pt-0">
             <div class="text-center md:text-left">
-                <h1 class="text-4xl font-bold inline-block align-middle"><% out.print(proyecto.getNombre()); %> <span
+                <h1 class="text-4xl font-bold inline-block align-middle flex items-center"><% out.print(proyecto.getNombre()); %>
+                    <span
                         id="tipo"
-                        class="bg-green-200 text-green-700 text-lg font-semibold rounded-full px-3 pb-1 ml-5 align-middle"><%
+                        class="bg-green-200 text-green-700 text-lg font-semibold rounded-full px-3 mt-9 m-8 align-middle"><%
                     out.print(proyecto.getTipo()); %></span></h1>
-                <img src="${pageContext.request.contextPath}/ED_PIA_SML_38.jpg" alt="Imagen del proyecto" class="rounded-lg">
+                <img src="<%out.print(proyecto.getImagen());%>" alt="Imagen del proyecto" class="rounded-lg">
 
             </div>
             <div class="mt-6">
@@ -65,7 +63,7 @@ if (logged) { %> lg:ml-40 lg:pl-24 <%}%>  lg:mr-0 sm:p-5">
             </div>
         </div>
         <div id="card" class="p-6
-            bg-transparent shadow-lg pb-10 h-35  <%out.print(logged?"lg:fixed top-24 right-28 w-1/4":"w-1/3");%>">
+            bg-transparent shadow-lg pb-10 h-35  <%out.print(logged?"lg:fixed top-24 right-4 w-1/4":"w-1/3");%>">
             <div class="mt-4">
                 <p class="text-xl text-slate-200">Plazo total: <% out.print(proyecto.getPlazo()); %></p>
             </div>
@@ -107,8 +105,6 @@ if (logged) { %> lg:ml-40 lg:pl-24 <%}%>  lg:mr-0 sm:p-5">
                                 }
                             if (proyecto.isHabilitado()) {
                     %>
-
-                    <%// TODO ---------------------------%>
                     <div class="flex flex-row justify-between">
                         <input name="cantidadEntrante" type="number"
                                class="flex-grow py-2 rounded-lg bg-sky-100 focus:outline-none focus:ring-2 focus:ring-sky-900 mr-1"
@@ -120,7 +116,7 @@ if (logged) { %> lg:ml-40 lg:pl-24 <%}%>  lg:mr-0 sm:p-5">
                                value="Invertir">
                     </div>
                     <%
-                    } else {
+                            } else {
                     %>
                     <p class="block w-full px-4 py-2 bg-sky-250 text-gray-650 text-xl text-center rounded-lg hover:bg-sky-200 transition duration-300">
                         Inhabilitado</p>

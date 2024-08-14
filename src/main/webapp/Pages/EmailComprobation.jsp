@@ -37,8 +37,8 @@
                 <div class="mx-5 mt-5">
                     <input type="hidden" name="isSigningIn" value="<% out.print(isSigningIn);%>">
                     <%if (isSigningIn) {%>
-                    <input type="hidden" name="name" value="<% out.print(session.getAttribute("name")); System.out.println("nombre= " + session.getAttribute("name")); %>">
-                    <input type="hidden" name="password" value="<% out.print(session.getAttribute("password")); System.out.println("pass " + session.getAttribute("password")); %>">
+                    <input type="hidden" name="name" value="<% out.print(session.getAttribute("name"));%>">
+                    <input type="hidden" name="password" value="<% out.print(session.getAttribute("password"));%>">
                     <input type="hidden" name="tipo-usuario" value="<% out.print(session.getAttribute("tipo-usuario")); %>">
                     <%}%>
                     <input type="hidden" name="username" value="<% out.print(session.getAttribute("username")); %>">

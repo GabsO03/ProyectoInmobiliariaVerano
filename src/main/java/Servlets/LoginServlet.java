@@ -60,9 +60,9 @@ public class LoginServlet extends HttpServlet {
                 Usuario aux = gestionUsuariosAux.devuelveUsuario(username);
                 session.setAttribute("User", aux);
                 session.setAttribute("UsersManager", gestionUsuariosAux);
-                session.setAttribute("ultimoLogin", gestionUsuariosAux.recuperarUltimoInicioSesionUsuario(username));
-                gestionUsuariosAux.actualizarUltimoInicioSesionUsuario(username);
-                gestionUsuariosAux.guardarIniciosSesionUsuarios(gestionApp.recuperaUbicacion("LastLogins.properties"));
+                session.setAttribute("ultimoLogin", gestionUsuariosAux.recuperarUltimoInicioSesionUsuario(aux.getId()));
+                gestionUsuariosAux.actualizarUltimoInicioSesionUsuario(aux.getId());
+                gestionUsuariosAux.guardarIniciosSesionUsuarios(gestionApp.recuperaUbicacion("UltimosIniciosSesionUbicacion"));
 
                 boolean invitadoHabilitado = gestionApp.devuelveModoInvitado();
                 session.setAttribute("invitadoHabilitado", invitadoHabilitado);

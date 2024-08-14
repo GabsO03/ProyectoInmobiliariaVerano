@@ -42,8 +42,8 @@ public class GestionProyectos {
      * @param daoManager como un objeto de la clase DAOManager
      * @return devuelve true si se ha podido crear el proyecto o false si no se ha podido
      */
-    public boolean insertarProyecto(String nombre, String descripcion, String tipo, String fechaInicio, String fechaFin, double cantidadNecesaria, String username, int id_gestor, DAOManager daoManager) {
-        Proyecto aux = new Proyecto(++lastCodigo, nombre, descripcion, tipo, fechaInicio, fechaFin, cantidadNecesaria);
+    public boolean insertarProyecto(String nombre, String imagen, String descripcion, String tipo, String fechaInicio, String fechaFin, double cantidadNecesaria, String username, int id_gestor, DAOManager daoManager) {
+        Proyecto aux = new Proyecto(++lastCodigo, nombre, imagen, descripcion, tipo, fechaInicio, fechaFin, cantidadNecesaria);
         boolean correcto = proyectoSQL.insertar(aux, username, id_gestor, daoManager);
         if (correcto) {
             arrayProyectos.add(aux);
@@ -65,13 +65,17 @@ public class GestionProyectos {
      * @param username como una cadena
      * @return devuelve true si se ha podido modificar el proyecto o false si no se ha podido
      */
-    public boolean updateProyecto(int codigo, String nombre, String descripcion, String tipo, String fechaInicio, String fechaFin, double cantidadNecesaria, DAOManager daoManager, String username) {
+    public boolean updateProyecto(int codigo, String nombre, String imagen, String descripcion, String tipo, String fechaInicio, String fechaFin, double cantidadNecesaria, DAOManager daoManager, String username) {
         boolean correcto = false;
         int pos = buscarProyecto(1, String.valueOf(codigo));
         Proyecto aux = arrayProyectos.get(pos);
         if (!aux.getNombre().equals(nombre)) {
             correcto = proyectoSQL.update("nombre", nombre, codigo, daoManager, username);
             if (correcto) aux.setNombre(nombre);
+        }
+        if ((aux.getImagen()==null) || (!aux.getImagen().equals(imagen))) {
+            correcto = proyectoSQL.update("imagen", imagen, codigo, daoManager, username);
+            if (correcto) aux.setImagen(imagen);
         }
         if (!aux.getDescripcion().equals(descripcion)) {
             correcto = proyectoSQL.update("descripcion", descripcion, codigo, daoManager, username);
@@ -98,10 +102,16 @@ public class GestionProyectos {
         return correcto;
     }
     public boolean updateProyecto (int codigoProyecto, double cantidadEntrante, DAOManager daoManager, String inversorUsername) {
-        boolean correcto = proyectoSQL.update("cantidadFinanciada", String.valueOf(cantidadEntrante), codigoProyecto, daoManager, inversorUsername);
         int pos = buscarProyecto(1, String.valueOf(codigoProyecto));
         Proyecto aux = arrayProyectos.get(pos);
-        if (correcto) aux.setCantidadFinanciada(aux.getCantidadFinanciada()+cantidadEntrante);
+        boolean correcto = proyectoSQL.update("cantidadFinanciada", String.valueOf(cantidadEntrante + aux.getCantidadFinanciada()), codigoProyecto, daoManager, inversorUsername);
+        if (correcto) {
+            aux.setCantidadFinanciada(aux.getCantidadFinanciada()+cantidadEntrante);
+            if (!aux.isHabilitado()) {
+                proyectoSQL.update("habilitado", "0", codigoProyecto, daoManager, inversorUsername);
+                System.out.println("En gestion proyectos: el proyecto ya no está habilitado");
+            }
+        }
         return correcto;
     }
 

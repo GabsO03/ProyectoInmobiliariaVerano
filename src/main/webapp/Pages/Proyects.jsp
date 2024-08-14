@@ -2,8 +2,6 @@
 <%@ page import="DAO.DAOManager" %>
 <%@ page import="Model.Managers.GestionApp" %>
 <%@ page import="Model.BusinessClases.Proyecto" %>
-<%@ page import="java.io.InputStream" %>
-<%@ page import="Model.BusinessClases.Gestor" %>
 <%@ page import="Model.BusinessClases.Usuario" %>
 <%--
   Created by IntelliJ IDEA.
@@ -21,7 +19,6 @@
     GestionProyectos gestionProyectos = gestionApp.getGestionProyectos();
     if (logged) {
         Usuario aux = (Usuario) session.getAttribute("User");
-        String username = aux.getUsername();
         if (session.getAttribute("class").equals("Gestor")) gestionProyectos.cargarProyectos(aux.getId(), daoManager);
     }
     else gestionProyectos.cargarProyectos(daoManager);
@@ -107,8 +104,7 @@ lg:ml-40 sm:ml-10 mr-20
             <%
 if (logged) {
 %>class="lg:ml-40 lg:pl-36 lg:mr-10"<%}%>>
-    <% if (gestionProyectos.getArrayProyectos().isEmpty()){%><p class="text-center text-3xl text-slate-600 font-medium">No tienes proyectos para mostrar</p> <%}%>
-    <div>
+     <div>
         <ul class="mx-10 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
             <%     for (Proyecto proyecto: gestionProyectos.getArrayProyectos()) {%>
             <li>
@@ -117,13 +113,15 @@ if (logged) {
                     <input type="hidden" name="username" value="<% out.print(session.getAttribute("username")); %>">
                     <%}%>
                     <input type="hidden" name="codigo_proyecto" value="<% out.print(proyecto.getCodigo()); %>">
-                    <button type="submit" class="w-full">
-                        <img class="h-auto max-w-full rounded-lg" src="/ED_PIA_SML_38.jpg" class="tarjeta_proyecto_img">
+                    <button type="submit" class="w-full flex flex-col items-center">
+                        <img class="h-40 max-w-full rounded-lg" src="<% out.print(proyecto.getImagen()); %>" class="tarjeta_proyecto_img">
                         <div class="text-center mt-2 w-full">
-                            <h1 class="text-2xl font-bold inline-block align-middle m-3 flex justify-around leading-6" ><% out.print(proyecto.getNombre()); %> <span  class="bg-green-200 text-green-700 text-sm font-semibold rounded-full px-3 py-1 ml-5 align-middle self-center"><% out.print(proyecto.getTipo()); %></span></h1>
-                            <div class="flex justify-between mb-1 lg:mx-6 sm:mx-1">
+                            <h1 class="text-2xl font-bold inline-block align-middle m-3 flex flex-col justify-around leading-6" ><% out.print(proyecto.getNombre()); %>
+                                <span  class="bg-green-200 text-green-700 text-sm font-semibold rounded-full px-3 mt-2 py-1 align-middle self-center"><% out.print(proyecto.getTipo()); %></span>
+                            </h1>
+                            <div class="flex justify-around lg:mx-0 sm:mx-1">
                                 <div class="flex flex-col">
-                                    <span class="text-md text-base font-medium text-blue-700 dark:text-black">Financiado  <% out.print(proyecto.getPorcentaje()); %> %</span>
+                                    <span class="text-md text-base font-medium text-blue-700 dark:text-black">Financiado: <% out.print(proyecto.getPorcentaje());%>%</span>
                                     <p><strong><% out.print(proyecto.getCantidadFinanciada()); %></strong></p>
                                 </div>
                                 <div class="flex flex-col">

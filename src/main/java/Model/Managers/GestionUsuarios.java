@@ -252,13 +252,12 @@ public class GestionUsuarios {
      * @param ubicacionLogins como una cadena
      */
     public void guardarIniciosSesionUsuarios(String ubicacionLogins) {
-        FileOutputStream fos;
         try {
-            if (ubicacionLogins!=null) {
-                String rutaLoginsCompleta = String.valueOf(this.getClass().getClassLoader().getResource(ubicacionLogins));
-                fos = new FileOutputStream(rutaLoginsCompleta);
-                iniciosSesion.store(fos, "Fichero de configuración");
-            }
+            //TODO ARREGLAR RUTA
+            String properties = "C:\\Users\\pollo\\Programación T1DA_ejs\\Intellij\\ProyectoInmobiliaria\\src\\main\\resources\\FicherosDatosSistema\\LastLogins.properties";
+            FileOutputStream fos = new FileOutputStream(properties);
+            iniciosSesion.store(fos, "Fichero de configuración");
+            fos.close();
         } catch (FileNotFoundException e) {
             throw new RuntimeException(e);
         } catch (IOException e) {
@@ -268,19 +267,19 @@ public class GestionUsuarios {
 
     /**
      * Actualiza el ultimo inicio de sesión de un usuario en especifico
-     * @param username como una cadena
+     * @param id_usuario como un entero
      */
-    public void actualizarUltimoInicioSesionUsuario(String username) {
-        iniciosSesion.setProperty(username, String.valueOf(LocalDateTime.now()));
+    public void actualizarUltimoInicioSesionUsuario(int id_usuario) {
+        iniciosSesion.setProperty(String.valueOf(id_usuario), String.valueOf(LocalDateTime.now()));
     }
 
     /**
      * Recupera el ultimo inicio de sesión de un usuario en especifico
-     * @param username como una cadena
+     * @param id_usuario como un entero
      * @return una cadena con el username del usuario
      */
-    public LocalDateTime recuperarUltimoInicioSesionUsuario(String username) {
-        return LocalDateTime.parse(iniciosSesion.getProperty(username, String.valueOf(LocalDateTime.now())));
+    public LocalDateTime recuperarUltimoInicioSesionUsuario(int id_usuario) {
+        return LocalDateTime.parse(iniciosSesion.getProperty(String.valueOf(id_usuario), String.valueOf(LocalDateTime.now())));
     }
 
     /**

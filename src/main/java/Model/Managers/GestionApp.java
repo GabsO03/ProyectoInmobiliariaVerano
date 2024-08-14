@@ -6,6 +6,7 @@ import Model.BusinessClases.Inversor;
 import Model.BusinessClases.Usuario;
 
 import java.io.*;
+import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.Map;
 import java.util.Properties;
@@ -77,11 +78,14 @@ public class GestionApp  {
      * Funcion para guardar todos los properties
      */
     public void guardarPropiedades() {
-        FileOutputStream fos;
         try {
-            String rutaProperties = String.valueOf(this.getClass().getClassLoader().getResource(RUTA_UBICACIONES_MODO_INVITADO));
-            fos = new FileOutputStream(rutaProperties);
+            //String rutaPrincipal = System.getProperty("user.dir");
+            //File properties = new File(rutaPrincipal, RUTA_UBICACIONES_MODO_INVITADO);
+            //TODO ARREGLAR RUTA
+            String properties = "C:\\Users\\pollo\\Programación T1DA_ejs\\Intellij\\ProyectoInmobiliaria\\src\\main\\resources\\FicherosDatosSistema\\UbicacionesYmodoInvitado.properties";
+            FileOutputStream fos = new FileOutputStream(properties);
             ubicaciones.store(fos, "Fichero de configuración");
+            fos.close();
         } catch (FileNotFoundException e) {
             throw new RuntimeException(e);
         } catch (IOException e) {

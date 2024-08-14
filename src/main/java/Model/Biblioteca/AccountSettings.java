@@ -207,7 +207,6 @@ public class AccountSettings {
         int codigoEnviado, codigoUsuario;
         do {
             codigoEnviado = (int) (Math.random() * 99999) + 10000;
-            System.out.println(codigoEnviado);
             System.out.println("Se está enviando un código de verificacion...");
             enviarCorreo(correoNuevoUsuario, "Correo de verificación", "Su código de verificación es: " + codigoEnviado);
             System.out.println("Revise su bandeja de entrada y escriba el código");

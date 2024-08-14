@@ -39,7 +39,7 @@ public class ProyectosServlet extends HttpServlet {
         }
         session.setAttribute("invitadoHabilitado", gestionApp.devuelveModoInvitado());
         int codigo_proyecto = Integer.parseInt(request.getParameter("codigo_proyecto"));
-        session.setAttribute("proyecto", gestionProyectos.devuelveProyectoPorCodigo(codigo_proyecto));
+        session.setAttribute("proyecto", gestionProyectos.devuelveProyectoPorCodigo(01));
         redirect("/Pages/Proyect.jsp", request, response);
         session.removeAttribute("proyecto");
         session.removeAttribute("inversion");

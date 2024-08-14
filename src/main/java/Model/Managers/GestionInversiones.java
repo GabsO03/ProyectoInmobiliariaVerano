@@ -9,6 +9,8 @@ import Model.BusinessClases.Proyecto;
 import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.InputStream;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 
 import static Model.Biblioteca.AccountSettings.enviarCorreoConAdjunto;
@@ -103,9 +105,9 @@ public class GestionInversiones {
      * @return true si se ha podido escribir y mandar el excel o false si no se ha podido
      */
     public boolean escribirMandarExcel() {
-        String rutaFicheroInversiones = "C:/Users/pollo/Programación T1DA_ejs/Intellij/ProyectoInmobiliaria/src/main/resources/FicheroInversiones/" + inversor.getName() + "_tusInversiones.csv";
+        String rutaFicheroCompleta = this.getClass().getClassLoader().getResource("FicheroInversiones/" + inversor.getName() + "_tusInversiones.csv").toString();
         try {
-            BufferedWriter bw = new BufferedWriter(new FileWriter(rutaFicheroInversiones,true));
+            BufferedWriter bw = new BufferedWriter(new FileWriter(rutaFicheroCompleta));
             bw.write("Nombre del proyecto;Cantidad Participada;Fecha Inicio;Ultima Actualizacion\n");
             for (Inversion inversion : inversiones) {
                 bw.write(inversion.getProyecto().getNombre() + ";" + inversion.getCantidadParticipada() + ";" + inversion.getFechaInicio() + ";" + inversion.getUltimaActualizacion() + "\n");
