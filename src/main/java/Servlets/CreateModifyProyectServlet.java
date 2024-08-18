@@ -30,12 +30,14 @@ public class CreateModifyProyectServlet extends HttpServlet {
             int codigo_proyecto = Integer.parseInt(request.getParameter("codigo_proyecto"));
 
             session.setAttribute("username", username);
-            session.setAttribute("proyecto", gestionProyectos.devuelveProyectoPorCodigo(codigo_proyecto));
+            session.setAttribute("proyecto", gestionProyectos.devuelveProyectoPorCodigo(codigo_proyecto, daoManager));
             session.setAttribute("modifyProyect", true);
         }
         else session.setAttribute("modifyProyect", false);
         redirect("/Pages/CreateEditProyect.jsp", request, response);
         session.removeAttribute("proyecto");
+        session.removeAttribute("modifyProyect");
+
     }
     public void redirect(String pagina, HttpServletRequest request, HttpServletResponse response) {
         try {

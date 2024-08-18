@@ -90,3 +90,42 @@
 2024-08-13T19:04:48.797646900;Gabs_OP;Proyecto 1 actualizado - cantidadFinanciada
 2024-08-13T19:06:59.932418;Gabs_OP;Proyecto 1 actualizado - habilitado
 2024-08-13T19:10:51.730697800;Gabs_OP;Nueva inversión realizada
+2024-08-14T15:09:43.211798100;Gabs_OP;Usuario inversor modificado - saldo
+2024-08-14T15:09:54.921362800;Gabs_OP;Usuario inversor modificado - saldo
+2024-08-14T15:09:55.095264700;Gabs_OP;Proyecto 2 actualizado - cantidadFinanciada
+2024-08-14T15:09:55.136890900;Gabs_OP;Nueva inversión realizada
+2024-08-14T15:10:04.325857300;Gabs_OP;Usuario inversor modificado - saldo
+2024-08-14T15:10:04.446683600;Gabs_OP;Proyecto 2 actualizado - cantidadFinanciada
+2024-08-14T15:10:04.544261200;Gabs_OP;Proyecto 2 actualizado - habilitado
+2024-08-14T15:10:04.573657;Gabs_OP;Inversión actualizada - 7
+2024-08-14T15:13:53.083450300;Gabs_OP;Usuario inversor modificado - saldo
+2024-08-14T15:14:01.527179500;Gabs_OP;Proyecto 3 actualizado - cantidadFinanciada
+2024-08-14T15:14:58.635269100;Gabs_OP;Nueva inversión realizada
+2024-08-14T15:17:55.909758500;Gabs_OP;Usuario inversor modificado - saldo
+2024-08-14T15:21:06.270051500;Gabs_OP;Proyecto 3 actualizado - cantidadFinanciada
+2024-08-14T15:21:06.321313900;Gabs_OP;Proyecto 3 actualizado - habilitado
+2024-08-14T15:21:13.024644100;Gabs_OP;Nueva inversión realizada
+2024-08-14T15:28:17.595104400;Gabs_OP;Usuario inversor modificado - saldo
+2024-08-14T15:28:17.706550200;Gabs_OP;Proyecto 3 actualizado - cantidadFinanciada
+2024-08-14T15:28:17.773905300;Gabs_OP;Proyecto 3 actualizado - habilitado
+2024-08-14T15:28:17.787517100;Gabs_OP;Inversión actualizada - 8
+2024-08-14T15:28:56.682867100;Gabs_OP;Usuario inversor modificado - saldo
+2024-08-14T15:28:56.742858400;Gabs_OP;Proyecto 4 actualizado - cantidadFinanciada
+2024-08-14T15:28:56.775254800;Gabs_OP;Nueva inversión realizada
+2024-08-15T16:42:01.023148300;Gabs_OP;Usuario inversor modificado - saldo
+2024-08-15T16:42:01.125366;Gabs_OP;Proyecto 4 actualizado - cantidadFinanciada
+2024-08-15T16:42:01.152527200;Gabs_OP;Nueva inversión realizada
+2024-08-15T16:42:11.524969800;Gabs_OP;Usuario inversor modificado - saldo
+2024-08-15T16:42:11.607172500;Gabs_OP;Proyecto 4 actualizado - cantidadFinanciada
+2024-08-15T16:42:11.629804;Gabs_OP;Inversión actualizada - 11
+2024-08-16T12:00:20.389506700;AlexGB;Proyecto 1 actualizado - imagen
+2024-08-16T12:00:20.407029500;AlexGB;Proyecto 1 actualizado - descripcion
+2024-08-16T12:00:20.414102500;AlexGB;Proyecto 1 actualizado - fechaFin
+2024-08-16T12:16:03.498754;AlexGB;Proyecto 1 actualizado - imagen
+2024-08-16T12:16:03.518791300;AlexGB;Proyecto 1 actualizado - descripcion
+2024-08-16T12:16:03.525848800;AlexGB;Proyecto 1 actualizado - fechaFin
+2024-08-16T12:21:46.625908700;AlexGB;Proyecto 2 actualizado - imagen
+2024-08-16T12:21:46.654583800;AlexGB;Proyecto 2 actualizado - descripcion
+2024-08-16T12:21:46.666076100;AlexGB;Proyecto 2 actualizado - fechaFin
+2024-08-16T12:26:40.798075300;AlexGB;Proyecto 1 actualizado - fechaFin
+2024-08-16T13:00:35.240394900;gestor00;Proyecto Test 9 creado correctamente

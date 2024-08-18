@@ -2,13 +2,13 @@ package Servlets;
 
 import java.io.*;
 import java.util.HashMap;
-import java.util.Properties;
 
 import DAO.DAOManager;
 import Model.BusinessClases.Gestor;
 import Model.BusinessClases.Inversor;
 import Model.BusinessClases.Usuario;
 import Model.Managers.GestionApp;
+import Model.Managers.GestionInversiones;
 import Model.Managers.GestionUsuarios;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
@@ -69,7 +69,7 @@ public class LoginServlet extends HttpServlet {
 
                 session.setAttribute("username", username);
                 if (classs.equals("Inversor")) {
-                    session.setAttribute("MisInversiones", gestionApp.cargarGestionInversion(daoManager, username));
+                    session.setAttribute("MisInversiones", gestionApp.consigueGestionInversion(daoManager, username).getInversiones());
                 } else if (classs.equals("Admin"))
                     gestionApp.cargarGestionesInversiones(daoManager);
 

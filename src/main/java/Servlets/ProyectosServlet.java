@@ -2,7 +2,11 @@ package Servlets;
 
 import DAO.DAOManager;
 import Model.BusinessClases.Inversion;
+import Model.BusinessClases.Inversor;
+import Model.BusinessClases.Proyecto;
+import Model.BusinessClases.Usuario;
 import Model.Managers.GestionApp;
+import Model.Managers.GestionInversiones;
 import Model.Managers.GestionProyectos;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
@@ -17,32 +21,65 @@ import java.io.IOException;
 public class ProyectosServlet extends HttpServlet {
 
     DAOManager daoManager;
+    GestionApp gestionApp;
+    HttpSession session;
 
-    @Override
-    public void init() throws ServletException {
+    public void init(HttpServletRequest request) throws ServletException {
+        daoManager = new DAOManager();
+        daoManager.open();
+        gestionApp = new GestionApp(daoManager);
+        session = request.getSession();
+        session.setAttribute("invitadoHabilitado", gestionApp.devuelveModoInvitado());
     }
 
     public void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        daoManager = new DAOManager();
-        daoManager.open();
-        GestionApp gestionApp = new GestionApp(daoManager);
-        GestionProyectos gestionProyectos = gestionApp.getGestionProyectos();
-        int id_inversion;
-
-        HttpSession session = request.getSession();
-
-        if (request.getParameter("codigo_inversion")!=null) {
-            String username = request.getParameter("username");
-            id_inversion = Integer.parseInt(request.getParameter("codigo_inversion"));
-            Inversion inversion = gestionApp.cargarGestionInversion(daoManager, username).devuelveInversion(id_inversion);
-            session.setAttribute("inversion", inversion);
-        }
-        session.setAttribute("invitadoHabilitado", gestionApp.devuelveModoInvitado());
+        init(request);
         int codigo_proyecto = Integer.parseInt(request.getParameter("codigo_proyecto"));
-        session.setAttribute("proyecto", gestionProyectos.devuelveProyectoPorCodigo(01));
+        Proyecto proyecto = gestionApp.getGestionProyectos().devuelveProyectoPorCodigo(codigo_proyecto, daoManager);
+        session.setAttribute("proyecto", proyecto);
+
+        if (request.getParameter("username")!=null) {
+            String username = request.getParameter("username");
+            if (gestionApp.getGestionUsuarios().devuelveUsuario(username).getClass().getSimpleName().equals("Inversor")) {
+                Inversor inversor = (Inversor) gestionApp.getGestionUsuarios().devuelveUsuario(username);
+                Inversion inversion = gestionApp.consigueGestionInversion(daoManager, username).devuelveInversion(inversor.getId(), proyecto, daoManager);
+                session.setAttribute("inversion", inversion);
+            }
+        }
         redirect("/Pages/Proyect.jsp", request, response);
         session.removeAttribute("proyecto");
         session.removeAttribute("inversion");
+    }
+
+    @Override
+    public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        init(request);
+        String page = request.getParameter("page");
+        String parametro = request.getParameter("parametro");
+        String cadenaAux = request.getParameter("orderBy");
+        String ordenarPor = cadenaAux.substring(0, cadenaAux.indexOf("_"));
+        String direccion = cadenaAux.substring(cadenaAux.indexOf("_")+1);
+        String atributo = request.getParameter("atributo");
+        String username = null;
+
+        int id_usuario = -1;
+        if (request.getParameter("username")!=null) {
+            username = request.getParameter("username");
+            id_usuario = gestionApp.getGestionUsuarios().devuelveUsuario(username).getId();
+        }
+
+        if (page.equals("/Pages/Proyects.jsp")) {
+            GestionProyectos gestionProyectosAux = gestionApp.getGestionProyectos();
+            gestionProyectosAux.buscarProyectos(id_usuario, ordenarPor, direccion, atributo, parametro, daoManager);
+            session.setAttribute("resultados", gestionProyectosAux);
+        }
+        else {
+            GestionInversiones gestionInversionesAux = gestionApp.consigueGestionInversion(daoManager, username);
+            gestionInversionesAux.buscaInversiones(ordenarPor, direccion, atributo, parametro, gestionApp.getGestionProyectos(), daoManager);
+            session.setAttribute("resultados", gestionInversionesAux.getInversiones());
+        }
+        redirect(page, request, response);
+        session.removeAttribute("resultados");
     }
 
     public void redirect(String pagina, HttpServletRequest request, HttpServletResponse response) {

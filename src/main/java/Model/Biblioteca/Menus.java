@@ -147,7 +147,7 @@ public class Menus {
                                     case 3 -> System.out.println();
                                 }
                             }
-                            case 2 -> buscarProyecto(proyectos);
+                            //case 2 -> buscarProyecto(proyectos);
                         }
                     } while (segundoSubmenu != 3);
                 }
@@ -236,7 +236,7 @@ public class Menus {
             primerSubmenu = leerOpcionNumerica();
             switch (primerSubmenu) {
                 case 1 -> System.out.println("pollo");//gestionInversiones.get(gestionIndividual).devuelveMisInversiones());
-                case 2 -> buscarProyecto(proyectos);
+                //case 2 -> buscarProyecto(proyectos);
                 case 3 -> {
                     System.out.println("1. Nueva inversión\n2. Actualizar inversión\n3. Cancelar");
                     opcionInversion = leerOpcionNumerica();

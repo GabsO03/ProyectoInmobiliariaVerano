@@ -218,7 +218,7 @@ public class AccountSettings {
             usuarios.insertarUsuarioGestor(nombre, nuevoUsuario, passNuevoUsuario, correoNuevoUsuario, daoManager);
         else {
             boolean correcto = usuarios.insertarUsuarioInversor(nombre, nuevoUsuario, passNuevoUsuario, correoNuevoUsuario, daoManager);
-            if (correcto) gestionInversiones.add(new GestionInversiones((Inversor) usuarios.devuelveUsuario(nuevoUsuario), "caca"));
+            //if (correcto) gestionInversiones.add(new GestionInversiones((Inversor) usuarios.devuelveUsuario(nuevoUsuario), "caca"));
         }
         return true;
     }

@@ -1,13 +1,11 @@
 package DAO;
 
 import Model.BusinessClases.Proyecto;
-import Model.Managers.GestionApp;
 
 import java.io.*;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 
@@ -40,70 +38,35 @@ public class ProyectoSQL {
         }
     }
 
-    /**
-     * Funcion para cargar en nuestro sistema los proyectos que se encuentran en la base de datos
-     * @param daoManager como una instancia de la clase DAOManager
-     * @return un array dinámico con todos los proyectos
-     */
-    public ArrayList<Proyecto> cargaProyectos(DAOManager daoManager) {
-        ArrayList<Proyecto> proyectos = new ArrayList<>();
-        String select = "SELECT * FROM proyectos";
-        try {
-            PreparedStatement preparedStatement = daoManager.getConn().prepareStatement(select);
-            try (ResultSet resultSet = preparedStatement.executeQuery()) {
-                while (resultSet.next()) {
-                    int codigo = resultSet.getInt("codigo");
-                    String nombre = resultSet.getString("nombre");
-                    String imagen = resultSet.getString("imagen");
-                    String descripcion = resultSet.getString("descripcion");
-                    String tipo = resultSet.getString("tipo");
-                    String fechaInicio = resultSet.getString("fechaInicio");
-                    String fechaFin = resultSet.getString("fechaFin");
-                    double cantidadNecesaria = resultSet.getDouble("cantidadNecesaria");
-                    double cantidadFinanciada = resultSet.getDouble("cantidadFinanciada");
-                    boolean habilitado = resultSet.getBoolean("habilitado");
-                    Proyecto aux = new Proyecto(codigo, nombre, imagen, descripcion, tipo, fechaInicio, fechaFin, cantidadNecesaria, cantidadFinanciada, habilitado);
-                    proyectos.add(aux);
-                }
-            }
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
-        return proyectos;
+    public Proyecto cargaProyecto (ResultSet rs) throws SQLException{
+        int codigo = rs.getInt("codigo");
+        String nombre = rs.getString("nombre");
+        String imagen = rs.getString("imagen");
+        String descripcion = rs.getString("descripcion");
+        String tipo = rs.getString("tipo");
+        String fechaInicio = rs.getString("fechaInicio");
+        String fechaFin = rs.getString("fechaFin");
+        double cantidadNecesaria = rs.getDouble("cantidadNecesaria");
+        double cantidadFinanciada = rs.getDouble("cantidadFinanciada");
+        boolean habilitado = rs.getBoolean("habilitado");
+        return new Proyecto(codigo, nombre, imagen, descripcion, tipo, fechaInicio, fechaFin, cantidadNecesaria, cantidadFinanciada, habilitado);
     }
-    /**
-     * Funcion para cargar en nuestro sistema los proyectos que se encuentran en la base de datos
-     * @param id como un entero
-     * @param daoManager como una instancia de la clase DAOManager
-     * @return un array dinámico con todos los proyectos
-     */
-    public ArrayList<Proyecto> cargaProyectos(int id, DAOManager daoManager) {
-        ArrayList<Proyecto> proyectos = new ArrayList<>();
-        String select = "SELECT * FROM proyectos WHERE `id_gestor` LIKE ?";
+    public Proyecto consigueProyecto (int codigo_proyecto, DAOManager daoManager) {
+        String select = "SELECT * FROM proyectos where codigo = ?";
         try {
             ps = daoManager.getConn().prepareStatement(select);
-            ps.setInt(1, id);
+            ps.setInt(1, codigo_proyecto);
             try (ResultSet resultSet = ps.executeQuery()) {
-                while (resultSet.next()) {
-                    int codigo = resultSet.getInt("codigo");
-                    String nombre = resultSet.getString("nombre");
-                    String imagen = resultSet.getString("imagen");
-                    String descripcion = resultSet.getString("descripcion");
-                    String tipo = resultSet.getString("tipo");
-                    String fechaInicio = resultSet.getString("fechaInicio");
-                    String fechaFin = resultSet.getString("fechaFin");
-                    double cantidadNecesaria = resultSet.getDouble("cantidadNecesaria");
-                    double cantidadFinanciada = resultSet.getDouble("cantidadFinanciada");
-                    boolean habilitado = resultSet.getBoolean("habilitado");
-                    Proyecto aux = new Proyecto(codigo, nombre, imagen, descripcion, tipo, fechaInicio, fechaFin, cantidadNecesaria, cantidadFinanciada, habilitado);
-                    proyectos.add(aux);
+                if (resultSet.next()) {
+                    return cargaProyecto(resultSet);
                 }
             }
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
-        return proyectos;
+        return null;
     }
+
     /**
      * Funcion para cargar en nuestro sistema los proyectos que se encuentran en la base de datos de manera ordenada
      * @param orderBy como una cadena
@@ -118,17 +81,7 @@ public class ProyectoSQL {
             PreparedStatement preparedStatement = daoManager.getConn().prepareStatement(select);
             try (ResultSet resultSet = preparedStatement.executeQuery()) {
                 while (resultSet.next()) {
-                    int codigo = resultSet.getInt("codigo");
-                    String nombre = resultSet.getString("nombre");
-                    String imagen = resultSet.getString("imagen");
-                    String descripcion = resultSet.getString("descripcion");
-                    String tipo = resultSet.getString("tipo");
-                    String fechaInicio = resultSet.getString("fechaInicio");
-                    String fechaFin = resultSet.getString("fechaFin");
-                    double cantidadNecesaria = resultSet.getDouble("cantidadNecesaria");
-                    double cantidadFinanciada = resultSet.getDouble("cantidadFinanciada");
-                    boolean habilitado = resultSet.getBoolean("habilitado");
-                    Proyecto aux = new Proyecto(codigo, nombre, imagen, descripcion, tipo, fechaInicio, fechaFin, cantidadNecesaria, cantidadFinanciada, habilitado);
+                    Proyecto aux = cargaProyecto(resultSet);
                     proyectos.add(aux);
                 }
             }
@@ -147,23 +100,67 @@ public class ProyectoSQL {
      */
     public ArrayList<Proyecto> cargaProyectos(int id, String orderBy, String direccion, DAOManager daoManager) {
         ArrayList<Proyecto> proyectos = new ArrayList<>();
-        String select = "SELECT * FROM proyectos ORDER BY " + orderBy + " " + direccion + " WHERE `id_gestor` LIKE ?";
+        String select = "SELECT * FROM proyectos WHERE `id_gestor` = ? ORDER BY " + orderBy + " " + direccion;
         try {
             ps = daoManager.getConn().prepareStatement(select);
             ps.setInt(1, id);
             try (ResultSet resultSet = ps.executeQuery()) {
                 while (resultSet.next()) {
-                    int codigo = resultSet.getInt("codigo");
-                    String nombre = resultSet.getString("nombre");
-                    String imagen = resultSet.getString("imagen");
-                    String descripcion = resultSet.getString("descripcion");
-                    String tipo = resultSet.getString("tipo");
-                    String fechaInicio = resultSet.getString("fechaInicio");
-                    String fechaFin = resultSet.getString("fechaFin");
-                    double cantidadNecesaria = resultSet.getDouble("cantidadNecesaria");
-                    double cantidadFinanciada = resultSet.getDouble("cantidadFinanciada");
-                    boolean habilitado = resultSet.getBoolean("habilitado");
-                    Proyecto aux = new Proyecto(codigo, nombre, imagen, descripcion, tipo, fechaInicio, fechaFin, cantidadNecesaria, cantidadFinanciada, habilitado);
+                    Proyecto aux = cargaProyecto(resultSet);
+                    proyectos.add(aux);
+                }
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return proyectos;
+    }
+
+    /**
+     * Funcion para cargar en nuestro sistema los proyectos que se encuentran en la base de datos de manera ordenada y con un atributo específico
+     * @param orderBy como una cadena
+     * @param direccion como una cadena
+     * @param daoManager como una instancia de la clase DAOManager
+     * @return un array dinámico con todos los proyectos
+     */
+    public ArrayList<Proyecto> buscaProyectos(String orderBy, String direccion, String atributo, String valor, DAOManager daoManager) {
+        ArrayList<Proyecto> proyectos = new ArrayList<>();
+        String select = "SELECT * FROM proyectos WHERE " + atributo + " = ? ORDER BY " + orderBy + " " + direccion;
+        try {
+            ps = daoManager.getConn().prepareStatement(select);
+            ps.setString(1, valor);
+
+            try (ResultSet resultSet = ps.executeQuery()) {
+                while (resultSet.next()) {
+                    Proyecto aux = cargaProyecto(resultSet);
+                    proyectos.add(aux);
+                }
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return proyectos;
+    }
+
+    /**
+     * Funcion para cargar en nuestro sistema los proyectos que se encuentran en la base de datos de manera ordenada y con un atributo específico para un gestor específico
+     * @param id como un entero
+     * @param orderBy como una cadena
+     * @param direccion como una cadena
+     * @param daoManager como una instancia de la clase DAOManager
+     * @return un array dinámico con todos los proyectos
+     */
+    public ArrayList<Proyecto> buscaProyectos(int id, String orderBy, String direccion, String atributo, String valor, DAOManager daoManager) {
+        ArrayList<Proyecto> proyectos = new ArrayList<>();
+        String select = "SELECT * FROM proyectos WHERE `id_gestor` = ? and " + atributo + " = ? ORDER BY " + orderBy + " " + direccion;
+        try {
+            ps = daoManager.getConn().prepareStatement(select);
+            ps.setInt(1, id);
+            ps.setString(2, valor);
+
+            try (ResultSet resultSet = ps.executeQuery()) {
+                while (resultSet.next()) {
+                    Proyecto aux = cargaProyecto(resultSet);
                     proyectos.add(aux);
                 }
             }
@@ -256,7 +253,7 @@ public class ProyectoSQL {
      * @throws SQLException
      */
     public boolean delete(int codigo, DAOManager daoManager, String username) {
-        String sentencia = "DELETE FROM `proyectos` WHERE `codigo`= ?";
+        String sentencia = "DELETE FROM `proyectos` WHERE `codigo` = ?";
         try {
             ps = daoManager.getConn().prepareStatement(sentencia);
             ps.setInt(1, codigo);

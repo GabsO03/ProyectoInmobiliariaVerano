@@ -11,6 +11,7 @@
 %>
 <html>
 <head>
+    <meta charset="UTF-8">
     <title>InBest | Sing in</title>
     <jsp:include page="../Scripts/HeaderScripts.jsp"/>
 </head>

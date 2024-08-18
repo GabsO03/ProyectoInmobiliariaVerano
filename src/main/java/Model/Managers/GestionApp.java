@@ -2,11 +2,11 @@ package Model.Managers;
 
 
 import DAO.DAOManager;
+import Model.BusinessClases.Inversion;
 import Model.BusinessClases.Inversor;
 import Model.BusinessClases.Usuario;
 
 import java.io.*;
-import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.Map;
 import java.util.Properties;
@@ -104,12 +104,16 @@ public class GestionApp  {
             if (gestionUsuarios.averiguarClase(aux.getUsername()).equals("Inversor")) gestionesInversiones.add(new GestionInversiones((Inversor) aux, gestionProyectos, daoManager, rutaFicheroLog));
         }
     }
-    public GestionInversiones cargarGestionInversion(DAOManager daoManager, String username) {
+    public GestionInversiones consigueGestionInversion(DAOManager daoManager, String username) {
         String rutaFicheroLog = ubicaciones.getProperty("LogUbicacion");
         if (gestionUsuarios.existeNombreUsuario(username)) {
             return new GestionInversiones((Inversor) gestionUsuarios.devuelveUsuario(username), gestionProyectos, daoManager,
                     rutaFicheroLog);
         }
+        return null;
+    }
+
+    public Inversion consigueInversion (DAOManager daoManager, String username) {
         return null;
     }
 

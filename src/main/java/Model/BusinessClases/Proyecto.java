@@ -36,8 +36,7 @@ public class Proyecto {
         this.habilitado = habilitado;
     }
 
-    public Proyecto(int codigo, String nombre, String imagen, String descripcion, String tipo, String fechaInicio, String fechaFin, double cantidadNecesaria) {
-        this.codigo = codigo;
+    public Proyecto(String nombre, String imagen, String descripcion, String tipo, String fechaInicio, String fechaFin, double cantidadNecesaria) {
         this.nombre = nombre;
         this.imagen = imagen;
         this.descripcion = descripcion;

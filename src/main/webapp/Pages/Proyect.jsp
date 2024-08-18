@@ -16,7 +16,8 @@
 %>
 <html>
 <head>
-    <title>InBest</title>
+    <meta charset="UTF-8">
+    <title>InBest | <%out.print(proyecto.getNombre());%></title>
     <jsp:include page="../Scripts/HeaderScripts.jsp"/>
 </head>
 
@@ -33,7 +34,7 @@
 
 <section class="flex items-start justify-center min-h-screen mt-20 mb-5 <%
 if (logged) { %> lg:ml-40 lg:pl-28 lg:p-4 <%}%>  lg:mr-0 sm:p-5">
-    <div class="max-w-7xl mx-auto bg-gradient-to-b from-cyan-900 to-green-950 rounded-xl shadow-md md:flex w-full">
+    <div class="mx-5 bg-gradient-to-b from-cyan-900 to-green-950 rounded-xl shadow-md md:flex w-full">
         <div class="md:w-2/3 p-6 pt-0">
             <div class="text-center md:text-left">
                 <h1 class="text-4xl font-bold inline-block align-middle flex items-center"><% out.print(proyecto.getNombre()); %>
@@ -96,7 +97,7 @@ if (logged) { %> lg:ml-40 lg:pl-28 lg:p-4 <%}%>  lg:mr-0 sm:p-5">
                                 Inversion inversionAux = (Inversion) session.getAttribute("inversion");
                                 if (inversionAux != null) {
                                     %>
-                    <input type="hidden" name="codigo_inversion" value="<% out.print(inversionAux.getCodigo()); %>">
+                    <input type="hidden" name="codigo_inversion" value="<% out.print(inversionAux.getCodigo());%>">
                     <div class="flex flex-col items-center">
                         <p><strong>Cantidad con la que has participado:</strong><%out.print(inversionAux.getCantidadParticipada());%></p>
                         <span class="text-md text-base font-medium text-blue-700 dark:text-black">Te corresponde el <%out.print(inversionAux.getPorcentajeParticipado());%>%</span>
@@ -118,7 +119,7 @@ if (logged) { %> lg:ml-40 lg:pl-28 lg:p-4 <%}%>  lg:mr-0 sm:p-5">
                     <%
                             } else {
                     %>
-                    <p class="block w-full px-4 py-2 bg-sky-250 text-gray-650 text-xl text-center rounded-lg hover:bg-sky-200 transition duration-300">
+                    <p class="block w-full px-4 py-2 bg-sky-250 text-gray-650 text-xl text-center rounded-lg bg-sky-200">
                         Inhabilitado</p>
                     <% }
                     } else {

@@ -14,6 +14,7 @@
 %>
 <html>
 <head>
+  <meta charset="UTF-8">
   <title>InBest | Cartera Virtual</title>
   <jsp:include page="../Scripts/HeaderScripts.jsp"/>
 </head>

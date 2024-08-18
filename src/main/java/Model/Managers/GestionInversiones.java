@@ -28,15 +28,14 @@ public class GestionInversiones {
         return inversiones;
     }
 
-    public GestionInversiones (Inversor inversor, String rutaFicheroLog) {
-        this.inversor = inversor;
-        this.inversiones = new ArrayList<>();
-        this.inversionSQL = new InversionSQL(rutaFicheroLog);
-    }
     public GestionInversiones (Inversor inversor, GestionProyectos gestionProyectos, DAOManager daoManager, String rutaFicheroLog) {
         this.inversor = inversor;
         this.inversiones = new ArrayList<>();
         this.inversionSQL = new InversionSQL(rutaFicheroLog);
+        cargarInversiones(gestionProyectos, daoManager);
+    }
+
+    public void cargarInversiones (GestionProyectos gestionProyectos, DAOManager daoManager) {
         inversiones = inversionSQL.cargarInversiones(inversor.getId(), gestionProyectos, daoManager);
     }
 
@@ -55,49 +54,21 @@ public class GestionInversiones {
 
     /**
      * Actualiza una inversion ya realizada
-     * @param pos como entero
+     * @param codigo_inversion como entero
      * @param cantidadEntrante como double
      * @param dao como un objeto de la clase DAOManager
      */
-    public void actualizarInversion (int pos, double cantidadEntrante, DAOManager dao) {
-        inversiones.get(pos).aumentaInversion(cantidadEntrante);
-        inversionSQL.update(inversor.getUsername(), "cantidadParticipada", String.valueOf(inversiones.get(pos).getCantidadParticipada()), inversiones.get(pos).getCodigo(), dao);
+    public void actualizarInversion (int codigo_inversion, double cantidadEntrante, DAOManager dao) {
+        inversionSQL.update(inversor.getUsername(), "cantidadParticipada", String.valueOf(cantidadEntrante), codigo_inversion, dao);
     }
 
-
-    /**
-     * Funcion para mostrar los proyectos en los que aún no se han invertido
-     * @param todosLosProyectos como objeto de la clase GestionProyectos
-     */
-    public void proyectosAunNoInvertidos (GestionProyectos todosLosProyectos) {
-        boolean esta;
-        String cadena = "Proyectos aún no invertidos:\n============================";
-        for (int i = 0; i < todosLosProyectos.getCantidadProyectos(); i++) {
-            esta = false;
-            for (Inversion inversiones : inversiones) {
-                if (todosLosProyectos.devuelveProyectoPos(i).getNombre().equals(inversiones.getProyecto().getNombre()))
-                    esta = true;
-            }
-            if (!esta) cadena = cadena.concat("\n" + todosLosProyectos.devuelveProyectoPos(i));
-        }
-        System.out.println(cadena);
+    public void buscaInversiones(String orderBy, String direccion, String atributo, String valor, GestionProyectos gestionProyectos, DAOManager daoManager) {
+        if (atributo.equals("nombre")||atributo.equals("tipo")) inversiones = inversionSQL.buscarInversionesProyecto(inversor.getId(), orderBy, direccion, atributo, valor, gestionProyectos, daoManager);
+        else  inversiones = inversionSQL.buscarInversiones(inversor.getId(), orderBy, direccion, atributo, valor, gestionProyectos, daoManager);
     }
 
-    public int buscaInversion(int codigo) {
-        for (int i = 0; i < inversiones.size(); i++) {
-            if (inversiones.get(i).getCodigo() == codigo) return i;
-        }
-        return -1;
-    }
-    public int buscaInversionPorProyecto(int proyectoCodigo) {
-        for (int i = 0; i < inversiones.size(); i++) {
-            if (inversiones.get(i).getProyecto().getCodigo() == proyectoCodigo) return i;
-        }
-        return -1;
-    }
-
-    public Inversion devuelveInversion (int codigoInversion) {
-        return inversiones.get(buscaInversion(codigoInversion));
+    public Inversion devuelveInversion (int id_inversor, Proyecto proyecto, DAOManager daoManager) {
+        return inversionSQL.conseguirInversion(proyecto, id_inversor, daoManager);
     }
 
     /**

@@ -45,16 +45,17 @@ public class ModifyProyectServlet extends HttpServlet {
             LocalDate fechaFin = cadenaAfecha(request.getParameter("fechaFin"));
             double cantidadNecesaria = Double.parseDouble(request.getParameter("cantidadNecesaria"));
 
+            String base64Image = null;
             if (filePart != null) {
                 inputStream = filePart.getInputStream();
+                byte[] imageBytes = inputStream.readAllBytes();
+                if (imageBytes.length>0) base64Image = "data:image/jpeg;base64," + Base64.getEncoder().encodeToString(imageBytes);
             }
-            byte[] imageBytes = inputStream.readAllBytes();
-            String base64Image = "data:image/jpeg;base64," + Base64.getEncoder().encodeToString(imageBytes);
 
             HttpSession session = request.getSession();
             boolean alright = gestionProyectos.updateProyecto(codigo_proyecto, nombre, base64Image, descripcion, tipo, fechaACadena(fechaIni), String.valueOf(fechaFin), cantidadNecesaria, daoManager, username);
             if (alright) {
-                session.setAttribute("proyecto", gestionProyectos.devuelveProyectoPorCodigo(codigo_proyecto));
+                session.setAttribute("proyecto", gestionProyectos.devuelveProyectoPorCodigo(codigo_proyecto, daoManager));
                 redirect("/Pages/Proyect.jsp", request, response);
                 session.removeAttribute("proyecto");
             }

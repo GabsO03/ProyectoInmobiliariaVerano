@@ -1,6 +1,9 @@
 package Servlets;
 
 import DAO.DAOManager;
+import Model.BusinessClases.Inversion;
+import Model.BusinessClases.Inversor;
+import Model.BusinessClases.Proyecto;
 import Model.Managers.GestionApp;
 import Model.Managers.GestionInversiones;
 import Model.Managers.GestionProyectos;
@@ -27,28 +30,30 @@ public class InvestmentServlet extends HttpServlet {
         GestionUsuarios gestionUsuariosAux = gestionApp.getGestionUsuarios();
         GestionProyectos gestionProyectosAux = gestionApp.getGestionProyectos();
         HttpSession session = request.getSession();
-        boolean yaInvirtio = request.getParameter("codigo_inversion")!=null;
         int codigo_proyecto = Integer.parseInt(request.getParameter("codigo_proyecto"));
-        int codigo_inversion = 0;
-        if (yaInvirtio) codigo_inversion = Integer.parseInt(request.getParameter("codigo_inversion"));
         String username =  request.getParameter("username");
         double cantidadEntrante = Double.parseDouble(request.getParameter("cantidadEntrante"));
-        GestionInversiones gestionInversionesAux = gestionApp.cargarGestionInversion(daoManager, username);
+
+        Proyecto proyecto = gestionProyectosAux.devuelveProyectoPorCodigo(codigo_proyecto, daoManager);
+        GestionInversiones gestionInversionesAux = gestionApp.consigueGestionInversion(daoManager, username);
         boolean pagoRealizado =  gestionUsuariosAux.inversorPaga(username, cantidadEntrante, daoManager);
-        int pos = gestionInversionesAux.buscaInversionPorProyecto(codigo_proyecto);
+
         if (pagoRealizado) {
             gestionProyectosAux.updateProyecto(codigo_proyecto, cantidadEntrante, daoManager, username);
-            if (yaInvirtio) gestionInversionesAux.actualizarInversion(pos, cantidadEntrante, daoManager);
+            if (request.getParameter("codigo_inversion")!=null) {
+                Inversion inversionAux = gestionInversionesAux.devuelveInversion(gestionUsuariosAux.devuelveUsuario(username).getId(), proyecto, daoManager);
+                gestionInversionesAux.actualizarInversion(inversionAux.getCodigo(), inversionAux.getCantidadParticipada() + cantidadEntrante, daoManager);
+                session.setAttribute("inversion", inversionAux);
+            }
             else {
-                gestionInversionesAux.nuevaInversion(gestionProyectosAux.devuelveProyectoPorCodigo(codigo_proyecto), cantidadEntrante, daoManager);
+                gestionInversionesAux.nuevaInversion(proyecto, cantidadEntrante, daoManager);
                 session.setAttribute("inversion", gestionInversionesAux.getInversiones().getLast());
             }
-            session.setAttribute("MisInversiones", gestionApp.cargarGestionInversion(daoManager, username));
+            session.setAttribute("MisInversiones", gestionInversionesAux.getInversiones());
             session.setAttribute("User", gestionUsuariosAux.devuelveUsuario(username));
         }
-        session.setAttribute("proyecto", gestionProyectosAux.devuelveProyectoPorCodigo(codigo_proyecto));
+        session.setAttribute("proyecto", proyecto);
         // TODO avisar si se pudo o no invertir
-        if (yaInvirtio) session.setAttribute("inversion", gestionInversionesAux.devuelveInversion(codigo_inversion));
         redirect("/Pages/Proyect.jsp", request, response);
         session.removeAttribute("proyecto");
         session.removeAttribute("inversion");

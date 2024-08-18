@@ -66,14 +66,14 @@ public class ProyectosVista {
         if (opcion==2) ordenarProyectos(proyectos, daoManager);
         int i = 0, tamanio = proyectos.getCantidadProyectos();
         while (i < tamanio) {
-            System.out.println("-------------------------------------------------------------------------------------------------------------------------------------------");
+            /**System.out.println("-------------------------------------------------------------------------------------------------------------------------------------------");
             System.out.println("Código: " + proyectos.devuelveProyectoPos(i).getCodigo());
             System.out.println("Nombre: " + proyectos.devuelveProyectoPos(i).getNombre());
             System.out.println("Tipo: " + proyectos.devuelveProyectoPos(i).getTipo());
             System.out.println("Cantidad Necesaria: " + proyectos.devuelveProyectoPos(i).getCantidadNecesaria());
             System.out.println("Cantidad Financiada: " + proyectos.devuelveProyectoPos(i).getCantidadFinanciada());
             System.out.println("-------------------------------------------------------------------------------------------------------------------------------------------");
-            i++;
+            i++;*/
         }
         System.out.println("Existen " + tamanio + " proyectos.");
         if (tipo == 1) System.out.println("1. Ver más detalles.\n2. Eliminar o modificar.\n3. Salir.");
@@ -97,13 +97,13 @@ public class ProyectosVista {
      */
     public static void proyectosDetallados(GestionProyectos proyectos) {
         for (int i = 0; i < proyectos.getCantidadProyectos(); i++) {
-            System.out.println("Proyecto " + (i + 1));
+            /*System.out.println("Proyecto " + (i + 1));
             System.out.println("Nombre: " + proyectos.devuelveProyectoPos(i).getNombre() + "\nDescripción: " + proyectos.devuelveProyectoPos(i).getDescripcion() + "\nTipo: " + proyectos.devuelveProyectoPos(i).getTipo());
             System.out.println("Fecha Inicial: " + proyectos.devuelveProyectoPos(i).getFechaInicio() + "\nFecha Final: " + proyectos.devuelveProyectoPos(i).getFechaFin());
             System.out.println("Cantidad Necesaria: " + proyectos.devuelveProyectoPos(i).getCantidadNecesaria() + "\nCantidad Financiada: " + proyectos.devuelveProyectoPos(i).getCantidadFinanciada());
             System.out.println("Gráfico:");
             crearGrafico(proyectos.devuelveProyectoPos(i).getCantidadNecesaria(), proyectos.devuelveProyectoPos(i).getCantidadFinanciada());
-            System.out.println();
+            System.out.println();*/
         }
     }
     /**
@@ -127,7 +127,7 @@ public class ProyectosVista {
      * @param valorFinal como cadena
      * @param proyectos como un objeto de la clase GestionProyectos
      */
-    public static void buscarProyectoRango(int atributo, String valorInicial, String valorFinal, GestionProyectos proyectos) {
+    /*public static void buscarProyectoRango(int atributo, String valorInicial, String valorFinal, GestionProyectos proyectos) {
         System.out.println("Listado completo de proyectos según " + atributo + " (desde " + valorInicial + " hasta " + valorFinal + "):");
         int tamanio = proyectos.getCantidadProyectos();
         switch (atributo) {
@@ -174,7 +174,7 @@ public class ProyectosVista {
      * Funcion para buscar un determinado proyecto
      * @param proyectos un objeto de la clase GestionProyectos
      */
-    public static void buscarProyecto (GestionProyectos proyectos) {
+    /*public static void buscarProyecto (GestionProyectos proyectos) {
         int tipoBusqueda, position;
         String valor, valorInicial, valorFinal;
         int atributo;
@@ -187,9 +187,9 @@ public class ProyectosVista {
                     atributo = leerOpcionNumerica();
                     System.out.println("Introduzca el valor (ejemplo: fecha yyyy-mm-dd):");
                     valor = leerOpcionLiteral();
-                    position = proyectos.buscarProyecto(atributo, valor);
-                    if (position >= 0)
-                        System.out.println(proyectos.devuelveProyectoPos(position));
+                    position = 0; //proyectos.buscarProyectos(atributo, valor);
+                    //if (position >= 0)
+                       // System.out.println(proyectos.devuelveProyectoPos(position));
                     else System.out.println("Ese proyecto no existe.");
                 }
                 case 2 -> {
@@ -205,6 +205,6 @@ public class ProyectosVista {
                 default -> System.out.println("Invalid response.");
             }
         } while (tipoBusqueda != 3);
-    }
+    }*/
 
 }

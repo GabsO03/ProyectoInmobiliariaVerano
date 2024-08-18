@@ -18,11 +18,11 @@ public class InversionesVista {
     public static void nuevaInversion(GestionUsuarios gestionUsuarios, GestionProyectos proyectos, GestionInversiones inversiones, DAOManager daoManager) {
         int respuesta;
         double cantidadParticipativa;
-        inversiones.proyectosAunNoInvertidos(proyectos);
+        //inversiones.proyectosAunNoInvertidos(proyectos);
         System.out.println("Escriba el código del proyecto en el que quiere invertir:");
         respuesta = leerOpcionNumerica();
-        int pos = proyectos.buscarProyecto(1, String.valueOf(respuesta));
-        boolean yaInvirtioAqui = inversiones.buscaInversionPorProyecto(respuesta)>-1;
+        int pos = 0; //proyectos.buscarProyectos(1, String.valueOf(respuesta));
+        boolean yaInvirtioAqui = true; // inversiones.buscaInversionPorProyecto(respuesta)>-1;
         if (pos >= 0 && !yaInvirtioAqui) {
             System.out.println("Introduzca la cantidad que quieres invertir en el proyecto:");
             cantidadParticipativa = leerOpcionDouble();
@@ -46,7 +46,7 @@ public class InversionesVista {
         //System.out.println(inversiones.devuelveMisInversiones());
         System.out.println("Escribe el código de la inversión que quiere actualizar");
         respuesta = leerOpcionNumerica();
-        int pos = inversiones.buscaInversion(respuesta);
+        int pos = 0; // inversiones.buscaInversion(respuesta);
         if (pos >= 0) {
             System.out.println("Introduzca la cantidad que quieres añadir en el proyecto:");
             cantidadParticipativa = leerOpcionDouble();

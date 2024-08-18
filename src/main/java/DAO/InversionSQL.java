@@ -1,6 +1,7 @@
 package DAO;
 
 import Model.BusinessClases.Inversion;
+import Model.BusinessClases.Proyecto;
 import Model.Managers.GestionProyectos;
 
 import java.io.*;
@@ -39,6 +40,28 @@ public class InversionSQL {
         }
     }
 
+    public Inversion conseguirInversion (Proyecto proyecto, int id_inversor, DAOManager daoManager) {
+        String select = "SELECT * FROM inversion where `codigoProyecto` = ? and `id_inversor` = ?";
+        try {
+            ps = daoManager.getConn().prepareStatement(select);
+            ps.setInt(1, proyecto.getCodigo());
+            ps.setInt(2, id_inversor);
+            try (ResultSet resultSet = ps.executeQuery()) {
+                if (resultSet.next()) {
+                    int codigo = resultSet.getInt("codigo");
+                    String fechaInicio = resultSet.getString("fechaInicio");
+                    String unltimaActualizacion = resultSet.getString("ultimaActualizacion");
+                    double cantidadParticipada = resultSet.getDouble("cantidadParticipada");
+                    //int codigoProyecto = resultSet.getInt("codigoProyecto");
+                    return new Inversion(codigo, proyecto, cantidadParticipada, fechaInicio, unltimaActualizacion);
+                }
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return null;
+    }
+
     /**
      * Funcion para cargar en nuestro sistema las inversiones que se encuentran en la base de datos
      * @param id_inversor como una cadena
@@ -59,7 +82,7 @@ public class InversionSQL {
                     String unltimaActualizacion = resultSet.getString("ultimaActualizacion");
                     double cantidadParticipada = resultSet.getDouble("cantidadParticipada");
                     int codigoProyecto = resultSet.getInt("codigoProyecto");
-                    Inversion aux = new Inversion(codigo, gestionProyectos.devuelveProyectoPorCodigo(codigoProyecto), cantidadParticipada, fechaInicio, unltimaActualizacion);
+                    Inversion aux = new Inversion(codigo, gestionProyectos.devuelveProyectoPorCodigo(codigoProyecto, daoManager), cantidadParticipada, fechaInicio, unltimaActualizacion);
                     inversiones.add(aux);
                 }
             }
@@ -68,6 +91,77 @@ public class InversionSQL {
         }
         return inversiones;
     }
+
+    public ArrayList<Inversion> buscarInversiones(int id_inversor, String orderBy, String direccion, String atributo, String valor, GestionProyectos gestionProyectos, DAOManager daoManager) {
+        ArrayList<Inversion> inversiones = new ArrayList<>();
+        String select = "SELECT * FROM inversion where `id_inversor` = ? and " + atributo + " = ? ORDER BY " + orderBy + " " + direccion;
+        try {
+            ps = daoManager.getConn().prepareStatement(select);
+            ps.setInt(1, id_inversor);
+            ps.setString(2, valor);
+            try (ResultSet resultSet = ps.executeQuery()) {
+                while (resultSet.next()) {
+                    int codigo = resultSet.getInt("codigo");
+                    String fechaInicio = resultSet.getString("fechaInicio");
+                    String unltimaActualizacion = resultSet.getString("ultimaActualizacion");
+                    double cantidadParticipada = resultSet.getDouble("cantidadParticipada");
+                    int codigoProyecto = resultSet.getInt("codigoProyecto");
+                    Proyecto proyecto = gestionProyectos.devuelveProyectoPorCodigo(codigoProyecto, daoManager);
+                    Inversion aux = new Inversion(codigo, proyecto, cantidadParticipada, fechaInicio, unltimaActualizacion);
+                    inversiones.add(aux);
+                }
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return inversiones;
+    }
+
+    public ArrayList<Inversion> buscarInversionesProyecto(int id_inversor, String orderBy, String direccion, String atributo, String valor, GestionProyectos gestionProyectos, DAOManager daoManager) {
+        ArrayList<Inversion> inversiones = new ArrayList<>();
+        String select = "SELECT * FROM inversion JOIN proyectos ON proyectos.codigo = inversion.codigoProyecto where `id_inversor` = ? and proyectos." + atributo + " = ? ORDER BY inversion." + orderBy + " " + direccion;
+        try {
+            ps = daoManager.getConn().prepareStatement(select);
+            ps.setInt(1, id_inversor);
+            ps.setString(2, valor);
+            try (ResultSet resultSet = ps.executeQuery()) {
+                while (resultSet.next()) {
+                    int codigo = resultSet.getInt("codigo");
+                    String fechaInicio = resultSet.getString("fechaInicio");
+                    String unltimaActualizacion = resultSet.getString("ultimaActualizacion");
+                    double cantidadParticipada = resultSet.getDouble("cantidadParticipada");
+                    int codigoProyecto = resultSet.getInt("codigoProyecto");
+                    Proyecto proyecto = gestionProyectos.devuelveProyectoPorCodigo(codigoProyecto, daoManager);
+                    Inversion aux = new Inversion(codigo, proyecto, cantidadParticipada, fechaInicio, unltimaActualizacion);
+                    inversiones.add(aux);
+                }
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return inversiones;
+    }
+
+    /*
+        public ArrayList<Proyecto> buscaProyectos(String orderBy, String direccion, String atributo, String valor, DAOManager daoManager) {
+        ArrayList<Proyecto> proyectos = new ArrayList<>();
+        String select = "SELECT * FROM proyectos WHERE and " + atributo + " = ? ORDER BY " + orderBy + " " + direccion;
+        try {
+            ps = daoManager.getConn().prepareStatement(select);
+            ps.setString(1, valor);
+
+            try (ResultSet resultSet = ps.executeQuery()) {
+                while (resultSet.next()) {
+                    Proyecto aux = cargaProyecto(resultSet);
+                    proyectos.add(aux);
+                }
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return proyectos;
+    }
+     */
 
     /**
      * Funcion para insertar una inversion en la base de datos

@@ -12,6 +12,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.time.LocalDate;
 import java.util.Base64;
+import java.util.HashMap;
 
 import static Model.Biblioteca.Fechas.*;
 
@@ -38,17 +39,15 @@ public class CreateProyectServlet extends HttpServlet {
         LocalDate fechaFin = cadenaAfecha(request.getParameter("fechaFin"));
         double cantidadNecesaria = Double.parseDouble(request.getParameter("cantidadNecesaria"));
 
-        boolean fechaInicioValida = esPosterior(fechaIni, LocalDate.now().minusDays(1));
-        boolean fechaFinValida = esPosterior(fechaFin, fechaIni);
-
         if (filePart != null) {
             inputStream = filePart.getInputStream();
         }
         byte[] imageBytes = inputStream.readAllBytes();
         String base64Image = Base64.getEncoder().encodeToString(imageBytes);
-        //TODO Verificar esto
-        if (fechaInicioValida && fechaFinValida) {
-            int id_gestor = gestionApp.getGestionUsuarios().devuelveUsuario(username).getId();
+
+        int id_gestor = gestionApp.getGestionUsuarios().devuelveUsuario(username).getId();
+        gestionProyectos.buscarProyectos(id_gestor, "codigo", "asc", "nombre", nombre, daoManager);
+        if (gestionProyectos.getArrayProyectos().isEmpty()) {
             boolean correcto = gestionProyectos.insertarProyecto(nombre, base64Image, descripcion, tipo, fechaACadena(fechaIni),
                     String.valueOf(fechaFin), cantidadNecesaria, username, id_gestor, daoManager);
             if (correcto){
@@ -57,7 +56,10 @@ public class CreateProyectServlet extends HttpServlet {
                 session.removeAttribute("proyecto");
             }
         }
-        else redirect("/Pages/Proyects.jsp", request, response);
+        else {
+            request.setAttribute("yaExisteNombre", true);
+            redirect("/Pages/CreateEditProyect.jsp", request, response);
+        }
     }
     public void redirect(String pagina, HttpServletRequest request, HttpServletResponse response) {
         try {

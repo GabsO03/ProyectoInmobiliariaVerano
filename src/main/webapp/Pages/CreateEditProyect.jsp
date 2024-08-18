@@ -1,4 +1,5 @@
 <%@ page import="Model.BusinessClases.Proyecto" %>
+<%@ page import="java.time.LocalDate" %>
 <%--
   Created by IntelliJ IDEA.
   User: pollo
@@ -19,6 +20,7 @@
 %>
 <html>
 <head>
+    <meta charset="UTF-8">
     <title>InBest | <%out.print(isModifying ? "Modificar Proyecto" : "Crear Proyecto");%></title>
     <jsp:include page="../Scripts/HeaderScripts.jsp"/>
 </head>
@@ -36,26 +38,28 @@
                                       value="<%out.print(proyectoParaModificar.getCodigo());%>"><%}%>
         <input type="hidden" name="username" value="<%out.print(session.getAttribute("username"));%>">
         <%// TODO LUEGO CARGAR LA IMAGEN QUE TIENE EL PROYECTO EN CASO DE MODIFICACION%>
-       <% if (isModifying) {%>
-        <div class="image-preview w-100 h-36 border border-gray-300 flex items-center justify-center bg-cover bg-center mx-auto mb-4">
-            <img src="<%out.print(proyectoParaModificar.getImagen());%>" alt="Vista previa de la imagen">
-        </div>
+        <% if (isModifying) {%>
+        <img src="<%out.print(proyectoParaModificar.getImagen());%>" alt="Vista previa de la imagen">
+        <%--<div class="image-preview w-100 h-36 border border-gray-300 flex items-center justify-center bg-cover bg-center mx-auto mb-4">
+        </div>--%>
         <%}%>
         <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white" name="user_avatar">Sube una
             imagen</label>
         <label for="imagen" class="block my-3">
-            <input type="file" id="imagen" name="imagen" accept="image/*" required class="hidden">
-            <span class="bg-sky-950 hover:bg-sky-900 text-white py-2 px-4 rounded-lg text-lg cursor-pointer">Seleccionar imagen</span>
+            <input type="file" id="imagen" name="imagen" accept="image/*" <%out.print(isModifying?"":"required ");%>class="hidden">
+            <span class="bg-sky-950 hover:bg-sky-900 text-white py-2 px-4 mr-5 rounded-lg text-lg cursor-pointer">Seleccionar imagen</span>
+            <span class="text-sm text-red-300 text-italic">obligatorio</span>
         </label>
         <div class="mt-1 text-md text-slate-900 dark:text-slate-900" id="user_avatar_help">Sube una imagen para que tus
             inversores sepan en que están invirtiendo
         </div>
 
         <label for="nombre-proyecto" class="block mt-4 text-2xl font-bold">
-            Nombre
+            Nombre <span class="text-sm text-red-500 text-italic">Obligatorio</span>
             <input type="text" id="nombre-proyecto"
                    name="nombre-proyecto"<%out.print(isModifying?" value=\"" + proyectoParaModificar.getNombre() + "\"":" ");%>
                    required class="block w-full border border-gray-300 rounded-lg px-4 py-2 mt-2">
+            <%if (request.getAttribute("yaExisteNombre")!=null){%><p class="text-red-600 text-sm text-light mx-5 my-2d">Ya existe un proyecto con ese nombre</p><%}%>
         </label>
         <label for="tipo" class="block mt-4 text-2xl font-bold">
             Tipo
@@ -66,7 +70,7 @@
                             class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
                             required>
                     <label for="bordered-radio-1"
-                           class="w-full py-4 ms-2 text-md font-medium text-gray-900 dark:text-gray-300">Alquiler</label>
+                           class="w-full py-4 ms-2 text-md font-medium text-slate-900 dark:text-slate-900">Alquiler</label>
                 </div>
                 <div class="flex items-center pr-4 ml-5">
                     <input<%if (isModifying) out.print(proyectoParaModificar.getTipo().equals("Plusvalía")?" checked":"");%>
@@ -74,7 +78,7 @@
                             class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-off set-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
                             required>
                     <label for="bordered-radio-2"
-                           class="w-full py-4 ms-2 text-md font-medium text-gray-900 dark:text-gray-300">Plusvalía</label>
+                           class="w-full py-4 ms-2 text-md font-medium text-slate-900 dark:text-slate-900">Plusvalía</label>
                 </div>
                 <div class="flex items-center pr-4 ml-5">
                     <input<%if (isModifying) out.print(proyectoParaModificar.getTipo().equals("Préstamo")?" checked":"");%>
@@ -82,30 +86,31 @@
                             class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-off set-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
                             required>
                     <label for="bordered-radio-3"
-                           class="w-full py-4 ms-2 text-md font-medium text-gray-900 dark:text-gray-300">Préstamo</label>
+                           class="w-full py-4 ms-2 text-md font-medium text-slate-900 dark:text-slate-900">Préstamo</label>
                 </div>
             </div>
         </label>
         <label for="descripcion" class="block mt-4 text-2xl font-bold">
             Descripción
-            <textarea id="descripcion" name="descripcion" <% //TODO hacer ver la descripcion
-                out.print(isModifying ? " content='" + proyectoParaModificar.getDescripcion() + "'" : "");%> required
-                      class="block w-full border border-gray-300 rounded-lg px-4 py-2 mt-2"></textarea>
+            <textarea id="descripcion" name="descripcion"
+                      class="block w-full border border-gray-300 rounded-lg px-4 py-2 mt-2"><%
+                    if (isModifying) out.print(proyectoParaModificar.getDescripcion());
+                %></textarea>
         </label>
         <label for="fechaInicio" class="block mt-4 text-2xl font-bold">
-            Fecha de Inicio
+            Fecha de Inicio <span class="text-sm text-red-500 text-italic">Obligatorio</span>
             <input type="date" id="fechaInicio"
-                   name="fechaInicio"<%out.print(isModifying?" value=\"" + proyectoParaModificar.getFechaInicio() + "\"":"");%>
+                   name="fechaInicio" <%out.print(isModifying?" value=\"" + proyectoParaModificar.getFechaInicio() + "\"" : "min=\"" + LocalDate.now() + "\"");%>
                    required class="block w-full border border-gray-300 rounded-lg px-4 py-2 mt-2">
         </label>
         <label for="fechaFin" class="block mt-4 text-2xl font-bold">
-            Fecha de Fin
+            Fecha de Fin <span class="text-sm text-red-500 text-italic">Obligatorio</span>
             <input type="date" id="fechaFin"
-                   name="fechaFin"<%out.print(isModifying?" value=\"" + proyectoParaModificar.getFechaFin() + "\"":"");%>
+                   name="fechaFin" <%out.print(isModifying?" value=\"" + proyectoParaModificar.getFechaFin() + "\"" : "min=\"" + LocalDate.now().plusDays(1) + "\"");%>
                    required class="block w-full border border-gray-300 rounded-lg px-4 py-2 mt-2">
         </label>
         <label for="cantidadNecesaria" class="block mt-4 text-2xl font-bold">
-            Cantidad Necesaria
+            Cantidad Necesaria <span class="text-sm text-red-500 text-italic">Obligatorio</span>
             <input type="number" id="cantidadNecesaria"
                    name="cantidadNecesaria"<%out.print(isModifying?" value='" + proyectoParaModificar.getCantidadNecesaria() + "' min='" + proyectoParaModificar.getCantidadFinanciada() + "'":"");%>
                    required class="block w-full border border-gray-300 rounded-lg px-4 py-2 mt-2">

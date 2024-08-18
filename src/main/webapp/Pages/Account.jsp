@@ -21,6 +21,7 @@
 %>
 <html>
 <head>
+    <meta charset="UTF-8">
     <title>InBest | Mi Cuenta</title>
     <jsp:include page="../Scripts/HeaderScripts.jsp"/>
 </head>
