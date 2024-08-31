@@ -37,11 +37,8 @@
         <%if (isModifying) { %><input type="hidden" name="codigo_proyecto"
                                       value="<%out.print(proyectoParaModificar.getCodigo());%>"><%}%>
         <input type="hidden" name="username" value="<%out.print(session.getAttribute("username"));%>">
-        <%// TODO LUEGO CARGAR LA IMAGEN QUE TIENE EL PROYECTO EN CASO DE MODIFICACION%>
         <% if (isModifying) {%>
         <img src="<%out.print(proyectoParaModificar.getImagen());%>" alt="Vista previa de la imagen">
-        <%--<div class="image-preview w-100 h-36 border border-gray-300 flex items-center justify-center bg-cover bg-center mx-auto mb-4">
-        </div>--%>
         <%}%>
         <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white" name="user_avatar">Sube una
             imagen</label>

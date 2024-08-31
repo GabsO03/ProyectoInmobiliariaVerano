@@ -40,12 +40,14 @@ public class ProyectosServlet extends HttpServlet {
 
         if (request.getParameter("username")!=null) {
             String username = request.getParameter("username");
+            gestionApp.getGestionUsuarios().buscarUsuarios("userName", username, "Usuario", "0", "always", daoManager);
             if (gestionApp.getGestionUsuarios().devuelveUsuario(username).getClass().getSimpleName().equals("Inversor")) {
                 Inversor inversor = (Inversor) gestionApp.getGestionUsuarios().devuelveUsuario(username);
                 Inversion inversion = gestionApp.consigueGestionInversion(daoManager, username).devuelveInversion(inversor.getId(), proyecto, daoManager);
                 session.setAttribute("inversion", inversion);
             }
         }
+
         redirect("/Pages/Proyect.jsp", request, response);
         session.removeAttribute("proyecto");
         session.removeAttribute("inversion");
@@ -65,6 +67,7 @@ public class ProyectosServlet extends HttpServlet {
         int id_usuario = -1;
         if (request.getParameter("username")!=null) {
             username = request.getParameter("username");
+            gestionApp.getGestionUsuarios().buscarUsuarios("userName", username, "Usuario", "0", "always", daoManager);
             id_usuario = gestionApp.getGestionUsuarios().devuelveUsuario(username).getId();
         }
 

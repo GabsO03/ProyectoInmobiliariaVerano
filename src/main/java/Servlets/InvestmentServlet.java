@@ -35,27 +35,38 @@ public class InvestmentServlet extends HttpServlet {
         double cantidadEntrante = Double.parseDouble(request.getParameter("cantidadEntrante"));
 
         Proyecto proyecto = gestionProyectosAux.devuelveProyectoPorCodigo(codigo_proyecto, daoManager);
+        Inversion inversionAux = null;
         GestionInversiones gestionInversionesAux = gestionApp.consigueGestionInversion(daoManager, username);
         boolean pagoRealizado =  gestionUsuariosAux.inversorPaga(username, cantidadEntrante, daoManager);
+        boolean correcto = false;
 
-        if (pagoRealizado) {
-            gestionProyectosAux.updateProyecto(codigo_proyecto, cantidadEntrante, daoManager, username);
-            if (request.getParameter("codigo_inversion")!=null) {
-                Inversion inversionAux = gestionInversionesAux.devuelveInversion(gestionUsuariosAux.devuelveUsuario(username).getId(), proyecto, daoManager);
-                gestionInversionesAux.actualizarInversion(inversionAux.getCodigo(), inversionAux.getCantidadParticipada() + cantidadEntrante, daoManager);
-                session.setAttribute("inversion", inversionAux);
-            }
-            else {
-                gestionInversionesAux.nuevaInversion(proyecto, cantidadEntrante, daoManager);
-                session.setAttribute("inversion", gestionInversionesAux.getInversiones().getLast());
-            }
-            session.setAttribute("MisInversiones", gestionInversionesAux.getInversiones());
-            session.setAttribute("User", gestionUsuariosAux.devuelveUsuario(username));
+        if (request.getParameter("codigo_inversion") != null) {
+            inversionAux = gestionInversionesAux.devuelveInversion(gestionUsuariosAux.devuelveUsuario(username).getId(), proyecto, daoManager);
+            session.setAttribute("inversion", inversionAux);
         }
+        if (cantidadEntrante >= proyecto.getMinimo() && cantidadEntrante <= proyecto.getMaximo()) {
+            if (pagoRealizado) {
+                gestionProyectosAux.updateProyecto(codigo_proyecto, cantidadEntrante, daoManager, username);
+                if (inversionAux != null) {
+                    correcto = gestionInversionesAux.actualizarInversion(inversionAux.getCodigo(), inversionAux.getCantidadParticipada() + cantidadEntrante, daoManager);
+                    inversionAux.setCantidadParticipada(inversionAux.getCantidadParticipada() + cantidadEntrante);
+                    session.setAttribute("inversion", inversionAux);
+                } else {
+                    correcto = gestionInversionesAux.nuevaInversion(proyecto, cantidadEntrante, daoManager);
+                    session.setAttribute("inversion", gestionInversionesAux.devuelveInversion(gestionUsuariosAux.devuelveUsuario(username).getId(), proyecto, daoManager));
+                }
+                session.setAttribute("MisInversiones", gestionInversionesAux.getInversiones());
+                session.setAttribute("User", gestionUsuariosAux.devuelveUsuario(username));
+            }
+        }
+        proyecto = gestionProyectosAux.devuelveProyectoPorCodigo(codigo_proyecto, daoManager);
         session.setAttribute("proyecto", proyecto);
-        // TODO avisar si se pudo o no invertir
+        session.setAttribute("correcto", correcto);
+        session.setAttribute("mostrarMensaje", correcto? "Haz invertido correctamente" : "Hubo un error, asegurate que tienes saldo para invertir y que la cantidad que ingresaste es correcta");
         redirect("/Pages/Proyect.jsp", request, response);
         session.removeAttribute("proyecto");
+        session.removeAttribute("mostrarMensaje");
+        session.removeAttribute("correcto");
         session.removeAttribute("inversion");
     }
     public void redirect(String pagina, HttpServletRequest request, HttpServletResponse response) {

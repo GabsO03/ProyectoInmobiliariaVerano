@@ -34,40 +34,49 @@ public class SelfModifyUserServlet extends HttpServlet {
         String username = request.getParameter("username");
         String action = request.getParameter("action");
         String newValue, password;
+        boolean correcto = false;
+
+        gestionUsuariosAux.buscarUsuarios("userName", username, "Usuario", "0", "always", daoManager);
 
         switch (action) {
             case "change-name" -> {
                 newValue = request.getParameter("newName");
-                gestionUsuariosAux.modificarUsuario("name", newValue, username, daoManager);
-                session.setAttribute("UsersManager", gestionUsuariosAux);
+                correcto = gestionUsuariosAux.modificarUsuario("name", newValue, username, daoManager);
+                session.setAttribute("correcto", correcto);
+                session.setAttribute("mostrarMensaje", correcto? "Haz cambiado tu nombre con éxito" : "Hubo un error al cambiar tu nombre");
                 session.setAttribute("User", gestionUsuariosAux.devuelveUsuario(username));
                 redirect("/Pages/Account.jsp", request, response);
+                session.removeAttribute("correcto");
+                session.removeAttribute("mostrarMensaje");
             }
             case "change-username" ->{
                 newValue = request.getParameter("newUsername");
                 password = request.getParameter("password");
-                boolean existeNombreUsuario = gestionUsuariosAux.existeNombreUsuario(newValue);
-                if (!gestionUsuariosAux.correspondeUsuyContrasenia(username, password)) errores.put("notLogged",true);
+                boolean existeNombreUsuario = gestionUsuariosAux.existeNombreUsuario(newValue, daoManager);
+                if (!gestionUsuariosAux.correspondeUsuyContrasenia(username, password, daoManager)) errores.put("notLogged",true);
                 if (!usernameValido(newValue)) errores.put("usernameInvalido", true);
                 if (existeNombreUsuario) errores.put("yaExisteUserName", true);
                 if (errores.isEmpty()) {
-                    gestionUsuariosAux.modificarUsuario("username", newValue, username, daoManager);
+                    correcto = gestionUsuariosAux.modificarUsuario("username", newValue, username, daoManager);
                     session.setAttribute("username", newValue);
-                    session.setAttribute("UsersManager", gestionUsuariosAux);
-                    session.setAttribute("User", gestionUsuariosAux.devuelveUsuario(username));
+                    session.setAttribute("User", gestionUsuariosAux.devuelveUsuario(newValue));
+                    session.setAttribute("correcto", correcto);
+                    session.setAttribute("mostrarMensaje", correcto? "Haz cambiado tu nombre de usuario" : "No pudimos cambiar tu nombre de usuario, intenta de nuevo");
                 }
                 else request.setAttribute("errores", errores);
                 redirect("/Pages/Account.jsp", request, response);
+                session.removeAttribute("correcto");
+                session.removeAttribute("mostrarMensaje");
             }
             case "change-email" -> {
                 newValue = request.getParameter("newEmail");
                 password = request.getParameter("password");
-                if (gestionUsuariosAux.correspondeUsuyContrasenia(username, password)) {
+                if (gestionUsuariosAux.correspondeUsuyContrasenia(username, password, daoManager)) {
                     session.setAttribute("isSigningIn", false);
                     session.setAttribute("email", newValue);
                     session.setAttribute("tipo-usuario", gestionUsuariosAux.devuelveUsuario(username).getClass());
                     int generatedCode = (int) (Math.random() * 99999) + 10000;
-                     session.setAttribute("generatedCode", generatedCode);
+                    session.setAttribute("generatedCode", generatedCode);
                     enviarCorreo(newValue, "Correo de verificación", "Su código de verificación es: " + generatedCode);
                     redirect("/Pages/EmailComprobation.jsp", request, response);
                 }
@@ -80,18 +89,20 @@ public class SelfModifyUserServlet extends HttpServlet {
             case "change-password" -> {
                 String old_password = request.getParameter("old-password"), repeat_password = request.getParameter("repeat-password");
                 newValue = request.getParameter("new-password");
-                if (!gestionUsuariosAux.correspondeUsuyContrasenia(username, old_password)) errores.put("notLogged",true);
+                if (!gestionUsuariosAux.correspondeUsuyContrasenia(username, old_password, daoManager)) errores.put("notLogged",true);
                 if (!contraseniaEsSegura(newValue)) errores.put("notSafe", true);
                 if (!newValue.equals(repeat_password)) errores.put("noCoincidence",true);
 
                 if (errores.isEmpty()) {
-                    boolean correcto = gestionUsuariosAux.modificarUsuario("password", newValue, username, daoManager);
-                    session.setAttribute("change-password", correcto);
-                    session.setAttribute("UsersManager", gestionUsuariosAux);
+                    correcto = gestionUsuariosAux.modificarUsuario("password", newValue, username, daoManager);
+                    session.setAttribute("correcto", correcto);
+                    session.setAttribute("mostrarMensaje", correcto? "Haz cambiado tu contraseña correctamente" : "No pudimos cambiar tu contraseña, intenta de nuevo");
                     session.setAttribute("User", gestionUsuariosAux.devuelveUsuario(username));
                 }
                 else request.setAttribute("errores", errores);
                 redirect("/Pages/Account.jsp", request, response);
+                session.removeAttribute("correcto");
+                session.removeAttribute("mostrarMensaje");
             }
 
             case "add-money" -> {
@@ -100,6 +111,7 @@ public class SelfModifyUserServlet extends HttpServlet {
                 session.setAttribute("User", gestionUsuariosAux.devuelveUsuario(username));
                 redirect("/Pages/CarteraVirtual.jsp", request, response);
             }
+            default -> throw new IllegalStateException("Unexpected value: " + action);
         }
     }
 

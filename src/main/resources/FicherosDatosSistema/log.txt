@@ -129,3 +129,80 @@
 2024-08-16T12:21:46.666076100;AlexGB;Proyecto 2 actualizado - fechaFin
 2024-08-16T12:26:40.798075300;AlexGB;Proyecto 1 actualizado - fechaFin
 2024-08-16T13:00:35.240394900;gestor00;Proyecto Test 9 creado correctamente
+2024-08-19T16:17:18.197370700;inversor01;Usuario inversor modificado - bloqueado
+2024-08-19T16:17:29.528730900;inversor01;Usuario inversor modificado - bloqueado
+2024-08-19T16:22:20.179998600;inversor01;Usuario inversor modificado - bloqueado
+2024-08-21T18:40:29.528205800;inversor01;Usuario inversor modificado - bloqueado
+2024-08-26T13:31:32.464093200;Yerson;Usuario gestor modificado - bloqueado
+2024-08-29T21:26:36.938942900;AlexGB;Usuario gestor modificado - bloqueado
+2024-08-29T21:26:42.026898500;AlexGB;Usuario gestor modificado - bloqueado
+2024-08-29T21:26:44.874902800;Yerson;Usuario gestor modificado - bloqueado
+2024-08-29T21:56:56.129803800;AdrianCB27;Usuario modificado - name
+2024-08-29T21:59:57.027563700;AdrianCB27;Usuario modificado - name
+2024-08-29T22:03:39.705376300;AdrianCB27;Usuario modificado - name
+2024-08-29T22:06:32.767118500;AdrianCB27;Usuario modificado - name
+2024-08-29T22:06:38.306142200;AdrianCB27;Usuario modificado - name
+2024-08-29T22:20:36.028229500;AdrianCB27;Usuario modificado - name
+2024-08-29T22:20:52.017883800;AdrianCB27;Usuario modificado - username
+2024-08-29T22:38:46.259728300;AdriCB27;Usuario modificado - username
+2024-08-29T22:45:30.094128500;AdrianCB27;Usuario modificado - name
+2024-08-29T22:46:17.103581;AdrianCB27;Usuario modificado - username
+2024-08-29T22:50:50.824809;AdriCB27;Usuario modificado - username
+2024-08-29T23:04:47.494195900;AdrianCB27;Usuario modificado - username
+2024-08-29T23:22:44.209054400;AdriCB27;Usuario modificado - username
+2024-08-29T23:31:23.931244500;AdrianCB27;Usuario modificado - username
+2024-08-29T23:38:25.132264600;DracoMalfoyCB27;Usuario modificado - username
+2024-08-30T00:08:58.550286700;Gabs_OP;Usuario inversor modificado - saldo
+2024-08-30T00:09:15.662207600;Gabs_OP;Usuario modificado - username
+2024-08-30T00:09:46.625588900;GabsOP;Usuario inversor modificado - saldo
+2024-08-30T00:09:46.747418800;GabsOP;Proyecto 4 actualizado - cantidadFinanciada
+2024-08-30T00:09:46.768328500;GabsOP;Inversión actualizada - 11
+2024-08-30T00:09:58.567521800;GabsOP;Usuario inversor modificado - saldo
+2024-08-30T00:09:58.652358300;GabsOP;Proyecto 4 actualizado - cantidadFinanciada
+2024-08-30T00:09:58.670869300;GabsOP;Inversión actualizada - 11
+2024-08-30T00:10:10.840987700;GabsOP;Usuario inversor modificado - saldo
+2024-08-30T00:10:10.939122;GabsOP;Proyecto 4 actualizado - cantidadFinanciada
+2024-08-30T00:10:10.964245500;GabsOP;Inversión actualizada - 11
+2024-08-30T17:51:31.600297400;GabsOP;Usuario modificado - username
+2024-08-30T18:17:03.479524900;Gabs_OP;Usuario inversor modificado - saldo
+2024-08-30T18:17:03.556448900;Gabs_OP;Proyecto 4 actualizado - cantidadFinanciada
+2024-08-30T18:17:03.581511300;Gabs_OP;Nueva inversión realizada
+2024-08-30T18:18:36.487084100;Gabs_OP;Usuario inversor modificado - saldo
+2024-08-30T18:18:36.543579;Gabs_OP;Proyecto 4 actualizado - cantidadFinanciada
+2024-08-30T18:18:36.571077500;Gabs_OP;Proyecto 4 actualizado - habilitado
+2024-08-30T18:18:36.583991500;Gabs_OP;Inversión actualizada - 12
+2024-08-30T18:18:51.687799100;Gabs_OP;Usuario inversor modificado - saldo
+2024-08-30T18:18:51.739855100;Gabs_OP;Proyecto 4 actualizado - cantidadFinanciada
+2024-08-30T18:18:51.752073300;Gabs_OP;Inversión actualizada - 12
+2024-08-30T18:52:15.649656400;AlexGB;Proyecto Test 10 creado correctamente
+2024-08-30T20:16:44.329299800;AlexGB;Proyecto Test 80 creado correctamente
+2024-08-30T21:03:37.456974900;AlexGB;Proyecto 7 actualizado - nombre
+2024-08-30T21:03:37.470420500;AlexGB;Proyecto 7 actualizado - fechaFin
+2024-08-30T21:06:16.955447100;Gabs_OP;Usuario inversor modificado - saldo
+2024-08-30T21:06:17.055459300;Gabs_OP;Proyecto 7 actualizado - cantidadFinanciada
+2024-08-30T21:06:17.075257200;Gabs_OP;Nueva inversión realizada
+2024-08-30T21:06:36.839111500;Gabs_OP;Usuario inversor modificado - saldo
+2024-08-30T21:06:36.945439200;Gabs_OP;Proyecto 7 actualizado - cantidadFinanciada
+2024-08-30T21:06:36.982980600;Gabs_OP;Proyecto 7 actualizado - habilitado
+2024-08-30T21:06:37.003134600;Gabs_OP;Inversión actualizada - 13
+2024-08-30T21:06:51.189378300;Gabs_OP;Usuario inversor modificado - saldo
+2024-08-30T21:35:32.493541;Gabs_OP;Usuario inversor modificado - saldo
+2024-08-30T21:36:26.122292800;Gabs_OP;Proyecto 7 actualizado - cantidadFinanciada
+2024-08-30T21:36:26.192789700;Gabs_OP;Proyecto 7 actualizado - habilitado
+2024-08-30T21:41:17.961580500;Gabs_OP;Nueva inversión realizada
+2024-08-30T22:00:18.818887400;Gabs_OP;Usuario inversor modificado - saldo
+2024-08-30T22:00:19.001327200;Gabs_OP;Proyecto 5 actualizado - cantidadFinanciada
+2024-08-30T22:00:19.030989600;Gabs_OP;Nueva inversión realizada
+2024-08-30T22:05:58.398505;Gabs_OP;Usuario inversor modificado - saldo
+2024-08-30T22:07:49.386549600;Gabs_OP;Proyecto 5 actualizado - cantidadFinanciada
+2024-08-30T22:07:49.437839700;Gabs_OP;Proyecto 5 actualizado - habilitado
+2024-08-30T22:08:26.356669400;Gabs_OP;Inversión actualizada - 15
+2024-08-31T18:29:15.652131500;Gabs_OP;Usuario inversor modificado - saldo
+2024-08-31T18:29:35.993084400;Gabs_OP;Usuario inversor modificado - saldo
+2024-08-31T18:29:36.117250100;Gabs_OP;Proyecto 4 actualizado - cantidadFinanciada
+2024-08-31T18:29:36.142183100;Gabs_OP;Nueva inversión realizada
+2024-08-31T18:29:41.574773200;Gabs_OP;Usuario inversor modificado - saldo
+2024-08-31T18:29:41.642048600;Gabs_OP;Proyecto 4 actualizado - cantidadFinanciada
+2024-08-31T18:29:41.669727;Gabs_OP;Proyecto 4 actualizado - habilitado
+2024-08-31T18:29:41.680568900;Gabs_OP;Inversión actualizada - 16
+2024-08-31T18:29:49.620388700;Gabs_OP;Usuario inversor modificado - saldo

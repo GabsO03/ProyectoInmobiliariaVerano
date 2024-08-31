@@ -38,7 +38,7 @@ public class SinginServlet extends HttpServlet {
         String tipo_usuario = request.getParameter("tipo-usuario");
         HashMap<String, Boolean> errores = new HashMap<>();
 
-        boolean existeNombreUsuario = gestionUsuarios.existeNombreUsuario(username);
+        boolean existeNombreUsuario = gestionUsuarios.existeNombreUsuario(username, daoManager);
         if (!usernameValido(username)) errores.put("usernameInvalido", true);
         if (existeNombreUsuario) errores.put("yaExisteUserName", true);
         if (!contraseniaEsSegura(password)) errores.put("notSafe", true);

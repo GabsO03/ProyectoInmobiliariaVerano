@@ -57,12 +57,12 @@ public class Inversion implements Inversible {
     //Métodos
 
     public String toString (){
-        return RED+"ID: " + codigo +
-                "\n : " + proyecto.getNombre() + GREEN+
-                "\nTipo: "+ proyecto.getTipo() + CYAN +
+        return "ID: " + codigo +
+                "\n : " + proyecto.getNombre() +
+                "\nTipo: "+ proyecto.getTipo() +
                 "\nCantidad con la que ha participado: " + cantidadParticipada +
                 "\nFecha de la primera inversión: " + fechaInicio +
-                "\nFecha de la última inversión: " + ultimaActualizacion + RESET;
+                "\nFecha de la última inversión: " + ultimaActualizacion;
     }
 
     /**

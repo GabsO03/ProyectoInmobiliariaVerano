@@ -58,8 +58,8 @@ public class GestionInversiones {
      * @param cantidadEntrante como double
      * @param dao como un objeto de la clase DAOManager
      */
-    public void actualizarInversion (int codigo_inversion, double cantidadEntrante, DAOManager dao) {
-        inversionSQL.update(inversor.getUsername(), "cantidadParticipada", String.valueOf(cantidadEntrante), codigo_inversion, dao);
+    public boolean actualizarInversion (int codigo_inversion, double cantidadEntrante, DAOManager dao) {
+        return inversionSQL.update(inversor.getUsername(), "cantidadParticipada", String.valueOf(cantidadEntrante), codigo_inversion, dao);
     }
 
     public void buscaInversiones(String orderBy, String direccion, String atributo, String valor, GestionProyectos gestionProyectos, DAOManager daoManager) {
@@ -76,7 +76,8 @@ public class GestionInversiones {
      * @return true si se ha podido escribir y mandar el excel o false si no se ha podido
      */
     public boolean escribirMandarExcel() {
-        String rutaFicheroCompleta = this.getClass().getClassLoader().getResource("FicheroInversiones/" + inversor.getName() + "_tusInversiones.csv").toString();
+        String rutaFicheroCompleta = "C:/Users/pollo/Programación T1DA_ejs/Intellij/ProyectoInmobiliaria/src/main/resources/FicheroInversiones/" + inversor.getName() + "_tusInversiones.csv";
+        //TODO arreglar ruta
         try {
             BufferedWriter bw = new BufferedWriter(new FileWriter(rutaFicheroCompleta));
             bw.write("Nombre del proyecto;Cantidad Participada;Fecha Inicio;Ultima Actualizacion\n");

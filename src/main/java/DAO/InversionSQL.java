@@ -142,27 +142,6 @@ public class InversionSQL {
         return inversiones;
     }
 
-    /*
-        public ArrayList<Proyecto> buscaProyectos(String orderBy, String direccion, String atributo, String valor, DAOManager daoManager) {
-        ArrayList<Proyecto> proyectos = new ArrayList<>();
-        String select = "SELECT * FROM proyectos WHERE and " + atributo + " = ? ORDER BY " + orderBy + " " + direccion;
-        try {
-            ps = daoManager.getConn().prepareStatement(select);
-            ps.setString(1, valor);
-
-            try (ResultSet resultSet = ps.executeQuery()) {
-                while (resultSet.next()) {
-                    Proyecto aux = cargaProyecto(resultSet);
-                    proyectos.add(aux);
-                }
-            }
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
-        return proyectos;
-    }
-     */
-
     /**
      * Funcion para insertar una inversion en la base de datos
      * @param inversion como un objeto de la clase inversion

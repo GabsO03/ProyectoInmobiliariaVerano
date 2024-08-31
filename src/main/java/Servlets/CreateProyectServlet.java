@@ -45,13 +45,15 @@ public class CreateProyectServlet extends HttpServlet {
         byte[] imageBytes = inputStream.readAllBytes();
         String base64Image = Base64.getEncoder().encodeToString(imageBytes);
 
+        gestionApp.getGestionUsuarios().buscarUsuarios("userName", username, "Usuario", "0", "always", daoManager);
         int id_gestor = gestionApp.getGestionUsuarios().devuelveUsuario(username).getId();
-        gestionProyectos.buscarProyectos(id_gestor, "codigo", "asc", "nombre", nombre, daoManager);
+        gestionProyectos.buscarProyectos(-1, "codigo", "asc", "nombre", nombre, daoManager);
         if (gestionProyectos.getArrayProyectos().isEmpty()) {
             boolean correcto = gestionProyectos.insertarProyecto(nombre, base64Image, descripcion, tipo, fechaACadena(fechaIni),
                     String.valueOf(fechaFin), cantidadNecesaria, username, id_gestor, daoManager);
             if (correcto){
-                session.setAttribute("proyecto", gestionProyectos.getArrayProyectos().getLast());
+                gestionProyectos.buscarProyectos(-1, "codigo", "asc", "nombre", nombre, daoManager);
+                session.setAttribute("proyecto", gestionProyectos.getArrayProyectos().getFirst());
                 redirect("/Pages/Proyect.jsp", request, response);
                 session.removeAttribute("proyecto");
             }

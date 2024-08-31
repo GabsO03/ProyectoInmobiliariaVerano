@@ -24,20 +24,21 @@ public class LoginServlet extends HttpServlet {
     public void init() {
     }
     public void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        HttpSession session = request.getSession();
         daoManager = new DAOManager();
         daoManager.open();
         gestionApp = new GestionApp(daoManager);
         GestionUsuarios gestionUsuariosAux = gestionApp.getGestionUsuarios();
+        gestionUsuariosAux.cargarUsuarios(daoManager);
+
 
         String username = request.getParameter("username");
         String password = request.getParameter("password");
 
         HashMap<String, Boolean> errores = new HashMap<>();
 
-        boolean logged = gestionUsuariosAux.correspondeUsuyContrasenia(username, password);
+        boolean logged = gestionUsuariosAux.correspondeUsuyContrasenia(username, password, daoManager);
         if (logged) {
-            HttpSession session = request.getSession();
-
             String classs = gestionUsuariosAux.averiguarClase(username);
             session.setAttribute("class", classs);
             boolean bloqueado = false;
@@ -59,7 +60,6 @@ public class LoginServlet extends HttpServlet {
             else {
                 Usuario aux = gestionUsuariosAux.devuelveUsuario(username);
                 session.setAttribute("User", aux);
-                session.setAttribute("UsersManager", gestionUsuariosAux);
                 session.setAttribute("ultimoLogin", gestionUsuariosAux.recuperarUltimoInicioSesionUsuario(aux.getId()));
                 gestionUsuariosAux.actualizarUltimoInicioSesionUsuario(aux.getId());
                 gestionUsuariosAux.guardarIniciosSesionUsuarios(gestionApp.recuperaUbicacion("UltimosIniciosSesionUbicacion"));
@@ -70,8 +70,9 @@ public class LoginServlet extends HttpServlet {
                 session.setAttribute("username", username);
                 if (classs.equals("Inversor")) {
                     session.setAttribute("MisInversiones", gestionApp.consigueGestionInversion(daoManager, username).getInversiones());
-                } else if (classs.equals("Admin"))
-                    gestionApp.cargarGestionesInversiones(daoManager);
+                } else if (classs.equals("Admin")) {
+                    session.setAttribute("UsersManager", gestionUsuariosAux);
+                }
 
                 redirect("/Pages/Proyects.jsp", request, response);
             }

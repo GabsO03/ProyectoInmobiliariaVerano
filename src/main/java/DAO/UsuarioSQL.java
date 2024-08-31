@@ -42,6 +42,17 @@ public class UsuarioSQL {
         }
     }
 
+    public Inversor cargaInversor (ResultSet resultSet) throws SQLException {
+        int id = resultSet.getInt("id");
+        String userName = resultSet.getString("userName");
+        String name = resultSet.getString("name");
+        String passWord =  resultSet.getString("password");
+        String email = resultSet.getString("email");
+        double saldo = resultSet.getDouble("saldo");
+        boolean bloqueado = resultSet.getBoolean("bloqueado");
+        return new Inversor(id, name, userName, passWord, email, saldo, bloqueado);
+    }
+
     /**
      * Funcion para cargar en nuestro sistema los usuarios inversores que se encuentran en la base de datos
      * @param daoManager como una instancia de la clase DAOManager
@@ -51,17 +62,11 @@ public class UsuarioSQL {
         HashMap<String, Inversor> inversores = new HashMap<>();
         String select = "SELECT usuarios.id, usuarios.userName, usuarios.name, usuarios.password, usuarios.email, inversores.saldo, inversores.bloqueado FROM `usuarios` JOIN `inversores` WHERE usuarios.id = inversores.id_usuario;";
         try {
-            PreparedStatement preparedStatement = daoManager.getConn().prepareStatement(select);
-            try(ResultSet resultSet = preparedStatement.executeQuery()) {
+            ps = daoManager.getConn().prepareStatement(select);
+            try(ResultSet resultSet = ps.executeQuery()) {
                 while(resultSet.next()) {
-                    int id = resultSet.getInt("id");
-                    String userName = resultSet.getString("userName");
-                    String name = resultSet.getString("name");
-                    String passWord =  resultSet.getString("password");
-                    String email = resultSet.getString("email");
-                    double saldo = resultSet.getDouble("saldo");
-                    boolean bloqueado = resultSet.getBoolean("bloqueado");
-                    inversores.put(userName, new Inversor(id, name, userName, passWord, email, saldo, bloqueado));
+                    Inversor aux = cargaInversor(resultSet);
+                    inversores.put(aux.getUsername(), aux);
                 }
             }
         } catch (SQLException e) {
@@ -69,31 +74,83 @@ public class UsuarioSQL {
         }
         return inversores;
     }
+
+    public HashMap<String, Inversor> buscaInversores (String tipo_nombre, String name, String estado, DAOManager daoManager) {
+        HashMap<String, Inversor> inversores = new HashMap<>();
+        String select = "SELECT usuarios.id, usuarios.userName, usuarios.name, usuarios.password, usuarios.email, inversores.saldo, inversores.bloqueado FROM `usuarios` JOIN `inversores` WHERE usuarios.id = inversores.id_usuario AND usuarios." + tipo_nombre + " LIKE ? AND `bloqueado` = ?;";
+        try {
+            ps = daoManager.getConn().prepareStatement(select);
+            ps.setString(1, name);
+            ps.setString(2, estado);
+            try(ResultSet resultSet = ps.executeQuery()) {
+                while(resultSet.next()) {
+                    Inversor aux = cargaInversor(resultSet);
+                    inversores.put(aux.getUsername(), aux);
+                }
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return inversores;
+    }
+
+    public Gestor cargaGestor (ResultSet resultSet) throws SQLException {
+        int id = resultSet.getInt("id");
+        String userName = resultSet.getString("userName");
+        String name = resultSet.getString("name");
+        String passWord =  resultSet.getString("password");
+        String email = resultSet.getString("email");
+        boolean bloqueado = resultSet.getBoolean("bloqueado");
+        return new Gestor(id, name, userName, passWord, email, bloqueado);
+    }
     /**
      * Funcion para cargar en nuestro sistema los usuarios gestores que se encuentran en la base de datos
      * @param daoManager como una instancia de la clase DAOManager
      * @return un array dinámico con todos los usuarios gestores
      */
     public HashMap<String, Gestor> cargaGestores(DAOManager daoManager) {
-        HashMap<String, Gestor> gestors = new HashMap<>();
+        HashMap<String, Gestor> gestores = new HashMap<>();
         String select = "SELECT usuarios.id, usuarios.userName, usuarios.name, usuarios.password, usuarios.email, gestores.bloqueado FROM `usuarios` JOIN `gestores` WHERE usuarios.id = gestores.id_usuario;";
         try {
-            PreparedStatement preparedStatement = daoManager.getConn().prepareStatement(select);
-            try(ResultSet resultSet = preparedStatement.executeQuery()) {
+            ps = daoManager.getConn().prepareStatement(select);
+            try(ResultSet resultSet = ps.executeQuery()) {
                 while(resultSet.next()) {
-                    int id = resultSet.getInt("id");
-                    String userName = resultSet.getString("userName");
-                    String name = resultSet.getString("name");
-                    String passWord =  resultSet.getString("password");
-                    String email = resultSet.getString("email");
-                    boolean bloqueado = resultSet.getBoolean("bloqueado");
-                    gestors.put(userName, new Gestor(id, name, userName, passWord, email, bloqueado));
+                    Gestor aux = cargaGestor(resultSet);
+                    gestores.put(aux.getUsername(), aux);
                 }
             }
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
-        return gestors;
+        return gestores;
+    }
+
+    public HashMap<String, Gestor> buscaGestores (String tipo_nombre, String name, String estado, DAOManager daoManager) {
+        HashMap<String, Gestor> gestores = new HashMap<>();
+        String select = "SELECT usuarios.id, usuarios.userName, usuarios.name, usuarios.password, usuarios.email, gestores.bloqueado FROM `usuarios` JOIN `gestores` WHERE usuarios.id = gestores.id_usuario AND usuarios." + tipo_nombre + " LIKE ? AND `bloqueado` = ?;";
+        try {
+            ps = daoManager.getConn().prepareStatement(select);
+            ps.setString(1, name);
+            ps.setString(2, estado);
+            try(ResultSet resultSet = ps.executeQuery()) {
+                while(resultSet.next()) {
+                    Gestor aux = cargaGestor(resultSet);
+                    gestores.put(aux.getUsername(), aux);
+                }
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return gestores;
+    }
+
+    public Admin cargaAdmin (ResultSet resultSet) throws SQLException {
+        int id = resultSet.getInt("id");
+        String userName = resultSet.getString("userName");
+        String name = resultSet.getString("name");
+        String passWord =  resultSet.getString("password");
+        String email = resultSet.getString("email");
+        return new Admin(id, name, userName, passWord, email);
     }
     /**
      * Funcion para cargar en nuestro sistema los usuarios administradores que se encuentran en la base de datos
@@ -104,15 +161,11 @@ public class UsuarioSQL {
         HashMap<String, Admin> admins = new HashMap<>();
         String select = "SELECT usuarios.id, usuarios.userName, usuarios.name, usuarios.password, usuarios.email FROM `usuarios` JOIN `admins` WHERE usuarios.id = admins.id_usuario;";
         try {
-            PreparedStatement preparedStatement = daoManager.getConn().prepareStatement(select);
-            try(ResultSet resultSet = preparedStatement.executeQuery()) {
+            ps = daoManager.getConn().prepareStatement(select);
+            try(ResultSet resultSet = ps.executeQuery()) {
                 while(resultSet.next()) {
-                    int id = resultSet.getInt("id");
-                    String userName = resultSet.getString("userName");
-                    String name = resultSet.getString("name");
-                    String passWord =  resultSet.getString("password");
-                    String email = resultSet.getString("email");
-                    admins.put(userName, new Admin(id, name, userName, passWord, email));
+                    Admin aux = cargaAdmin(resultSet);
+                    admins.put(aux.getUsername(), aux);
                 }
             }
         } catch (SQLException e) {
@@ -121,11 +174,46 @@ public class UsuarioSQL {
         return admins;
     }
 
-    public int cargaUltimoCodigo (DAOManager daoManager) {
-        int id = 0;
-        String select = "SELECT `id` FROM `usuarios` ORDER BY `id` DESC LIMIT 1;";
+    public HashMap<String, Admin> buscaAdmins(String atributo, String valorAtributo,  DAOManager daoManager) {
+        HashMap<String, Admin> aux = new HashMap<>();
+        String select = "SELECT usuarios.id, usuarios.userName, usuarios.name, usuarios.password, usuarios.email FROM `usuarios` JOIN `admins` WHERE usuarios.id = admins.id_usuario AND usuarios." + atributo + " LIKE ?;";
         try {
             ps = daoManager.getConn().prepareStatement(select);
+            ps.setString(1, valorAtributo);
+            try(ResultSet resultSet = ps.executeQuery()) {
+                while(resultSet.next()) {
+                    Admin adminAux = cargaAdmin(resultSet);
+                    aux.put(adminAux.getUsername(), adminAux);
+                }
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return aux;
+    }
+
+    public HashMap<String, Usuario> buscarUsuarios (String tipo_nombre, String name, String tipo, String estado, DAOManager daoManager){
+        HashMap<String, Usuario> principal = new HashMap<>();
+        switch (tipo) {
+            case "Usuario" -> {
+                principal.putAll(buscaAdmins(tipo_nombre, name, daoManager));
+                principal.putAll(buscaGestores(tipo_nombre, name, estado, daoManager));
+                principal.putAll(buscaInversores(tipo_nombre, name, estado, daoManager));
+            }
+            case "Admin" -> principal.putAll(buscaAdmins(tipo_nombre, name, daoManager));
+            case "Gestor" -> principal.putAll(buscaGestores(tipo_nombre, name, estado, daoManager));
+            case "Inversor" -> principal.putAll(buscaInversores(tipo_nombre, name, estado, daoManager));
+            default -> throw new RuntimeException();
+        }
+        return principal;
+    }
+
+    public int cargaUltimoCodigo (String username, DAOManager daoManager) {
+        int id = -1;
+        String select = "SELECT `id` FROM `usuarios` WHERE `username` LIKE ?;";
+        try {
+            ps = daoManager.getConn().prepareStatement(select);
+            ps.setString(1, username);
             try (ResultSet resultSet = ps.executeQuery()) {
                 if (resultSet.next()) {
                     id = resultSet.getInt("id");
@@ -167,7 +255,7 @@ public class UsuarioSQL {
         boolean primerInsert = insertarUsuario(inversor, daoManager);
         String insertInversores = "INSERT INTO `inversores`(`id_usuario`, `userName`) VALUES (?,?)";
         try {
-            int lastId = cargaUltimoCodigo(daoManager);
+            int lastId = cargaUltimoCodigo(inversor.getUsername(), daoManager);
             ps = daoManager.getConn().prepareStatement(insertInversores);
             ps.setInt(1, lastId);
             ps.setString(2, inversor.getUsername());
@@ -191,7 +279,7 @@ public class UsuarioSQL {
         boolean primerInsert = insertarUsuario(gestor, daoManager);
         String insertGestores = "INSERT INTO `gestores` (`id_usuario`, `userName`) VALUES (?,?)";
         try {
-            int lastId = cargaUltimoCodigo(daoManager);
+            int lastId = cargaUltimoCodigo(gestor.getUsername(), daoManager);
             ps = daoManager.getConn().prepareStatement(insertGestores);
             ps.setInt(1, lastId);
             ps.setString(2, gestor.getUsername());

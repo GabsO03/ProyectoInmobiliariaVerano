@@ -63,7 +63,6 @@ public class ComprobarEmailServlet extends HttpServlet {
 
                     boolean invitadoHabilitado = gestionApp.devuelveModoInvitado();
                     session.setAttribute("invitadoHabilitado", invitadoHabilitado);
-                    session.setAttribute("UsersManager", gestionUsuariosAux);
                     session.setAttribute("User", gestionUsuariosAux.devuelveUsuario(username));
 
                     redirect("/Pages/Proyects.jsp", request, response);
@@ -77,7 +76,8 @@ public class ComprobarEmailServlet extends HttpServlet {
             else {
                 correcto = gestionUsuariosAux.modificarUsuario("email", email, username, daoManager);
                 if (correcto) {
-                    session.setAttribute("UsersManager", gestionUsuariosAux);
+                    session.setAttribute("correcto", correcto);
+                    session.setAttribute("mostrarMensaje", correcto? "Haz cambiado tu correo electrónico correctamente" : "No pudimos cambiar tu  correo electrónico, intenta de nuevo");
                     session.setAttribute("User", gestionUsuariosAux.devuelveUsuario(username));
                     session.removeAttribute("isSigningIn");
                     session.removeAttribute("generatedCode");

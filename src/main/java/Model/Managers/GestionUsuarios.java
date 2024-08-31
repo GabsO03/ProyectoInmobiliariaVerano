@@ -9,7 +9,9 @@ import Model.BusinessClases.Usuario;
 
 import java.io.*;
 import java.sql.SQLException;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Properties;
@@ -24,12 +26,10 @@ public class GestionUsuarios {
     private UsuarioSQL usuarioSQL;
     private int lastId;
 
-
-    public GestionUsuarios(DAOManager daoManager, String rutaFicheroLog, String ubicacionLogins) {
+    public GestionUsuarios(String rutaFicheroLog, String ubicacionLogins) {
         this.hashMapUsuarios = new HashMap<>();
         this.iniciosSesion = new Properties();
         this.usuarioSQL = new UsuarioSQL(rutaFicheroLog);
-        cargarUsuarios(daoManager);
         cargarIniciosSesionUsuarios(ubicacionLogins);
     }
 
@@ -39,24 +39,30 @@ public class GestionUsuarios {
         hashMapUsuarios.putAll(usuarioSQL.cargaInversores(daoManager));
     }
 
-    /**
-     * Muestra todos los usuarios del programa
-     */
-    public String devuelveListaUsuarios() {
-        int i = 1;
-        String cadena = "Lista de usuarios:\n===============================";
-        for (Map.Entry<String, Usuario> entry : hashMapUsuarios.entrySet()) {
-            Usuario u = entry.getValue();
-            if (u.getClass().getSimpleName().equalsIgnoreCase("Gestor")) {
-                Gestor aux = (Gestor) u;
-                cadena = cadena.concat("\n" + i++ + ") " + aux + " - Gestor");
-            }
-            if (u.getClass().getSimpleName().equalsIgnoreCase("Inversor")) {
-                Inversor aux = (Inversor) u;
-                cadena = cadena.concat("\n" + i++ + ") " + aux + " - Inversor");
+    public void buscarUsuarios (String tipo_nombre, String name, String tipo, String estado, String lastLogin, DAOManager daoManager) {
+        HashMap<String, Usuario> aux = usuarioSQL.buscarUsuarios(tipo_nombre, name, tipo, estado, daoManager);
+        for (Map.Entry user : aux.entrySet()) {
+            Usuario usuario = (Usuario) user.getValue();
+            LocalDate lastSession = (LocalDate) iniciosSesion.get(usuario.getId());
+            switch (lastLogin) {
+                case "today" -> {
+                    if (lastSession == LocalDate.now()) hashMapUsuarios.put(usuario.getUsername(), usuario);
+                }
+                case "month" -> {
+                    for (int i = 1; i < 32; i++) {
+                        if (lastSession == LocalDate.of(LocalDate.now().getYear(), LocalDate.now().getMonth(), i)) hashMapUsuarios.put(usuario.getUsername(), usuario);
+                    }
+                }
+                case "year" -> {
+                    for (int i = 1; i < 13 ; i++) {
+                        if (lastSession == LocalDate.of(LocalDate.now().getYear(), i, LocalDate.now().getDayOfMonth())) hashMapUsuarios.put(usuario.getUsername(), usuario);
+                    }
+                }
+                case "always" -> {
+                    hashMapUsuarios.putAll(aux);
+                }
             }
         }
-        return cadena;
     }
 
     /**
@@ -81,11 +87,6 @@ public class GestionUsuarios {
         Gestor aux = new Gestor(nombre, user, String.valueOf(cypherPassword(contrasenia)), email);
         boolean correcto;
         correcto = usuarioSQL.insertar(aux, daoManager);
-        if (correcto) {
-            hashMapUsuarios.put(user,aux);
-            lastId = usuarioSQL.cargaUltimoCodigo(daoManager);
-            hashMapUsuarios.get(user).setId(lastId);
-        }
         return correcto;
     }
 
@@ -117,11 +118,6 @@ public class GestionUsuarios {
         Inversor aux = new Inversor(nombre, user, String.valueOf(cypherPassword(contrasenia)), email);
         boolean correcto;
         correcto = usuarioSQL.insertar(aux, daoManager);
-        if (correcto){
-            hashMapUsuarios.put(user, aux);
-            lastId = usuarioSQL.cargaUltimoCodigo(daoManager);
-            hashMapUsuarios.get(user).setId(lastId);
-        }
         return correcto;
     }
 
@@ -135,24 +131,12 @@ public class GestionUsuarios {
      */
     public boolean modificarUsuario(String atributo, String nuevoValor, String userName, DAOManager daoManager) {
         int id = devuelveUsuario(userName).getId();
-        boolean correcto = false;
-        switch (atributo) {
-            case "name" -> {
-                correcto = usuarioSQL.updateUsuarios(atributo, nuevoValor, userName, id, daoManager);
-                if (correcto) hashMapUsuarios.get(userName).setName(nuevoValor);
-            }
-            case "username" -> {
-                correcto = usuarioSQL.updateUsuarios(atributo, nuevoValor, userName, id, daoManager);
-                if (correcto) hashMapUsuarios.get(userName).setUsername(nuevoValor);
-            }
-            case "email" -> {
-                correcto =  usuarioSQL.updateUsuarios(atributo, nuevoValor, userName, id, daoManager);
-                if (correcto) hashMapUsuarios.get(userName).setEmail(nuevoValor);
-            }
-            case "password" -> {
-                correcto = usuarioSQL.updateUsuarios(atributo, String.valueOf(cypherPassword(nuevoValor)), userName, id, daoManager);
-                if (correcto) hashMapUsuarios.get(userName).setContrasenia(nuevoValor);
-            }
+        boolean correcto;
+        if (atributo.equals("password")) correcto = usuarioSQL.updateUsuarios(atributo, String.valueOf(cypherPassword(nuevoValor)), userName, id, daoManager);
+        else correcto = usuarioSQL.updateUsuarios(atributo, nuevoValor, userName, id, daoManager);
+        if (correcto) {
+            if (atributo.equals("username")) buscarUsuarios("userName", nuevoValor, "Usuario", "0", "always", daoManager);
+            else buscarUsuarios("userName", userName, "Usuario", "0", "always", daoManager);
         }
         return correcto;
     }
@@ -160,13 +144,12 @@ public class GestionUsuarios {
 
     /**
      * Funcion para comprobar si el nombre del usuario y la contraseña corresponden con el usuario que inicia sesion
-     *
      * @param username    como cadena
      * @param contrasenia como cadena
      * @return true si si corresponde o false si no corresponde
      */
-    public boolean correspondeUsuyContrasenia(String username, String contrasenia) {
-        if (existeNombreUsuario(username)) {
+    public boolean correspondeUsuyContrasenia(String username, String contrasenia, DAOManager daoManager) {
+        if (existeNombreUsuario(username, daoManager)) {
             return hashMapUsuarios.get(username).getContrasenia().equals(String.valueOf(cypherPassword(contrasenia)));
         }
         return false;
@@ -177,8 +160,15 @@ public class GestionUsuarios {
      * @param username como cadena
      * @return true or false dependiendo de si existe o no el nombre del usuario
      */
-    public boolean existeNombreUsuario(String username) {
-        return hashMapUsuarios.containsKey(username);
+    public boolean existeNombreUsuario(String username, DAOManager daoManager) {
+        boolean existe;
+        buscarUsuarios("userName", username, "Usuario", "0", "always", daoManager);
+        existe = hashMapUsuarios.containsKey(username);
+        if (!existe) {
+            buscarUsuarios("userName", username, "Usuario", "1", "always", daoManager);
+            existe = hashMapUsuarios.containsKey(username);
+        }
+        return existe;
     }
 
     /**
@@ -303,12 +293,11 @@ public class GestionUsuarios {
      * @param dao como una instancia de la clase DAOManager
      * @return true si se ha podido insertar el usuario correctamente o false si no
      */
-    public boolean inversorPaga(String username, double cantidad, DAOManager dao) {
+    public boolean inversorPaga (String username, double cantidad, DAOManager dao) {
         Inversor aux = (Inversor) hashMapUsuarios.get(username);
         boolean right = false;
         if (aux.puedePagarInversor(cantidad)) {
-            right = usuarioSQL.updateInversores("saldo", String.valueOf(aux.getSaldo() - cantidad), username, aux.getId(), dao);
-            if (right) aux.setSaldo(aux.getSaldo() - cantidad);
+            return usuarioSQL.updateInversores("saldo", String.valueOf(aux.getSaldo() - cantidad), username, aux.getId(), dao);
         }
         return right;
     }

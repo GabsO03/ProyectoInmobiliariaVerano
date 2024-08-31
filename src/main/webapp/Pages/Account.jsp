@@ -30,6 +30,14 @@
 <jsp:include page="../Layouts/Navbar.jsp"/>
 <jsp:include page="../Layouts/Sidebar.jsp"/>
 
+<%
+    if (session.getAttribute("mostrarMensaje")!=null) {
+%>
+<jsp:include page="../Layouts/Notification.jsp"/>
+<%
+    }
+%>
+
 <div class="items-center lg:mx-28 px-20 pt-12">
     <section class="lg:mx-20 my-10 p-10 self-center rounded-lg bg-indigo-950">
         <div class="flex mb-5">
@@ -66,7 +74,7 @@
                                 <div class="p-4 md:p-5">
                                     <form method="post" action="${pageContext.request.contextPath}/self-modify-user-servlet" class="space-y-4">
                                         <input type="hidden" name="action" value="change-name">
-                                        <input type="hidden" name="username" value="<%out.print(username);%>">
+                                        <input type="hidden" name="username" value="<%out.print(aux.getUsername());%>">
                                         <div>
                                             <label name="newName" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Introduce tu nuevo nombre simple</label>
                                             <input type="text" name="newName" id="newName" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white" placeholder="new_name" required />

@@ -31,7 +31,7 @@ public class GestionApp  {
 
         this.gestionProyectos = new GestionProyectos(rutaFicheroLog);
         gestionProyectos.cargarProyectos(daoManager);
-        this.gestionUsuarios = new GestionUsuarios(daoManager, rutaFicheroLog, rutaLastLogins);
+        this.gestionUsuarios = new GestionUsuarios(rutaFicheroLog, rutaLastLogins);
         this.gestionesInversiones = new ArrayList<>();
     }
 
@@ -106,7 +106,7 @@ public class GestionApp  {
     }
     public GestionInversiones consigueGestionInversion(DAOManager daoManager, String username) {
         String rutaFicheroLog = ubicaciones.getProperty("LogUbicacion");
-        if (gestionUsuarios.existeNombreUsuario(username)) {
+        if (gestionUsuarios.existeNombreUsuario(username, daoManager)) {
             return new GestionInversiones((Inversor) gestionUsuarios.devuelveUsuario(username), gestionProyectos, daoManager,
                     rutaFicheroLog);
         }

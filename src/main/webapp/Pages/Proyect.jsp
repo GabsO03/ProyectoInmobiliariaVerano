@@ -32,6 +32,14 @@
     }
 %>
 
+<%
+    if (session.getAttribute("mostrarMensaje")!=null) {
+%>
+<jsp:include page="../Layouts/Notification.jsp"/>
+<%
+    }
+%>
+
 <section class="flex items-start justify-center min-h-screen mt-20 mb-5 <%
 if (logged) { %> lg:ml-40 lg:pl-28 lg:p-4 <%}%>  lg:mr-0 sm:p-5">
     <div class="mx-5 bg-gradient-to-b from-cyan-900 to-green-950 rounded-xl shadow-md md:flex w-full">
@@ -64,7 +72,7 @@ if (logged) { %> lg:ml-40 lg:pl-28 lg:p-4 <%}%>  lg:mr-0 sm:p-5">
             </div>
         </div>
         <div id="card" class="p-6
-            bg-transparent shadow-lg pb-10 h-35  <%out.print(logged?"lg:fixed top-24 right-4 w-1/4":"w-1/3");%>">
+            bg-transparent shadow-lg pb-10 h-35  <%out.print(logged?"lg:fixed top-24 right-9 w-1/4":"w-1/3");%>">
             <div class="mt-4">
                 <p class="text-xl text-slate-200">Plazo total: <% out.print(proyecto.getPlazo()); %></p>
             </div>
@@ -98,8 +106,8 @@ if (logged) { %> lg:ml-40 lg:pl-28 lg:p-4 <%}%>  lg:mr-0 sm:p-5">
                                 if (inversionAux != null) {
                                     %>
                     <input type="hidden" name="codigo_inversion" value="<% out.print(inversionAux.getCodigo());%>">
-                    <div class="flex flex-col items-center">
-                        <p><strong>Cantidad con la que has participado:</strong><%out.print(inversionAux.getCantidadParticipada());%></p>
+                    <div class="flex flex-col items-center mb-5">
+                        <p class="text-center mb-1"><strong>Cantidad participada:</strong><%out.print(inversionAux.getCantidadParticipada());%></p>
                         <span class="text-md text-base font-medium text-blue-700 dark:text-black">Te corresponde el <%out.print(inversionAux.getPorcentajeParticipado());%>%</span>
                     </div>
                     <%
@@ -109,9 +117,9 @@ if (logged) { %> lg:ml-40 lg:pl-28 lg:p-4 <%}%>  lg:mr-0 sm:p-5">
                     <div class="flex flex-row justify-between">
                         <input name="cantidadEntrante" type="number"
                                class="flex-grow py-2 rounded-lg bg-sky-100 focus:outline-none focus:ring-2 focus:ring-sky-900 mr-1"
-                               placeholder="Mínimo <%out.print(proyecto.getCantidadNecesaria()*0.001);%>"
-                               min="<%out.print(proyecto.getCantidadNecesaria()*0.001);%>"
-                               max="<%out.print(proyecto.getCantidadNecesaria() - proyecto.getCantidadFinanciada());%>">
+                               placeholder="Mínimo <%out.print(proyecto.getMinimo());%>"
+                               min="<%out.print(proyecto.getMinimo());%>"
+                               max="<%out.print(proyecto.getMaximo());%>">
                         <input type="submit"
                                class="px-6 py-2 bg-sky-950 text-white text-xl rounded-lg hover:bg-sky-900 transition duration-300 cursor-pointer"
                                value="Invertir">

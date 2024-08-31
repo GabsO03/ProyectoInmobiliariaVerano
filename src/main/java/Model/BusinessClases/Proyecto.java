@@ -18,12 +18,13 @@ public class Proyecto {
     private double cantidadNecesaria;
     private double cantidadFinanciada;
     private boolean habilitado;
+    private int idGestor;
 
 
     //MÉTODOS
 
     //constructores
-    public Proyecto(int codigo, String nombre, String imagen, String descripcion, String tipo, String fechaInicio, String fechaFin, double cantidadNecesaria, double cantidadFinanciada, boolean habilitado) {
+    public Proyecto(int codigo, String nombre, String imagen, String descripcion, String tipo, String fechaInicio, String fechaFin, double cantidadNecesaria, double cantidadFinanciada, boolean habilitado, int idGestor) {
         this.codigo = codigo;
         this.imagen = imagen;
         this.nombre = nombre;
@@ -34,6 +35,7 @@ public class Proyecto {
         this.cantidadNecesaria = cantidadNecesaria;
         this.cantidadFinanciada = cantidadFinanciada;
         this.habilitado = habilitado;
+        this.idGestor = idGestor;
     }
 
     public Proyecto(String nombre, String imagen, String descripcion, String tipo, String fechaInicio, String fechaFin, double cantidadNecesaria) {
@@ -85,6 +87,10 @@ public class Proyecto {
     public double getMinimo () {
         if (cantidadNecesaria-cantidadFinanciada>=(cantidadNecesaria*0.001)) return cantidadNecesaria*0.001;
         return (cantidadNecesaria-cantidadFinanciada)*0.5;
+    }
+
+    public double getMaximo () {
+        return cantidadNecesaria-cantidadFinanciada;
     }
     public boolean isHabilitado() { return habilitado; }
 

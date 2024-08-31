@@ -21,11 +21,15 @@ public class SendInvestmentsServlet extends HttpServlet {
         DAOManager daoManager = new DAOManager();
         daoManager.open();
         GestionApp gestionApp = new GestionApp(daoManager);
+        gestionApp.getGestionUsuarios().cargarUsuarios(daoManager);
+        gestionApp.cargarGestionesInversiones(daoManager);
         boolean correcto = gestionApp.enviarInversiones();
-        HttpSession httpSession = request.getSession();
-        httpSession.setAttribute("enviado", correcto);
+        HttpSession session = request.getSession();
+        session.setAttribute("correcto", correcto);
+        session.setAttribute("mostrarMensaje", correcto? "Inversiones enviadas correctamente" : "Hubo un error, revisa si todos los correos electrónicos son correctos");
         redirect("/Pages/Proyects.jsp", request, response);
-        httpSession.removeAttribute("enviado");
+        session.removeAttribute("correcto");
+        session.removeAttribute("mostrarMensaje");
     }
 
     public void redirect(String pagina, HttpServletRequest request, HttpServletResponse response) {

@@ -119,7 +119,7 @@ public class GestionProyectos {
 
     /**
      * Funcion para buscar un proyecto dando el valor por parámetro
-     * @param id como entero
+     * @param idGestor como entero
      * @param orderBy como cadena
      * @param direccion como cadena
      * @param atributo como cadena
@@ -127,8 +127,8 @@ public class GestionProyectos {
      * @param daoManager como instancia de la clase DAOManager
      * @return un array con los proyectos que coincidan con la busqueda
      */
-    public void buscarProyectos (int id, String orderBy, String direccion, String atributo, String valor, DAOManager daoManager) {
-        if (id >= 0) arrayProyectos = proyectoSQL.buscaProyectos(id, orderBy, direccion, atributo, valor, daoManager);
+    public void buscarProyectos (int idGestor, String orderBy, String direccion, String atributo, String valor, DAOManager daoManager) {
+        if (idGestor >= 0) arrayProyectos = proyectoSQL.buscaProyectos(idGestor, orderBy, direccion, atributo, valor, daoManager);
         else arrayProyectos = proyectoSQL.buscaProyectos(orderBy, direccion, atributo, valor, daoManager);
     }
 

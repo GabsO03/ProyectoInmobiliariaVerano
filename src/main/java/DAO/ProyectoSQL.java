@@ -49,7 +49,8 @@ public class ProyectoSQL {
         double cantidadNecesaria = rs.getDouble("cantidadNecesaria");
         double cantidadFinanciada = rs.getDouble("cantidadFinanciada");
         boolean habilitado = rs.getBoolean("habilitado");
-        return new Proyecto(codigo, nombre, imagen, descripcion, tipo, fechaInicio, fechaFin, cantidadNecesaria, cantidadFinanciada, habilitado);
+        int idGestor = rs.getInt("id_gestor");
+        return new Proyecto(codigo, nombre, imagen, descripcion, tipo, fechaInicio, fechaFin, cantidadNecesaria, cantidadFinanciada, habilitado, idGestor);
     }
     public Proyecto consigueProyecto (int codigo_proyecto, DAOManager daoManager) {
         String select = "SELECT * FROM proyectos where codigo = ?";
@@ -144,18 +145,18 @@ public class ProyectoSQL {
 
     /**
      * Funcion para cargar en nuestro sistema los proyectos que se encuentran en la base de datos de manera ordenada y con un atributo específico para un gestor específico
-     * @param id como un entero
+     * @param idGestor como un entero
      * @param orderBy como una cadena
      * @param direccion como una cadena
      * @param daoManager como una instancia de la clase DAOManager
      * @return un array dinámico con todos los proyectos
      */
-    public ArrayList<Proyecto> buscaProyectos(int id, String orderBy, String direccion, String atributo, String valor, DAOManager daoManager) {
+    public ArrayList<Proyecto> buscaProyectos(int idGestor, String orderBy, String direccion, String atributo, String valor, DAOManager daoManager) {
         ArrayList<Proyecto> proyectos = new ArrayList<>();
         String select = "SELECT * FROM proyectos WHERE `id_gestor` = ? and " + atributo + " = ? ORDER BY " + orderBy + " " + direccion;
         try {
             ps = daoManager.getConn().prepareStatement(select);
-            ps.setInt(1, id);
+            ps.setInt(1, idGestor);
             ps.setString(2, valor);
 
             try (ResultSet resultSet = ps.executeQuery()) {

@@ -5,7 +5,8 @@
 <%@ page import="Model.BusinessClases.Gestor" %>
 <%@ page import="Model.BusinessClases.Inversor" %>
 <%@ page import="static Model.Biblioteca.FuncionesCadenas.extraeFecha" %>
-<%@ page import="static Model.Biblioteca.FuncionesCadenas.extraeHora" %><%--
+<%@ page import="static Model.Biblioteca.FuncionesCadenas.extraeHora" %>
+<%@ page import="DAO.DAOManager" %><%--
   Created by IntelliJ IDEA.
   User: pollo
   Date: 04/07/2024
@@ -18,7 +19,15 @@
     if (logged) {
         String ultimaFecha, ultimaHora;
         GestionUsuarios gestionUsuarios = (GestionUsuarios) session.getAttribute("UsersManager");
-        HashMap<String, Usuario> usuariosHashMap = gestionUsuarios.getHashMapUsuarios();
+        HashMap<String, Usuario> usuariosHashMap;
+        if (session.getAttribute("busqueda")==null) {
+            DAOManager daoManager = new DAOManager();
+            daoManager.open();
+            gestionUsuarios.cargarUsuarios(daoManager);
+            daoManager.close();
+        }
+        usuariosHashMap = gestionUsuarios.getHashMapUsuarios();
+
 %>
 <html>
 <head>
@@ -31,48 +40,79 @@
 <jsp:include page="../Layouts/Navbar.jsp"/>
 <jsp:include page="../Layouts/Sidebar.jsp"/>
 
-
 <section class="flex flex-col justify-center lg:ml-40 lg:pl-24">
     <div class="relative overflow-x-auto shadow-md">
-        <div class="lg:mt-16 lg:pt-6 lg:pb-4 px-4 sm:mt-20 lg:flex-row justify-end sm:ml-0 shadow-lg shadow-slate-300 flex items-center justify-between flex-wrap flex-row space-y-4 md:space-y-0 bg-white dark:bg-sky-900">
-            <div>
-                <button id="dropdownActionButton" data-dropdown-toggle="dropdownAction" class="inline-flex items-center text-gray-500 bg-white border border-gray-300 focus:outline-none hover:bg-sky-100 focus:ring-4 focus:ring-sky-100 font-medium rounded-lg text-sm px-3 py-1.5 dark:bg-sky-800 dark:text-sky-100 dark:border-sky-600 dark:hover:bg-sky-700 dark:hover:border-cyan-600 dark:focus:ring-cyan-700" type="button">
-                    <span class="sr-only">Filter button</span>
-                    Filtro
-                    <svg class="w-2.5 h-2.5 ms-2.5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 10 6">
-                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 4 4 4-4"></path>
-                    </svg>
-                </button>
-                <!-- Dropdown menu -->
-                <div id="dropdownAction" class="z-10 hidden bg-white divide-y divide-sky-100 rounded-lg shadow w-44 dark:bg-sky-700 dark:divide-gray-600">
-                    <ul class="py-1 text-sm text-gray-700 dark:text-gray-200" aria-labelledby="dropdownActionButton">
-                        <li>
-                            <a href="#" class="block px-4 py-2 hover:bg-cyan-100 dark:hover:bg-cyan-600 dark:hover:text-white">Nombre</a>
-                        </li>
-                        <li>
-                            <a href="#" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-cyan-600 dark:hover:text-white">Tipo</a>
-                        </li>
-                        <li>
-                            <a href="#" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-cyan-600 dark:hover:text-white">Estado</a>
-                        </li>
-                        <li>
-                            <a href="#" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-cyan-600 dark:hover:text-white">Última sesión</a>
-                        </li>
-                    </ul>
+        <form method="get" action="${pageContext.request.contextPath}/user-control-servlet" class="lg:mt-16 lg:pt-6 lg:pb-4 px-4 sm:mt-20 lg:flex-row justify-end sm:ml-0 shadow-lg shadow-slate-300 flex items-center justify-between flex-wrap flex-row space-y-4 md:space-y-0 bg-white dark:bg-slate-200">
+            <label for="parameter" class="text-sm font-medium text-gray-900 dark:text-slate-800 w-5/6">
+                <div class="relative flex">
+                    <div class="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none">
+                        <svg class="w-4 h-4 text-gray-500 dark:text-gray-400" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
+                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z"></path>
+                        </svg>
+                    </div>
+                    <input type="search" id="parameter" name="parameter" class="block w-full p-4 ps-10 px-2 py-1 border border-gray-300 rounded-full mr-2" placeholder="Buscar" required/>
+                    <button type="submit" class="text-white bg-gradient-to-r from-cyan-900 to-green-900 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-full text-sm px-4 py-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Buscar</button>
                 </div>
+            </label>
+            <button id="dropdownActionButton" data-dropdown-toggle="dropdownAction" class="flex text-white bg-gradient-to-r from-cyan-900 to-green-900 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-full text-sm px-4 py-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800" type="button">
+                <span class="sr-only">Filter button</span>
+                Filtrar por:
+                <svg class="w-2.5 h-2.5 ms-2.5 mt-1.5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 10 6">
+                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 4 4 4-4"></path>
+                </svg>
+            </button>
+            <!-- Dropdown menu -->
+            <div id="dropdownAction" class="z-10 hidden bg-white divide-y divide-sky-100 rounded-lg shadow w-44 dark:bg-sky-700 dark:divide-gray-600">
+                <ul class="py-1 text-sm text-gray-700 dark:text-gray-200" aria-labelledby="dropdownActionButton">
+                    <li>
+                        <select id="tipo_nombre" name="tipo_nombre" class="
+                            text-md focus:ring-green-500 w-full px-4 dark:bg-sky-700 dark:placeholder-slate-900  dark:focus:ring-green-800
+                            border-none decoration-none
+                            block px-4 py-2 hover:bg-cyan-100 dark:hover:bg-cyan-600 dark:hover:text-white">
+                            <option value="name" selected>Nombre simple</option>
+                            <option value="userName">Nombre de usuario</option>
+                        </select>
+                    </li>
+                    <li>
+                        <select id="tipo" name="tipo" class="
+                            text-md focus:ring-green-500 w-full px-4 dark:bg-sky-700 dark:placeholder-slate-900  dark:focus:ring-green-800
+                            border-none decoration-none
+                            block px-4 py-2 hover:bg-cyan-100 dark:hover:bg-cyan-600 dark:hover:text-white">
+                            <option value="Usuario" selected>Tipo</option>
+                            <option value="Admin">Admin</option>
+                            <option value="Gestor">Gestor</option>
+                            <option value="Inversor">Inversor</option>
+                        </select>
+                    </li>
+                    <li>
+                        <select id="estado" name="estado" class="
+                            text-md focus:ring-green-500 w-full px-4 dark:bg-sky-700 dark:placeholder-slate-900  dark:focus:ring-green-800
+                            border-none decoration-none
+                            block px-4 py-2 hover:bg-cyan-100 dark:hover:bg-cyan-600 dark:hover:text-white">
+                            <option value="0" selected>Estado</option>
+                            <option value="0">Habilitado</option>
+                            <option value="1">Bloqueado</option>
+                        </select>
+                    </li>
+                    <li>
+                        <select id="lastLogin" name="lastLogin" class="
+                            text-md focus:ring-green-500 w-full px-4 dark:bg-sky-700 dark:placeholder-slate-900  dark:focus:ring-green-800
+                            border-none decoration-none
+                            block px-4 py-2 hover:bg-cyan-100 dark:hover:bg-cyan-600 dark:hover:text-white">
+                            <option value="always" selected>Última sesión</option>
+                            <option value="today">Hoy</option>
+                            <option value="month">Este mes</option>
+                            <option value="year">Este año</option>
+                            <option value="always">Cualquiera</option>
+                        </select>
+                    </li>
+                </ul>
             </div>
-            <label name="table-search" class="sr-only">Search</label>
-            <div class="relative">
-                <div class="absolute inset-y-0 rtl:inset-r-0 start-0 flex items-center ps-3 pointer-events-none">
-                    <svg class="w-4 h-4 text-slate-500 dark:text-slate-400 lg:m-0 sm:mb-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
-                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z"></path>
-                    </svg>
-                </div>
-                <input type="text" id="table-search-users" class="block p-2 ps-10 lg:m-0 sm:mb-3 text-sm text-gray-900 border border-slate-300 rounded-lg w-80 bg-sky-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-sky-700 dark:border-cyan-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-sky-500 dark:focus:border-sky-500" placeholder="Search for users">
-            </div>
-        </div>
-        <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400 table-auto ">
-            <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-sky-700 dark:text-slate-300">
+        </form>
+
+
+        <table class="w-full text-sm text-left rtl:text-right dark:text-slate-800 table-auto ">
+            <thead class="text-xs text-slate-700 uppercase bg-slate-50 dark:bg-white dark:text-slate-800">
             <tr>
                 <th scope="col" class="px-6 py-3">
                     Nombre
@@ -84,13 +124,18 @@
                     Estado
                 </th>
                 <th scope="col" class="px-6 py-3">
-                    Último sesión
+                    Última sesión
                 </th>
                 <th scope="col" class="px-6 py-3">
                     Modificar
                 </th>
             </tr>
             </thead>
+            <%
+                if (usuariosHashMap.isEmpty()) {%>
+            <p class="text-center text-3xl text-slate-600 font-medium"><%
+                out.print("No se encontraron resultados");%></p>
+            <% }%>
             <tbody>
             <%
                 for (Map.Entry<String, Usuario> entry : usuariosHashMap.entrySet()) {
@@ -113,15 +158,15 @@
                         ultimaHora = extraeHora(gestionUsuarios.recuperarUltimoInicioSesionUsuario(u.getId()));
             %>
 
-            <tr class="bg-white border-b dark:bg-sky-900 dark:border-sky-700 hover:bg-sky-900 dark:hover:bg-cyan-800">
-                <th scope="row" class="flex items-center px-6 py-4 text-gray-900 whitespace-nowrap dark:text-white">
+            <tr class="bg-white border-b dark:bg-slate-100 dark:border-sky-700 hover:bg-sky-900 dark:hover:bg-cyan-800">
+                <th scope="row" class="flex items-center px-6 py-4 whitespace-nowrap dark:text-slate-900">
                     <img class="w-10 h-10 rounded-full" src="/docs/images/people/profile-picture-1.jpg" alt="Jese image">
                     <div class="ps-3">
-                        <div class="text-base font-semibold"><%out.print(u.getName());%></div>
-                        <div class="font-normal text-slate-300"><%out.print(u.getEmail());%></div>
+                        <div class="text-base font-semibold"><%out.print(u.getName() + " (" + u.getUsername() + ")");%></div>
+                        <div class="font-normal text-slate-800"><%out.print(u.getEmail());%></div>
                     </div>
                 </th>
-                <td class="px-6 py-4 text-slate-300">
+                <td class="px-6 py-4 text-slate-700">
                     <%out.print(userClass);%>
                 </td>
                 <td class="px-6 py-4">
@@ -133,12 +178,12 @@
                 <td class="px-6 py-4">
                     <div class="ps-3">
                         <div class="text-base font-semibold"><%out.print(ultimaFecha);%></div>
-                        <div class="font-normal text-slate-400"><%out.print(ultimaHora);%></div>
+                        <div class="font-normal text-slate-700"><%out.print(ultimaHora);%></div>
                     </div>
                 </td>
                 <td class="px-6 py-4">
                     <div class="flex justify-center">
-                        <button data-modal-target="<%out.print(u.getUsername());%>" data-modal-toggle="<%out.print(u.getUsername());%>" class="text-white bg-sky-700 hover:bg-sky-800 focus:ring-4 focus:outline-none focus:ring-sky-300 font-medium rounded-2xl text-sm px-5 py-1 text-center dark:bg-sky-600 dark:hover:bg-sky-700 dark:focus:ring-sky-800"  type="button">
+                        <button data-modal-target="<%out.print(u.getUsername());%>" data-modal-toggle="<%out.print(u.getUsername());%>" class="text-white hover:bg-sky-800 focus:ring-4 focus:outline-none focus:ring-sky-300 font-medium rounded-2xl text-sm px-5 py-1 text-center dark:bg-sky-800 dark:hover:bg-sky-700 dark:focus:ring-sky-800"  type="button">
                             <%out.print(bloqueado?"Desbloquear":"Bloquear");%>
                         </button>
                         <div id="<%out.print(u.getUsername());%>" tabindex="-1" class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full">
@@ -155,7 +200,7 @@
                                             <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 11V6m0 8h.01M19 10a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"></path>
                                         </svg>
                                         <h3 class="mb-5 text-lg font-normal text-gray-500 dark:text-gray-400">¿Quieres <%out.print(bloqueado?"Desbloquear":"Bloquear");%> a <%out.print(u.getName());%>?</h3>
-                                        <form method="post" action="${pageContext.request.contextPath}/lock-unlock-user-servlet">
+                                        <form method="post" action="${pageContext.request.contextPath}/user-control-servlet">
                                             <input type="hidden" name="username" value="<%out.print(u.getUsername());%>">
                                             <input type="hidden" name="class" value="<%out.print(userClass);%>">
                                             <button data-modal-hide="<%out.print(u.getUsername());%>" type="submit" class="text-white bg-red-600 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300 dark:focus:ring-red-800 font-medium rounded-lg text-sm inline-flex items-center px-5 py-2.5 text-center">
