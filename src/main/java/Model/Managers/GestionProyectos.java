@@ -11,7 +11,6 @@ import java.util.ArrayList;
 public class GestionProyectos {
     private ArrayList<Proyecto> arrayProyectos;
     private ProyectoSQL proyectoSQL;
-    private int lastCodigo;
 
     public GestionProyectos(String rutaFicheroLog) {
         arrayProyectos=new ArrayList<>();
@@ -20,11 +19,9 @@ public class GestionProyectos {
 
     public void cargarProyectos (DAOManager daoManager) {
         arrayProyectos = proyectoSQL.cargaProyectos("habilitado", "desc", daoManager);
-        lastCodigo = proyectoSQL.cargaUltimoCodigo(daoManager);
     }
     public void cargarProyectos (int id_gestor, DAOManager daoManager) {
         arrayProyectos = proyectoSQL.cargaProyectos(id_gestor, "habilitado", "desc", daoManager);
-        lastCodigo = proyectoSQL.cargaUltimoCodigo(daoManager);
     }
 
     public Proyecto devuelveProyectoPorCodigo(int codigo_proyecto, DAOManager daoManager) {
@@ -182,13 +179,5 @@ public class GestionProyectos {
 
     public void setProyectoSQL(ProyectoSQL proyectoSQL) {
         this.proyectoSQL = proyectoSQL;
-    }
-
-    public int getLastCodigo() {
-        return lastCodigo;
-    }
-
-    public void setLastCodigo(int lastCodigo) {
-        this.lastCodigo = lastCodigo;
     }
 }

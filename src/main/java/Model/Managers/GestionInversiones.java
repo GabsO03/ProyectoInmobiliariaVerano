@@ -59,7 +59,7 @@ public class GestionInversiones {
      * @param dao como un objeto de la clase DAOManager
      */
     public boolean actualizarInversion (int codigo_inversion, double cantidadEntrante, DAOManager dao) {
-        return inversionSQL.update(inversor.getUsername(), "cantidadParticipada", String.valueOf(cantidadEntrante), codigo_inversion, dao);
+        return  inversionSQL.update(inversor.getUsername(), "cantidadParticipada", String.valueOf(cantidadEntrante), codigo_inversion, dao);
     }
 
     public void buscaInversiones(String orderBy, String direccion, String atributo, String valor, GestionProyectos gestionProyectos, DAOManager daoManager) {

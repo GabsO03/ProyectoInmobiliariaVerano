@@ -206,3 +206,51 @@
 2024-08-31T18:29:41.669727;Gabs_OP;Proyecto 4 actualizado - habilitado
 2024-08-31T18:29:41.680568900;Gabs_OP;Inversión actualizada - 16
 2024-08-31T18:29:49.620388700;Gabs_OP;Usuario inversor modificado - saldo
+2024-09-01T13:53:49.511758900;system;Usuario gestor insertado - 0
+2024-09-01T14:04:59.060121800;flaviolo99;Proyecto I.E.S Fernando III creado correctamente
+2024-09-01T14:11:33.507265;flaviolo99;Proyecto 8 actualizado - tipo
+2024-09-01T14:11:33.513820300;flaviolo99;Proyecto 8 actualizado - fechaFin
+2024-09-01T14:14:24.986961100;inversor00;Usuario inversor modificado - saldo
+2024-09-01T14:15:48.305187300;inversor00;Usuario inversor modificado - saldo
+2024-09-01T14:15:48.359371100;inversor00;Proyecto 6 actualizado - cantidadFinanciada
+2024-09-01T14:15:48.383120100;inversor00;Nueva inversión realizada
+2024-09-01T14:16:22.505099200;inversor00;Usuario inversor modificado - saldo
+2024-09-01T14:16:22.543209300;inversor00;Proyecto 6 actualizado - cantidadFinanciada
+2024-09-01T14:16:22.552881200;inversor00;Inversión actualizada - 17
+2024-09-01T14:16:45.976100200;inversor00;Usuario inversor modificado - saldo
+2024-09-01T14:16:46.017356900;inversor00;Proyecto 6 actualizado - cantidadFinanciada
+2024-09-01T14:16:46.028345700;inversor00;Inversión actualizada - 17
+2024-09-01T14:21:09.522875500;inversor00;Usuario inversor modificado - saldo
+2024-09-01T14:21:09.567204300;inversor00;Proyecto 6 actualizado - cantidadFinanciada
+2024-09-01T14:21:09.578265300;inversor00;Inversión actualizada - 17
+2024-09-01T14:21:26.331503200;inversor00;Usuario inversor modificado - saldo
+2024-09-01T14:21:26.371192900;inversor00;Proyecto 6 actualizado - cantidadFinanciada
+2024-09-01T14:21:26.378254800;inversor00;Inversión actualizada - 17
+2024-09-03T16:47:06.105451700;Gabs_OP;Usuario inversor modificado - saldo
+2024-09-03T16:47:43.787680900;Gabs_OP;Proyecto 1 actualizado - cantidadFinanciada
+2024-09-03T16:47:50.253194;Gabs_OP;Nueva inversión realizada
+2024-09-03T16:50:07.821674900;Gabs_OP;Usuario inversor modificado - saldo
+2024-09-03T16:50:44.711438600;Gabs_OP;Proyecto 1 actualizado - cantidadFinanciada
+2024-09-03T16:51:27.753277200;Gabs_OP;Inversión actualizada - 18
+2024-09-03T16:53:01.994076600;Gabs_OP;Usuario inversor modificado - saldo
+2024-09-03T16:53:06.238064700;Gabs_OP;Proyecto 1 actualizado - cantidadFinanciada
+2024-09-03T16:53:06.251232800;Gabs_OP;Inversión actualizada - 18
+2024-09-03T18:00:01.504999500;Gabs_OP;Usuario inversor modificado - saldo
+2024-09-03T18:00:12.229459;Gabs_OP;Proyecto 1 actualizado - cantidadFinanciada
+2024-09-03T18:00:12.240045;Gabs_OP;Inversión actualizada - 18
+2024-09-03T18:15:29.706299500;AlexGB;Proyecto Prueba Fecha Valida creado correctamente
+2024-09-03T19:31:01.018850200;AlexGB;Proyecto Prueba Fecha Habilitar creado correctamente
+2024-09-03T19:35:25.861146800;System;Proyecto 10 actualizado - habilitado
+2024-09-03T19:35:26.755912500;System;Proyecto 10 actualizado - habilitado
+2024-09-03T19:36:12.820237;System;Proyecto 10 actualizado - habilitado
+2024-09-03T19:36:12.877807600;Gabs_OP;Usuario modificado - name
+2024-09-03T19:36:25.588823600;System;Proyecto 10 actualizado - habilitado
+2024-09-03T19:36:25.688474500;Gabs_OP;Usuario modificado - username
+2024-09-03T19:36:46.908686600;System;Proyecto 10 actualizado - habilitado
+2024-09-04T19:13:23.993868700;System;Proyecto 8 actualizado - habilitado
+2024-09-04T19:13:25.147305500;System;Proyecto 8 actualizado - habilitado
+2024-09-04T19:14:53.087294400;System;Proyecto 8 actualizado - habilitado
+2024-09-04T19:18:05.946224200;System;Proyecto 8 actualizado - habilitado
+2024-09-05T15:12:43.857945300;GabsOP;Usuario modificado - email
+2024-09-05T15:36:52.318120300;GabsOP;Usuario modificado - password
+2024-09-05T15:47:44.090850800;AlexGB;Usuario modificado - password

@@ -29,6 +29,7 @@ public class CreateProyectServlet extends HttpServlet {
         GestionProyectos gestionProyectos = gestionApp.getGestionProyectos();
         HttpSession session = request.getSession();
         InputStream inputStream = null;
+        HashMap<String, String> errorres = new HashMap<>();
 
         String username = request.getParameter("username");
         Part filePart = request.getPart("imagen");
@@ -48,19 +49,32 @@ public class CreateProyectServlet extends HttpServlet {
         gestionApp.getGestionUsuarios().buscarUsuarios("userName", username, "Usuario", "0", "always", daoManager);
         int id_gestor = gestionApp.getGestionUsuarios().devuelveUsuario(username).getId();
         gestionProyectos.buscarProyectos(-1, "codigo", "asc", "nombre", nombre, daoManager);
-        if (gestionProyectos.getArrayProyectos().isEmpty()) {
-            boolean correcto = gestionProyectos.insertarProyecto(nombre, base64Image, descripcion, tipo, fechaACadena(fechaIni),
+
+        if (!gestionProyectos.getArrayProyectos().isEmpty()) errorres.put("yaExisteNombre", "Lo sentimos, ya existe un proyecto con ese nombre.");
+        if (!esPosterior(fechaFin, fechaIni)) errorres.put("fechaFinInvalida", "La fecha de finalización debe ser posterior a la fecha de inicio.");
+
+        boolean correcto = false;
+        if (errorres.isEmpty()) {
+            correcto = gestionProyectos.insertarProyecto(nombre, base64Image, descripcion, tipo, fechaACadena(fechaIni),
                     String.valueOf(fechaFin), cantidadNecesaria, username, id_gestor, daoManager);
             if (correcto){
                 gestionProyectos.buscarProyectos(-1, "codigo", "asc", "nombre", nombre, daoManager);
                 session.setAttribute("proyecto", gestionProyectos.getArrayProyectos().getFirst());
+                session.setAttribute("correcto", correcto);
+                session.setAttribute("mostrarMensaje", correcto? "Proyecto " + nombre + " creado correctamente." : "Hubo un error al crear tu proyecto, intentalo de nuevo.");
                 redirect("/Pages/Proyect.jsp", request, response);
                 session.removeAttribute("proyecto");
+                session.removeAttribute("mostrarMensaje");
+                session.removeAttribute("correcto");
             }
         }
         else {
-            request.setAttribute("yaExisteNombre", true);
+            session.setAttribute("correcto", correcto);
+            if (errorres.get("fechaFinInvalida")!=null) session.setAttribute("mostrarMensaje", errorres.get("fechaFinInvalida"));
+            if (errorres.get("yaExisteNombre")!=null) session.setAttribute("mostrarMensaje", errorres.get("yaExisteNombre"));
             redirect("/Pages/CreateEditProyect.jsp", request, response);
+            session.removeAttribute("mostrarMensaje");
+            session.removeAttribute("correcto");
         }
     }
     public void redirect(String pagina, HttpServletRequest request, HttpServletResponse response) {

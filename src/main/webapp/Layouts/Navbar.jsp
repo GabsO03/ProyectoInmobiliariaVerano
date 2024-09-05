@@ -28,6 +28,7 @@
     }
 %>
 <header>
+
     <nav class="fixed top-0 z-50 w-full bg-gradient-to-r from-cyan-900 to-green-900 border-gray-200 dark:bg-gray-900">
         <div class="px-3 py-3 lg:px-5 lg:pl-3">
             <div class="flex flex flex-wrap items-center justify-between">

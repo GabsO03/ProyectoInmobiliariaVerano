@@ -4,8 +4,7 @@ import Model.Interfaces.Inversible;
 
 import java.time.LocalDate;
 
-import static Model.Biblioteca.Colores.*;
-import static Model.Biblioteca.Fechas.*;
+import static Model.Biblioteca.Fechas.fechaACadena;
 
 public class Inversion implements Inversible {
 
@@ -15,6 +14,7 @@ public class Inversion implements Inversible {
     private double cantidadParticipada;
     private String fechaInicio;
     private String ultimaActualizacion;
+
     //GETTERS
     public double getCantidadParticipada() {
         return cantidadParticipada;
@@ -27,6 +27,7 @@ public class Inversion implements Inversible {
     public String getUltimaActualizacion() {
         return ultimaActualizacion;
     }
+
     public Proyecto getProyecto() {
         return proyecto;
     }
@@ -40,7 +41,7 @@ public class Inversion implements Inversible {
     }
 
     //MÉTODOS
-    public Inversion (Proyecto proyecto, double cantidadEntrante) {
+    public Inversion(Proyecto proyecto, double cantidadEntrante) {
         this.proyecto = proyecto;
         this.cantidadParticipada = cantidadEntrante;
         fechaInicio = fechaACadena(LocalDate.now());
@@ -56,10 +57,10 @@ public class Inversion implements Inversible {
     }
     //Métodos
 
-    public String toString (){
+    public String toString() {
         return "ID: " + codigo +
                 "\n : " + proyecto.getNombre() +
-                "\nTipo: "+ proyecto.getTipo() +
+                "\nTipo: " + proyecto.getTipo() +
                 "\nCantidad con la que ha participado: " + cantidadParticipada +
                 "\nFecha de la primera inversión: " + fechaInicio +
                 "\nFecha de la última inversión: " + ultimaActualizacion;
@@ -67,6 +68,7 @@ public class Inversion implements Inversible {
 
     /**
      * Funcion para aumentar la inversion de un inversor
+     *
      * @param cantidadEntrante como un double
      */
     @Override
@@ -75,7 +77,8 @@ public class Inversion implements Inversible {
         cantidadParticipada += cantidadEntrante;
         this.ultimaActualizacion = fechaACadena(LocalDate.now());
     }
+
     public double getPorcentajeParticipado() {
-        return (cantidadParticipada/proyecto.getCantidadNecesaria())*100;
+        return (cantidadParticipada / proyecto.getCantidadNecesaria()) * 100;
     }
 }

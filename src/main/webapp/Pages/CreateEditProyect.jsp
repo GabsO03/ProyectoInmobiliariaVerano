@@ -1,5 +1,6 @@
 <%@ page import="Model.BusinessClases.Proyecto" %>
 <%@ page import="java.time.LocalDate" %>
+<%@ page import="java.util.HashMap" %>
 <%--
   Created by IntelliJ IDEA.
   User: pollo
@@ -13,10 +14,11 @@
     boolean isModifying = false;
     Proyecto proyectoParaModificar = null;
     if (logged) {
+        HashMap<String, Boolean> errores = (HashMap<String, Boolean>) request.getAttribute("errores");
+        //TODO PONER LO DE LA FECHAAAA
         if (session.getAttribute("modifyProyect") != null)
             isModifying = (boolean) session.getAttribute("modifyProyect");
         if (isModifying) proyectoParaModificar = (Proyecto) session.getAttribute("proyecto");
-        //TODO agregar notificacion por si no llegó a afgregarse el proyecto
 %>
 <html>
 <head>
@@ -28,6 +30,13 @@
 <body class="bg-gray-100">
 <jsp:include page="../Layouts/Navbar.jsp"/>
 <jsp:include page="../Layouts/Sidebar.jsp"/>
+<%
+    if (session.getAttribute("mostrarMensaje")!=null) {
+%>
+<jsp:include page="../Layouts/Notification.jsp"/>
+<%
+    }
+%>
 
 <section class="py-24 px-10 bg-white mx-auto max-w-3xl shadow-lg">
     <h1 class="text-3xl font-bold mb-8 text-center"><%
@@ -45,7 +54,7 @@
         <label for="imagen" class="block my-3">
             <input type="file" id="imagen" name="imagen" accept="image/*" <%out.print(isModifying?"":"required ");%>class="hidden">
             <span class="bg-sky-950 hover:bg-sky-900 text-white py-2 px-4 mr-5 rounded-lg text-lg cursor-pointer">Seleccionar imagen</span>
-            <span class="text-sm text-red-300 text-italic">obligatorio</span>
+            <span class="text-sm text-red-500 text-italic font-bold">Obligatorio</span>
         </label>
         <div class="mt-1 text-md text-slate-900 dark:text-slate-900" id="user_avatar_help">Sube una imagen para que tus
             inversores sepan en que están invirtiendo
@@ -56,7 +65,7 @@
             <input type="text" id="nombre-proyecto"
                    name="nombre-proyecto"<%out.print(isModifying?" value=\"" + proyectoParaModificar.getNombre() + "\"":" ");%>
                    required class="block w-full border border-gray-300 rounded-lg px-4 py-2 mt-2">
-            <%if (request.getAttribute("yaExisteNombre")!=null){%><p class="text-red-600 text-sm text-light mx-5 my-2d">Ya existe un proyecto con ese nombre</p><%}%>
+            <%--if (errores!=null && errores.get("yaExisteNombre")!=null){%><p class="text-red-600 text-sm text-light mx-5 my-2d">Ya existe un proyecto con ese nombre</p><%}--%>
         </label>
         <label for="tipo" class="block mt-4 text-2xl font-bold">
             Tipo
@@ -105,6 +114,7 @@
             <input type="date" id="fechaFin"
                    name="fechaFin" <%out.print(isModifying?" value=\"" + proyectoParaModificar.getFechaFin() + "\"" : "min=\"" + LocalDate.now().plusDays(1) + "\"");%>
                    required class="block w-full border border-gray-300 rounded-lg px-4 py-2 mt-2">
+            <%--if (errores!=null && errores.get("fechaFinInvalida")!=null){%><p class="text-red-600 text-sm text-light mx-5 my-2d">La fecha de finalización debe ser anterior a la fecha de inicio</p><%}--%>
         </label>
         <label for="cantidadNecesaria" class="block mt-4 text-2xl font-bold">
             Cantidad Necesaria <span class="text-sm text-red-500 text-italic">Obligatorio</span>

@@ -12,11 +12,13 @@
 --%>
 <%@ page contentType="text/html;charset=UTF-8" %>
 <%
-    boolean logged = session.getAttribute("username") != null;
     DAOManager daoManager = new DAOManager();
     daoManager.open();
     GestionApp gestionApp = new GestionApp(daoManager);
-    GestionProyectos gestionProyectos = gestionApp.getGestionProyectos();
+    boolean logged = session.getAttribute("username") != null;
+
+    if (logged || gestionApp.devuelveModoInvitado()) {
+        GestionProyectos gestionProyectos = gestionApp.getGestionProyectos();
     if (session.getAttribute("resultados") != null) {
         gestionProyectos = (GestionProyectos) session.getAttribute("resultados");
     } else {
@@ -167,3 +169,6 @@
 <jsp:include page="../Scripts/FooterScript.jsp"/>
 </body>
 </html>
+<%}
+else request.getServletContext().getRequestDispatcher("/Pages/Index.jsp").forward(request, response);
+%>

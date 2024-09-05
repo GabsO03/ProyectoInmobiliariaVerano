@@ -6,6 +6,7 @@ import java.io.*;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 
@@ -35,6 +36,17 @@ public class ProyectoSQL {
             System.out.println("No se ha encontrado el fichero");
         } catch (IOException e) {
             System.out.println("No se puede leer el archivo");
+        }
+    }
+
+    public void controlPlazo (Proyecto proyecto, DAOManager daoManager) {
+        if (proyecto.getFechaInicio().equals(String.valueOf(LocalDate.now()))) {
+            update("habilitado", "1", proyecto.getCodigo(), daoManager, "System");
+            proyecto.setHabilitado(true);
+        }
+        if (proyecto.getFechaFin().equals(String.valueOf(LocalDate.now()))) {
+            update("habilitado", "0", proyecto.getCodigo(), daoManager, "System");
+            proyecto.setHabilitado(false);
         }
     }
 
@@ -83,6 +95,7 @@ public class ProyectoSQL {
             try (ResultSet resultSet = preparedStatement.executeQuery()) {
                 while (resultSet.next()) {
                     Proyecto aux = cargaProyecto(resultSet);
+                    controlPlazo(aux, daoManager);
                     proyectos.add(aux);
                 }
             }
@@ -171,21 +184,6 @@ public class ProyectoSQL {
         return proyectos;
     }
 
-    public int cargaUltimoCodigo (DAOManager daoManager) {
-        int codigo = 0;
-        String select = "SELECT `codigo` FROM `proyectos` ORDER BY `codigo` DESC LIMIT 1;";
-        try {
-            ps = daoManager.getConn().prepareStatement(select);
-            try (ResultSet resultSet = ps.executeQuery()) {
-                if (resultSet.next()) {
-                    codigo = resultSet.getInt("codigo");
-                }
-            }
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
-        return codigo;
-    }
 
     /**
      * Funcion para insertar un proyecto en la base de datos

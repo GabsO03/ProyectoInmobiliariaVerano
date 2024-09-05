@@ -40,6 +40,8 @@ public class ComprobarEmailServlet extends HttpServlet {
         HttpSession session = request.getSession();
         HashMap<String, Boolean> errores = new HashMap<>();
 
+        gestionUsuariosAux.buscarUsuarios("userName", username, "Usuario", "0", "always", daoManager);
+
         if (generatedCode == enteredCode) {
             boolean correcto;
 

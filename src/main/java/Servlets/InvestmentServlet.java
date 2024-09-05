@@ -55,6 +55,7 @@ public class InvestmentServlet extends HttpServlet {
                     correcto = gestionInversionesAux.nuevaInversion(proyecto, cantidadEntrante, daoManager);
                     session.setAttribute("inversion", gestionInversionesAux.devuelveInversion(gestionUsuariosAux.devuelveUsuario(username).getId(), proyecto, daoManager));
                 }
+                gestionInversionesAux.cargarInversiones(gestionProyectosAux, daoManager);
                 session.setAttribute("MisInversiones", gestionInversionesAux.getInversiones());
                 session.setAttribute("User", gestionUsuariosAux.devuelveUsuario(username));
             }

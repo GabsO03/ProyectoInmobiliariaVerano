@@ -75,7 +75,7 @@ public class SelfModifyUserServlet extends HttpServlet {
                     session.setAttribute("isSigningIn", false);
                     session.setAttribute("email", newValue);
                     session.setAttribute("tipo-usuario", gestionUsuariosAux.devuelveUsuario(username).getClass());
-                    int generatedCode = (int) (Math.random() * 99999) + 10000;
+                    int generatedCode = (int) (Math.random() * 99999) + 10000; //69388
                     session.setAttribute("generatedCode", generatedCode);
                     enviarCorreo(newValue, "Correo de verificación", "Su código de verificación es: " + generatedCode);
                     redirect("/Pages/EmailComprobation.jsp", request, response);
@@ -95,11 +95,11 @@ public class SelfModifyUserServlet extends HttpServlet {
 
                 if (errores.isEmpty()) {
                     correcto = gestionUsuariosAux.modificarUsuario("password", newValue, username, daoManager);
-                    session.setAttribute("correcto", correcto);
-                    session.setAttribute("mostrarMensaje", correcto? "Haz cambiado tu contraseña correctamente" : "No pudimos cambiar tu contraseña, intenta de nuevo");
                     session.setAttribute("User", gestionUsuariosAux.devuelveUsuario(username));
                 }
                 else request.setAttribute("errores", errores);
+                session.setAttribute("correcto", correcto);
+                session.setAttribute("mostrarMensaje", correcto? "Haz cambiado tu contraseña correctamente" : "No pudimos cambiar tu contraseña, verifica que la nueva contraseña cumpla los requisitos y coincida con la ccomprobación");
                 redirect("/Pages/Account.jsp", request, response);
                 session.removeAttribute("correcto");
                 session.removeAttribute("mostrarMensaje");
