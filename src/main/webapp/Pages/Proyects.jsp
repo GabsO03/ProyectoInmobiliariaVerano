@@ -80,7 +80,7 @@
                     </div>
                     <input type="search" id="parametro" name="parametro"
                            class="block w-full p-4 ps-10 px-2 py-1 border border-gray-300 rounded-full mr-2"
-                           placeholder="Buscar" required/>
+                           placeholder="Buscar"/>
                     <button type="submit"
                             class="text-white bg-gradient-to-r from-cyan-900 to-green-900 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-full text-sm px-4 py-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
                         Buscar

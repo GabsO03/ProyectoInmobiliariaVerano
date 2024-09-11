@@ -125,44 +125,15 @@ public class GestionProyectos {
      * @return un array con los proyectos que coincidan con la busqueda
      */
     public void buscarProyectos (int idGestor, String orderBy, String direccion, String atributo, String valor, DAOManager daoManager) {
+        arrayProyectos.clear();
         if (idGestor >= 0) arrayProyectos = proyectoSQL.buscaProyectos(idGestor, orderBy, direccion, atributo, valor, daoManager);
         else arrayProyectos = proyectoSQL.buscaProyectos(orderBy, direccion, atributo, valor, daoManager);
     }
 
-    /**
-     * Funcion para ordenar los proyectos según el atributo recibido como parámetro
-     * @param atributo como un entero
-     * @param daoManager como una instancia de la clase DAOManager
-     */
-    public void ordenarProyectos (int atributo, DAOManager daoManager) {
-        if (atributo>0&&atributo<9) arrayProyectos.clear();
-        switch (atributo) {
-            case 1 -> {
-                arrayProyectos = proyectoSQL.cargaProyectos("fechaInicio", "desc", daoManager);
-            }
-            case 2 -> {
-                arrayProyectos = proyectoSQL.cargaProyectos("fechaInicio", "asc", daoManager);
-            }
-            case 3 -> {
-                arrayProyectos = proyectoSQL.cargaProyectos("fechaFin", "desc", daoManager);
-            }
-            case 4 -> {
-                arrayProyectos = proyectoSQL.cargaProyectos("fechaFin", "asc", daoManager);
-            }
-            case 5 -> {
-                arrayProyectos = proyectoSQL.cargaProyectos("cantidadNecesaria", "desc", daoManager);
-            }
-            case 6 -> {
-                arrayProyectos =  proyectoSQL.cargaProyectos("cantidadNecesaria", "asc", daoManager);
-            }
-            case 7 -> {
-                arrayProyectos =  proyectoSQL.cargaProyectos("cantidadFinanciada", "desc", daoManager);
-            }
-            case 8 -> {
-                arrayProyectos =  proyectoSQL.cargaProyectos("cantidadFinanciada ", "asc", daoManager);
-            }
-            default -> System.out.println("Invalid response.");
-        }
+    public void ordenarProyectos (int idGestor, String orderBy, String direccion, DAOManager daoManager) {
+        arrayProyectos.clear();
+        if (idGestor >= 0) arrayProyectos = proyectoSQL.cargaProyectos(idGestor, orderBy, direccion, daoManager);
+        else arrayProyectos = proyectoSQL.cargaProyectos(orderBy, direccion, daoManager);
     }
 
     public ArrayList<Proyecto> getArrayProyectos() {

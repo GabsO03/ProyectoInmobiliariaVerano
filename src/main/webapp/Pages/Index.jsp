@@ -94,7 +94,7 @@
             </div>
             <div class="lg:w-1/2 lg:mr-8">
                 <h1 class="mb-4 text-4xl font-extrabold tracking-tight leading-none text-gray-900 md:text-5xl lg:text-6xl dark:text-white">Crea tus propios proyectos</h1>
-                <p class="mb-8 text-lg font-normal text-gray-500 lg:text-xl sm:px-16 lg:px-48 dark:text-gray-400">Lorem ipsum dolor sit, amet consectetur adipisicing elit. Facere molestias inventore hic eius doloribus, omnis provident magnam dicta consectetur delectus voluptatibus tenetur sapiente minima quam. Sequi architecto officiis pariatur quis.</p>
+                <p class="mb-8 text-lg font-normal text-gray-500 lg:text-xl sm:px-16 lg:px-48 dark:text-gray-400">Personalizalos como desees</p>
                 <a href="${pageContext.request.contextPath}/Pages/Login.jsp" class="inline-flex justify-center items-center py-3 px-5 text-base font-medium text-center text-white rounded-lg bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 dark:focus:ring-blue-900">
                     Quiero empezar
                     <svg class="w-3.5 h-3.5 ms-2 rtl:rotate-180" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 10">
@@ -106,7 +106,7 @@
         <article class="py-8 px-4 mx-auto max-w-screen-xl text-center lg:py-16 flex flex-col lg:flex-row lg:items-center lg:justify-center">
             <div class="lg:w-1/2 lg:mr-8">
                 <h1 class="mb-4 text-4xl font-extrabold tracking-tight leading-none text-gray-900 md:text-5xl lg:text-6xl dark:text-white">Mantente actualizado</h1>
-                <p class="mb-8 text-lg font-normal text-gray-500 lg:text-xl sm:px-16 lg:px-48 dark:text-gray-400">Lorem ipsum dolor sit, amet consectetur adipisicing elit. Facere molestias inventore hic eius doloribus, omnis provident magnam dicta consectetur delectus voluptatibus tenetur sapiente minima quam. Sequi architecto officiis pariatur quis.</p>
+                <p class="mb-8 text-lg font-normal text-gray-500 lg:text-xl sm:px-16 lg:px-48 dark:text-gray-400">Obten los datos de tus proyectos</p>
                 <a href="${pageContext.request.contextPath}/Pages/Login.jsp" class="inline-flex justify-center items-center py-3 px-5 text-base font-medium text-center text-white rounded-lg bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 dark:focus:ring-blue-900">
                     Quiero empezar
                     <svg class="w-3.5 h-3.5 ms-2 rtl:rotate-180" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 10">

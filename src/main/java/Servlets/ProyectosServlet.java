@@ -71,15 +71,20 @@ public class ProyectosServlet extends HttpServlet {
             id_usuario = gestionApp.getGestionUsuarios().devuelveUsuario(username).getId();
         }
 
-        if (page.equals("/Pages/Proyects.jsp")) {
-            GestionProyectos gestionProyectosAux = gestionApp.getGestionProyectos();
-            gestionProyectosAux.buscarProyectos(id_usuario, ordenarPor, direccion, atributo, parametro, daoManager);
+        GestionProyectos gestionProyectosAux = gestionApp.getGestionProyectos();
+        if (parametro.isBlank()||parametro.isEmpty()) {
+            gestionProyectosAux.ordenarProyectos(id_usuario, ordenarPor, direccion, daoManager);
             session.setAttribute("resultados", gestionProyectosAux);
         }
         else {
-            GestionInversiones gestionInversionesAux = gestionApp.consigueGestionInversion(daoManager, username);
-            gestionInversionesAux.buscaInversiones(ordenarPor, direccion, atributo, parametro, gestionApp.getGestionProyectos(), daoManager);
-            session.setAttribute("resultados", gestionInversionesAux.getInversiones());
+            if (page.equals("/Pages/Proyects.jsp")) {
+                gestionProyectosAux.buscarProyectos(id_usuario, ordenarPor, direccion, atributo, parametro, daoManager);
+                session.setAttribute("resultados", gestionProyectosAux);
+            } else {
+                GestionInversiones gestionInversionesAux = gestionApp.consigueGestionInversion(daoManager, username);
+                gestionInversionesAux.buscaInversiones(ordenarPor, direccion, atributo, parametro, gestionApp.getGestionProyectos(), daoManager);
+                session.setAttribute("resultados", gestionInversionesAux.getInversiones());
+            }
         }
         redirect(page, request, response);
         session.removeAttribute("resultados");
