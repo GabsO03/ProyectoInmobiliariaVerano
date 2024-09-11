@@ -254,3 +254,5 @@
 2024-09-05T15:12:43.857945300;GabsOP;Usuario modificado - email
 2024-09-05T15:36:52.318120300;GabsOP;Usuario modificado - password
 2024-09-05T15:47:44.090850800;AlexGB;Usuario modificado - password
+2024-09-11T13:53:07.597686800;system;Usuario inversor insertado - final05
+2024-09-11T14:00:30.323014700;final05;Usuario modificado - name

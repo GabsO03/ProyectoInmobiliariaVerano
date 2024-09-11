@@ -52,6 +52,8 @@ public class ComprobarEmailServlet extends HttpServlet {
                 if (tipo_usuario.equals("Inversor")) correcto = gestionUsuariosAux.insertarUsuarioInversor(name, username, password, email, daoManager);
                 else correcto = gestionUsuariosAux.insertarUsuarioGestor(name, username, password, email, daoManager);
                 if (correcto) {
+                    gestionUsuariosAux.buscarUsuarios("userName", username, "Usuario", "0", "always", daoManager);
+
                     if (tipo_usuario.equals("Inversor")) session.setAttribute("class", "Inversor");
                     else session.setAttribute("class", "Gestor");
 

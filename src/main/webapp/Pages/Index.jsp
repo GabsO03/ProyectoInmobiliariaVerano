@@ -43,7 +43,7 @@
             </div>
             <!-- Item 5 -->
             <div class="hidden duration-700 ease-in-out" data-carousel-item>
-                <img src="/ED_PIA_SML_38.jpg" class="absolute block w-full -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2" alt="...">
+                <img src="${pageContext.request.contextPath}/Images/buenos_aires_catalinas_removal_buildings_argentina_blue-765724.jpg" class="absolute block w-full -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2" alt="...">
             </div>
         </div>
         <!-- Slider indicators -->
@@ -75,8 +75,8 @@
         <article class="py-8 px-4 mx-auto max-w-screen-xl text-center lg:py-16 flex flex-col lg:flex-row lg:items-center lg:justify-center">
             <div class="lg:w-1/2 lg:mr-8">
                 <h1 class="mb-4 text-4xl font-extrabold tracking-tight leading-none text-gray-900 md:text-5xl lg:text-6xl dark:text-white">Invierte en proyectos</h1>
-                <p class="mb-8 text-lg font-normal text-gray-500 lg:text-xl sm:px-16 lg:px-48 dark:text-gray-400">Lorem ipsum dolor sit, amet consectetur adipisicing elit. Facere molestias inventore hic eius doloribus, omnis provident magnam dicta consectetur delectus voluptatibus tenetur sapiente minima quam. Sequi architecto officiis pariatur quis.</p>
-                <a href="Login.jsp" class="inline-flex justify-center items-center py-3 px-5 text-base font-medium text-center text-white rounded-lg bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 dark:focus:ring-blue-900">
+                <p class="mb-8 text-lg font-normal text-gray-500 lg:text-xl sm:px-16 lg:px-48 dark:text-gray-400">Grandes proyectos te esperan</p>
+                <a href="${pageContext.request.contextPath}/Pages/Login.jsp" class="inline-flex justify-center items-center py-3 px-5 text-base font-medium text-center text-white rounded-lg bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 dark:focus:ring-blue-900">
                     Quiero empezar
                     <svg class="w-3.5 h-3.5 ms-2 rtl:rotate-180" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 10">
                         <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M1 5h12m0 0L9 1m4 4L9 9"/>
@@ -84,20 +84,21 @@
                 </a>
             </div>
             <div class="lg:w-1/2 lg:ml-8">
-                <img src="/ED_PIA_SML_38.jpg" class="mx-auto my-6 lg:mx-0 rounded-lg">
+                <img src="${pageContext.request.contextPath}/Images/building-8003029_1280.jpg " class="mx-auto my-6 lg:mx-0 rounded-lg">
             </div>
         </article>
+
         <article class="py-8 px-4 mx-auto max-w-screen-xl text-center lg:py-16 flex flex-col lg:flex-row lg:items-center lg:justify-center">
             <div class="lg:w-1/2 lg:ml-8">
-                <img  src="/ED_PIA_SML_38.jpg" class="mx-auto my-6 lg:mx-0 rounded-lg">
+                <img  src="${pageContext.request.contextPath}/Images/ED_PIA_SML_38.jpg" class="mx-auto my-6 lg:mx-0 rounded-lg">
             </div>
             <div class="lg:w-1/2 lg:mr-8">
                 <h1 class="mb-4 text-4xl font-extrabold tracking-tight leading-none text-gray-900 md:text-5xl lg:text-6xl dark:text-white">Crea tus propios proyectos</h1>
                 <p class="mb-8 text-lg font-normal text-gray-500 lg:text-xl sm:px-16 lg:px-48 dark:text-gray-400">Lorem ipsum dolor sit, amet consectetur adipisicing elit. Facere molestias inventore hic eius doloribus, omnis provident magnam dicta consectetur delectus voluptatibus tenetur sapiente minima quam. Sequi architecto officiis pariatur quis.</p>
-                <a href="Login.jsp" class="inline-flex justify-center items-center py-3 px-5 text-base font-medium text-center text-white rounded-lg bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 dark:focus:ring-blue-900">
+                <a href="${pageContext.request.contextPath}/Pages/Login.jsp" class="inline-flex justify-center items-center py-3 px-5 text-base font-medium text-center text-white rounded-lg bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 dark:focus:ring-blue-900">
                     Quiero empezar
                     <svg class="w-3.5 h-3.5 ms-2 rtl:rotate-180" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 10">
-                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M1 5h12m0 0L9 1m4 4L9 9"/>
+                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M1 5h12m0 0L9 1m4 4L9 9"></path>
                     </svg>
                 </a>
             </div>
@@ -106,7 +107,7 @@
             <div class="lg:w-1/2 lg:mr-8">
                 <h1 class="mb-4 text-4xl font-extrabold tracking-tight leading-none text-gray-900 md:text-5xl lg:text-6xl dark:text-white">Mantente actualizado</h1>
                 <p class="mb-8 text-lg font-normal text-gray-500 lg:text-xl sm:px-16 lg:px-48 dark:text-gray-400">Lorem ipsum dolor sit, amet consectetur adipisicing elit. Facere molestias inventore hic eius doloribus, omnis provident magnam dicta consectetur delectus voluptatibus tenetur sapiente minima quam. Sequi architecto officiis pariatur quis.</p>
-                <a href="Login.jsp" class="inline-flex justify-center items-center py-3 px-5 text-base font-medium text-center text-white rounded-lg bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 dark:focus:ring-blue-900">
+                <a href="${pageContext.request.contextPath}/Pages/Login.jsp" class="inline-flex justify-center items-center py-3 px-5 text-base font-medium text-center text-white rounded-lg bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 dark:focus:ring-blue-900">
                     Quiero empezar
                     <svg class="w-3.5 h-3.5 ms-2 rtl:rotate-180" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 10">
                         <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M1 5h12m0 0L9 1m4 4L9 9"/>
@@ -114,7 +115,7 @@
                 </a>
             </div>
             <div class="lg:w-1/2 lg:ml-8">
-                <img src="" class="mx-auto my-6 lg:mx-0 rounded-lg">
+                <img src="${pageContext.request.contextPath}/Images/buenos_aires_catalinas_removal_buildings_argentina_blue-765724.jpg" class="mx-auto my-6 lg:mx-0 rounded-lg">
             </div>
         </article>
     </div>
